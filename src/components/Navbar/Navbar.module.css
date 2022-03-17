@@ -94,6 +94,7 @@
 .nav_menu_icon {
     color: #fff;
     font-size: 24px;
+    align-self: center;
     display: none;
 }
 

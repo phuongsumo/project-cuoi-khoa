@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { IoIosArrowDown } from 'react-icons/io';
@@ -11,13 +11,15 @@ import logo from './Logo-toco.png';
 const Navbar = () => {
     const [show1, setShow1] = useState(false);
     const [show2, setShow2] = useState(false);
-    const navMenu: any = useRef(null);
-    const subNavIntro: any = useRef(null);
-    const subNavNew: any = useRef(null);
+
+    const navbar = useRef<any>(null);
+    const navMenu = useRef<any>(null);
+    const subNavIntro = useRef<any>(null);
+    const subNavNew = useRef<any>(null);
 
     useEffect(() => {
-
-    });
+        window.addEventListener("scroll", handleScroll);
+    }, [])
 
     const handleOpenMenu = () => {
         navMenu.current.style = "transform: translateX(0); opacity: 1;"
@@ -36,9 +38,18 @@ const Navbar = () => {
         }
     }
 
+    const handleScroll = () => {
+        let st = window.pageYOffset || document.documentElement.scrollTop;
+        if (st > 0) {
+            navbar.current.style.backgroundColor = "#000";
+        } else {
+            navbar.current.style.backgroundColor = "unset";
+        }
+    }
+
 
     return (
-        <div className={style.navbar}>
+        <div ref={navbar} className={style.navbar}>
             <Container>
                 <div className={style.nav_container}>
                     <Link to="/"><img src={logo} alt="logo" className={style.logo} /></Link>
