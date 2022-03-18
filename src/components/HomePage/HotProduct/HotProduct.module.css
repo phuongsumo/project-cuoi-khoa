@@ -39,6 +39,7 @@
 
 .product_img_wrap {
     height: 60%;
+    overflow: hidden;
 }
 
 .product_img {
@@ -123,7 +124,7 @@
     text-transform: uppercase;
     border: none;
     color: #fff;
-    background-color: #8a733f;
+    background-color: #d3b673;
     text-decoration: none;
     margin-bottom: 16px;
 }
