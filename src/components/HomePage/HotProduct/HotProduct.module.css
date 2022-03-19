@@ -127,11 +127,11 @@
     background-color: #d3b673;
     text-decoration: none;
     margin-bottom: 16px;
+    border: 1px solid #d3b673;
 }
 
 .all_products_link:hover {
     background-color: unset;
-    border: 1px solid #d3b673;
     color: #d3b673;
 }
 

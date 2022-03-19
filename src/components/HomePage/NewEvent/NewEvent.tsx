@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Col, Container, Row, Card } from 'react-bootstrap';
 import styles from './NewEvent.module.css';
 import lineImg from './home_line.jpg';
 import noelImg from './CHOCO_noel.png';
 import usaImg from './tocotoco-thi-truong-my.png';
-import year from './tocotoco-1-1.png'
-import { Link } from 'react-router-dom';
+import year from './tocotoco-1-1.png';
+import VideoYoutube from './VideoYoutube/VideoYoutube';
 
 const NewEvent = () => {
     return (
@@ -14,7 +15,7 @@ const NewEvent = () => {
                 <Row>
                     <div className={styles.event_text_wrap}>
                         <h3 className={styles.event_sub_title}>Tin Tức và Khuyến Mãi</h3>
-                        <h2 className={styles.event_title}>khám phá tocotoco nhận ngay<br /> khuyến mãi</h2>
+                        <h2 className={styles.event_title}>khám phá tocotoco nhận ngay khuyến mãi</h2>
                         <div className={styles.line_img_wrap}>
                             <img src={lineImg} alt="line-img" />
                         </div>
@@ -40,7 +41,7 @@ const NewEvent = () => {
                                     </Card>
                                 </Link>
                             </Col>
-                            <Col md={6} className={styles.event_col}>
+                            <Col xs={6} className={styles.event_col}>
                                 <Link to="/" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
@@ -54,7 +55,7 @@ const NewEvent = () => {
                                     </Card>
                                 </Link>
                             </Col>
-                            <Col md={6} className={styles.event_col}>
+                            <Col xs={6} className={styles.event_col}>
                                 <Link to="/" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
@@ -68,7 +69,7 @@ const NewEvent = () => {
                                     </Card>
                                 </Link>
                             </Col>
-                            <Col md={6} className={styles.event_col}>
+                            <Col xs={6} className={styles.event_col}>
                                 <Link to="/" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
@@ -82,7 +83,7 @@ const NewEvent = () => {
                                     </Card>
                                 </Link>
                             </Col>
-                            <Col md={6} className={styles.event_col}>
+                            <Col xs={6} className={styles.event_col}>
                                 <Link to="/" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
@@ -99,7 +100,7 @@ const NewEvent = () => {
                         </Row>
                     </Col>
                     <Col md={6}>
-                        <h2>blo</h2>
+                        <VideoYoutube />
                     </Col>
                 </Row>
             </Container>
