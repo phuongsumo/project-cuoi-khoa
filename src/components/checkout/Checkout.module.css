@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {}
+
+.pageCheckout {
+    background-color: #fbfbfb;
+    margin-top: 50px;
+}
+
+.doubleButton {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.singleButton {
+    border: none;
+    border-radius: 30px;
+    width: 49%;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    transition: 0.3s ease
+}
+
+.singleButton:first-child {
+    outline: none;
+    background-color: #ee4d2d;
+    color: #fff;
+}
+
+.singleButton:first-child:hover {
+    outline: 1px solid #ee4d2d;
+    background-color: #fff;
+    color: #ee4d2d;
+}
+
+.singleButton:last-child {
+    outline: 1px solid #ee4d2d;
+    background-color: #fff;
+    color: #ee4d2d;
+}
+
+.singleButton:last-child:hover {
+    outline: none;
+    background-color: #ee4d2d;
+    color: #fff;
+}
+
+
+/* checkout detail */
+
+.deliveryInfoTitle {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.deliveryInfoContent {
+    box-shadow: 0 0 4px 4px;
+    background-color: #fff;
+    margin-top: 12px;
+}
+
+.wrapInput {
+    margin: 0 12px;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.wrapInput input {
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 0.7rem;
+}
+
+.wrapInputIcon {
+    min-width: 40px;
+}
+
+.wrapInput::after {
+    content: "";
+    height: 1px;
+    width: 95%;
+    position: absolute;
+    background-color: rgb(200, 200, 200);
+    top: 36px;
+    left: 12px;
+}
+
+.deliveryLocationTitle {
+    margin-left: 24px;
+    font-size: 0.8rem;
+    margin-top: 24px;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+}
