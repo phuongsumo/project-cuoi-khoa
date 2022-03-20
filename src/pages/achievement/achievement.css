@@ -1,0 +1,276 @@
+.container-fruid {
+  width: 100%;
+  height: auto;
+}
+.slider {
+  height: 300px;
+  width: 100%;
+  text-transform: uppercase;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/breadcrumb_bg5.png")
+      no-repeat center;
+  background-size: cover;
+  text-align: center;
+  padding-left: 10%;
+  padding-right: 10%;
+  font-size: 32px;
+  letter-spacing: 1.8px;
+  font-weight: bold;
+  color: #d3b673;
+  padding-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 30px;
+}
+.cups {
+  max-width: 90%;
+  height: auto;
+  margin: auto;
+  margin-top: 54px;
+  align-items: center;
+  justify-content: center;
+}
+.cups-title {
+  max-width: 95%;
+  height: 4%;
+  margin-bottom: 30px;
+  font-size: 30px !important;
+  font-weight: 900;
+  margin-top: 32px;
+}
+.cups-content {
+  max-width: 95%;
+  height: auto;
+  margin: auto;
+  justify-content: center;
+  text-align: center;
+}
+.cups-content img {
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+.footer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  margin-top: 10px;
+  background: url("https://tocotocotea.com/wp-content/themes/tocotocotea/assets/toco/images/ft_bg_img.png")
+    no-repeat center;
+  background-size: cover;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-cover {
+  background-color: rgba(51, 51, 51, 0.86);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+.footer-main {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  justify-content: space-between;
+  align-items: center;
+  padding : 0 5%;
+}
+.footer-logo {
+  background: url("https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/ft_logo.png")
+    no-repeat center;
+  background-size: 100% 100%;
+  height: 230px;
+}
+.footer-1 {
+  height: 300px;
+  padding-top: 1%;
+  color: white;
+}
+.footer-title {
+  color: #d3b673;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5%;
+}
+.footer-line {
+  font-size: 14px;
+  margin-bottom: 4%;
+}
+.footer-icon {
+  color: #d3b673;
+  font-size: 20px !important;
+  margin: 0 5px 5px 0;
+}
+.social .footer-icon {
+  font-size: 25px !important;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.social .footer-icon:nth-child(3) {
+  font-size: 30px !important;
+}
+.footer-2 {
+  height: 300px;
+  padding-top: 1%;
+  color: white;
+}
+.menu-item {
+  font-size: 15px;
+  margin-top: 25px;
+}
+.footer-3 {
+  height: 300px;
+  padding-top: 1%;
+  color: white;
+}
+.btn-delivery {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  bottom: 2%;
+  right: 1%;
+  cursor: pointer;
+  z-index: 200000 !important;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  -webkit-transition: visibility 1s;
+  -moz-transition: visibility 1s;
+  -o-transition: visibility 1s;
+  transition: visibility 1s;
+}
+.btn-delivery img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  border: 2px solid transparent;
+  -webkit-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+  -moz-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+  -ms-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+  -o-animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+  animation: coccoc-alo-circle-img-anim 1.5s infinite ease-in-out;
+}
+
+@-moz-keyframes coccoc-alo-circle-img-anim {
+  0% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  10% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  20% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  30% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  40% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  50% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  100% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+}
+
+@-webkit-keyframes coccoc-alo-circle-img-anim {
+  0% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  10% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  20% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  30% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  40% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  50% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  100% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+}
+
+@-o-keyframes coccoc-alo-circle-img-anim {
+  0% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  10% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  20% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  30% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  40% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  50% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  100% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+}
+
+@keyframes coccoc-alo-circle-img-anim {
+  0% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  10% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  20% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  30% {
+    transform: rotate(-25deg) scale(1) skew(1deg);
+  }
+  40% {
+    transform: rotate(25deg) scale(1) skew(1deg);
+  }
+  50% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+  100% {
+    transform: rotate(0) scale(1) skew(1deg);
+  }
+}
+@media only screen and (max-width: 840px) {
+  .footer {
+    height: 800px !important;
+    background-size: cover;
+    width: 100%;
+  }
+  .footer-logo{
+    margin-left: 8%;
+    width: 40%;
+    height:20%;
+  }
+  footer-1{
+    width: 50% !important;
+  }
+  .footer-2{
+    padding-left:10%;
+  }
+}
