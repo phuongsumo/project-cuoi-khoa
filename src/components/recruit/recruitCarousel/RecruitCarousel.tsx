@@ -9,7 +9,7 @@ import "../fonts/vietnameseFonts/Gotham-Medium.otf";
 import fisrtSlide from "../img/slideshow1_1.jpg";
 import secondSlide from "../img/slideshow1_2 (1).jpg";
 const RecruitCarousel: React.FC<any>= ({idH3}) => {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState<number>(0);
   const [scroll, setScroll] = useState<string>("");
   useEffect(() => {
     setScroll(idH3)

@@ -31,7 +31,7 @@ import { MdPlace } from "react-icons/md";
 import { HiMail } from "react-icons/hi";
 const Recruit = () => {
   return (
-    <div>
+    <div className={style.containerr}>
       <RecruitCarousel idH3={style['titleH3']}/>
       <Container id={style['titleH3']} className={style.recruitPosition}>
         <p className={style.mainColor}>Vị trí tuyển dụng</p>
