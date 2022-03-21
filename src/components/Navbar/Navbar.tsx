@@ -107,7 +107,7 @@ const Navbar = () => {
                             <AiOutlinePlus className={style.nav_icon_more} onClick={() => handleMoreClick(subNavNew, show2, setShow2)} />
                         </li>
                         <li className={style.nav_element}>
-                            <Link to='/' className={style.nav_link}>Cửa hàng</Link>
+                            <Link to='/list-shop' className={style.nav_link}>Cửa hàng</Link>
                         </li>
                         <li className={style.nav_element}>
                             <Link to='/' className={style.nav_link}>Tuyển dụng</Link>

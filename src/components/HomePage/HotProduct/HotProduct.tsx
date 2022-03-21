@@ -55,8 +55,8 @@ const HotProduct = () => {
                                         <h2 className={styles.products_name}>{data.name}</h2>
                                         <p className={styles.products_price}>
                                             {data.salePrice && <span className={styles.products_price_sale}>{data.salePrice}</span>}
-                                            {data.salePrice &&
-                                                <span className={`${styles.products_price_origin} ${styles.disabled}`}>{data.price}</span>
+                                            {(data.salePrice &&
+                                                <span className={`${styles.products_price_origin} ${styles.disabled}`}>{data.price}</span>)
                                                 ||
                                                 <span className={styles.products_price_origin}>{data.price}</span>
                                             }
