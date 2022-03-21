@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./product.css";
 import { IProduct } from "../../models";
+import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
+import BasicModal from "../../components/modal/BasicModal";
 
 export const Product: React.FC = () => {
   //link api https://6227fddb9fd6174ca81830f6.mockapi.io/product/hot-product
@@ -15,15 +17,19 @@ export const Product: React.FC = () => {
     };
     getData();
   }, []);
+  //Set model
+  
+
   const Product = (props: any) => {
     const { productImg, productName, price } = props;
     return (
-      <div className="card col-md-3">
+      <div className="card col-md-3" >
         <img className="card-img-top" src={productImg} alt="" />
         <div className="card-body">
           <h5 className="card-title">{productName}</h5>
           <p className="card-text">{price}đ</p>
         </div>
+        {/* <BasicModal setOpen={setOpen} open={open} /> */}
       </div>
     );
   };
@@ -34,6 +40,8 @@ export const Product: React.FC = () => {
   const handleGoToSection = (section: any) => {
     return window.scrollTo({ top: section.current.offsetTop });
   };
+
+  
 
   return (
     <div>
@@ -201,6 +209,7 @@ export const Product: React.FC = () => {
           </div>
         </div>
       </div>
+      <ScrollToTop/>
     </div>
   );
 };

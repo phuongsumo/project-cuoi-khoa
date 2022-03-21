@@ -3,11 +3,11 @@ import { useWindowScroll } from "react-use";
 import { KeyboardArrowUp } from "@mui/icons-material";
 import "./scrollToTop.css";
 
-export default function ScrollToTop(): JSX.Element {
+export default function ScrollToTop():any {
   const { y: pageOffset } = useWindowScroll();
   const [visible, setVisiblity] = useState<boolean>(false);
   useEffect(() => {
-    if (pageOffset > 10) {
+    if (pageOffset > 100) {
       setVisiblity(true);
     } else {
       setVisiblity(false);
@@ -18,9 +18,9 @@ export default function ScrollToTop(): JSX.Element {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // if (!visible) {
-  //   return false;
-  // }
+  if (!visible) {
+    return false;
+  }
 
   return (
     <div className="scrollToTop">
