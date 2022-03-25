@@ -1,0 +1,81 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Col, Container, Row } from 'react-bootstrap';
+import styles from './HotProduct.module.css'
+import homeLine from './home_line.jpg';
+import { Link } from 'react-router-dom';
+
+interface HotProductData {
+    name: string;
+    price: number;
+    image: string;
+    description: string;
+    salePrice?: string;
+    id: string;
+}
+
+
+const HotProduct = () => {
+    const [datas, setDatas] = useState<HotProductData[]>([]);
+
+    async function fetchData() {
+        let response = await axios(
+            'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/product'
+        );
+        let hotProduct = await response.data;
+        setDatas([...hotProduct.reverse().splice(0, 8)]);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+
+    return (
+        <section className={styles.hot_product}>
+            <Container>
+                <Row>
+                    <div className={styles.title_wrap}>
+                        <h3 className={styles.title}>ToCoToCo Menu</h3>
+                        <h2 className={styles.sub_title}>sản phẩm nổi bật</h2>
+                        <div className={styles.img_wrap}>
+                            <img src={homeLine} alt="home line" className={styles.line_img} />
+                        </div>
+                    </div>
+                </Row>
+                <Row>
+                    {datas.map(data => {
+                        return (
+                            <Col md={3} xs={6} key={data.id}>
+                                <Link to='/' className={styles.product_card}>
+                                    <div className={styles.product_img_wrap}>
+                                        <img src={data.image} alt="any" className={styles.product_img} />
+                                    </div>
+                                    <div className={styles.product_info_wrap}>
+                                        <h2 className={styles.products_name}>{data.name}</h2>
+                                        <p className={styles.products_price}>
+                                            {data.salePrice && <span className={styles.products_price_sale}>{data.salePrice}</span>}
+                                            {(data.salePrice &&
+                                                <span className={`${styles.products_price_origin} ${styles.disabled}`}>{data.price}</span>)
+                                                ||
+                                                <span className={styles.products_price_origin}>{data.price}</span>
+                                            }
+                                        </p>
+                                        <button className={styles.products_order}>đặt hàng</button>
+                                    </div>
+                                </Link>
+                            </Col>
+                        )
+                    })}
+                </Row>
+                <Row >
+                    <div className={styles.all_products}>
+                        <Link to='/' className={styles.all_products_link}>xem tất cả</Link>
+                    </div>
+                </Row>
+            </Container>
+        </section>
+    )
+}
+
+export default HotProduct

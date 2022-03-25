@@ -110,8 +110,10 @@ html {
 }
 
 body {
-    line-height: 1;
-    font-family: 'Roboto', sans-serif;
+	line-height: 1;
+  	font-family: 'Roboto', sans-serif;
+	overflow-x: hidden;
+    user-select: none;
 }
 
 ol,

@@ -6,16 +6,12 @@ import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import axios from 'axios'
 // import icons
-import { MdKeyboardArrowDown } from 'react-icons/md'
+import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AiFillPhone } from 'react-icons/ai'
-import { MdPlace } from 'react-icons/md'
-import { FaStickyNote } from 'react-icons/fa'
-import { FaStore } from 'react-icons/fa'
-import { IoCloseCircle } from 'react-icons/io5'
+import { FaStickyNote, FaStore, FaSearchLocation } from 'react-icons/fa'
+import { IoCloseCircle, IoClose } from 'react-icons/io5'
 import imgButton from './mapData/checkmapimgs/mapbox-marker-icon-20px-orange.png';
-import { FaSearchLocation } from 'react-icons/fa'
-import { IoClose } from 'react-icons/io5'
 // 
 import map from './mapData/Map'
 import listStores from './mapData/listStores'
@@ -135,7 +131,7 @@ const Checkout = () => {
     title: string;
     description: string;
     quantity: number;
-    productImg:string,
+    productImg: string,
     price: number;
   };
   const [cart, setCart] = useState<Cart[]>(
@@ -158,19 +154,19 @@ const Checkout = () => {
       }
     ]
   );
-    const [quantity, setQuantity]= useState<number>(0)
-    const [price, setPrice]= useState<number>(0)
-    const [transFee,setTransFee]= useState<number>(18000);
-    useEffect(()=>{
-      let s= 0;
-      let p=0;
-      cart.map((item)=>{
-        s=s+ item.quantity;
-        p+= item.price* item.quantity;
-      })
-      setQuantity(s)
-      setPrice(p)
-    }, [])
+  const [quantity, setQuantity] = useState<number>(0)
+  const [price, setPrice] = useState<number>(0)
+  const [transFee, setTransFee] = useState<number>(18000);
+  useEffect(() => {
+    let s = 0;
+    let p = 0;
+    cart.map((item) => {
+      s = s + item.quantity;
+      p += item.price * item.quantity;
+    })
+    setQuantity(s)
+    setPrice(p)
+  }, [])
 
   const [show, setShow] = useState<boolean>(false)
   const [checkTime, setCheckTime] = useState<boolean>(true)
@@ -290,7 +286,7 @@ const Checkout = () => {
   // map
   const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_TOKEN || '';
   const [viewport, setViewport] = useState({
-    width: 500,
+    width: '100%',
     height: 200,
     latitude: -74.3372987731628,
     longitude: 40.383321536272049,
@@ -342,7 +338,7 @@ const Checkout = () => {
   let VND = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "VND",
-});
+  });
   return (
     <div>
       <div className={style.pageCheckout}>
@@ -408,11 +404,11 @@ const Checkout = () => {
                     </div>
                     <div ref={mapCheckoutRef} id={style['mapCheckout']}>
                       <ReactMapGL
+                        className={style.mapCheckoutChild}
                         {...viewport}
-                        mapboxAccessToken={MAPBOX_TOKEN}
+                        mapboxApiAccessToken={MAPBOX_TOKEN}
                         mapStyle="mapbox://styles/vuongpham/cl127tbw0003q15p6xvieicp6"
-                        onDrag={(newViewport: any) => setViewport(newViewport)}
-                        onWheel={(newViewport: any) => setViewport(newViewport)}
+                        onViewportChange={(newViewport: any) => setViewport(newViewport)}
                       >
                         {map.features.map((park: any) =>
                         (<Marker
@@ -496,7 +492,7 @@ const Checkout = () => {
                             <div className={style.productCheckoutContent}>
                               <div className={style.title}>{cartItem.title}</div>
                               <div className={style.customizations}>{cartItem.description}</div>
-                              <div className={style.quantity}>{VND.format(cartItem.price)} x {cartItem.quantity}= {VND.format(cartItem.price* cartItem.quantity)}</div>
+                              <div className={style.quantity}>{VND.format(cartItem.price)} x {cartItem.quantity}= {VND.format(cartItem.price * cartItem.quantity)}</div>
                             </div>
                           </div>
                         )
@@ -533,7 +529,7 @@ const Checkout = () => {
                       </div>
                       <div className={style.grandTotal}>
                         <div className={style.grandTotalTitle}>Tổng cộng:</div>
-                        <div className={`${style.txtRight} ${style.grandTotalNumber}`}>{VND.format(price+transFee)}</div>
+                        <div className={`${style.txtRight} ${style.grandTotalNumber}`}>{VND.format(price + transFee)}</div>
                       </div>
                     </div>
                     <div className={style.checkoutNote}>
