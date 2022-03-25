@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Navbar, HomePage, ListShop } from './components/index';
+import './App.css';
+import Footer from './components/footer/Footer';
 
 function App(): JSX.Element {
   return (
@@ -10,6 +12,7 @@ function App(): JSX.Element {
         <Route path="/" element={<HomePage />} />
         <Route path="/list-shop" element={<ListShop />} />
       </Routes>
+      <Footer />
     </div>
   );
 }
