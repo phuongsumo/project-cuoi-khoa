@@ -20,10 +20,10 @@ const HotProduct = () => {
 
     async function fetchData() {
         let response = await axios(
-            'https://6227fddb9fd6174ca81830f6.mockapi.io/product/hot-product'
+            'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/product'
         );
         let hotProduct = await response.data;
-        setDatas([...hotProduct.splice(0, 8)]);
+        setDatas([...hotProduct.reverse().splice(0, 8)]);
     }
 
     useEffect(() => {

@@ -4,8 +4,8 @@ import styles from './ListShop.module.css';
 import banner from './banner.png';
 import RenderListShop from './RenderListShop';
 
-const northApi = 'https://6227fddb9fd6174ca81830f6.mockapi.io/product/north-shop';
-const southApi = 'https://6227fddb9fd6174ca81830f6.mockapi.io/product/south-shop';
+const northApi = 'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/north-shop';
+const southApi = 'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/south-shop';
 
 const ListShop = () => {
     return (
