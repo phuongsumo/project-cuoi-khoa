@@ -37,9 +37,8 @@ hr {
 .category-quantity {
   justify-content: space-between;
   cursor: pointer;
-
 }
-.category-quantity:hover{
+.category-quantity:hover {
   color: gray;
 }
 .category {
@@ -49,33 +48,61 @@ hr {
   text-align: right;
 }
 .products {
-  justify-content:space-around;
+  justify-content: space-around;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding-top: 10px;
 }
-.card{
+.card {
+  width: 29%;
   margin: 5px 5px;
+  cursor: pointer;
 }
-.products .card{
-    height:240px;
+.products .card {
+  height: 240px;
 }
-.products .card img{
-    height:60%;
+.products .card img {
+  height: 60%;
 }
-.products .card-title{
-    font-size: 17px;
-    margin-left: -22%;
-    width: 144% !important;
+.card-body {
+  width: 99%;
+  padding: 1% 15%;
 }
-.products p{
+.products .card-title {
+  width: 144% !important;
+  height: 40%;
+  font-size: 17px;
+  margin-top: 2%;
+  margin-left: -22%;
+}
+.card-text {
+  width: 150%;
+  margin-left: -20%;
+  color: #8a733f;
+  font-weight: 600;
+}
+.card-text del {
+  width: auto !important;
+  font-weight: 100 !important;
+  color: black !important;
+  font-size: 90%;
+  margin-left: -4%;
+}
+.card-icon {
+  width: 10%;
+  font-size: 90%;
+  margin-top: -4%;
+  padding-left: 0;
+  color: #799dd9;
+}
+.products p {
   margin-top: 5px;
 }
 .cart {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.custom-cart-header{
-    text-align: right;
-    padding-top: 10px;
+.custom-cart-header {
+  text-align: right;
+  padding-top: 10px;
 }
 .custom-btn-pay {
   width: 90%;
@@ -87,10 +114,16 @@ hr {
   margin-left: 5%;
   margin-bottom: 5%;
 }
-.custom-card-quantity{
-    margin: 8% 0;
+.custom-card-quantity {
+  margin: 8% 0;
 }
-.custom-card-quantity img{
-    width: 30px;
-    height: 40px;
+.custom-card-quantity img {
+  width: 30px;
+  height: 40px;
+}
+@media screen and (max-width: 750px) {
+  .card {
+    width: 45% !important;
+  }
+  
 }

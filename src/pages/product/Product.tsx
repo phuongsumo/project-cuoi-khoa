@@ -1,35 +1,60 @@
-import React, { useEffect, useState, useRef } from "react";
-import "./product.css";
-import { IProduct } from "../../models";
-import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
+import { AddCircle } from "@mui/icons-material";
+import React, { memo, useEffect, useRef, useState } from "react";
 import BasicModal from "../../components/modal/BasicModal";
+import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
+import { IProduct } from "../../interfaces";
+import { getProduct } from "../../services";
+import "./product.css";
 
-export const Product: React.FC = () => {
-  //link api https://6227fddb9fd6174ca81830f6.mockapi.io/product/hot-product
+export const Product: React.FC = memo(() => {
   const [datas, setData] = useState<IProduct[] | null>([]);
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch(
-        "https://612b8df922bb490017893b92.mockapi.io/products"
-      );
-      let datas: IProduct[] = await res.json();
-      setData([...datas]);
+      const response = await getProduct();
+      let data = await response.data;
+      setData(data);
     };
     getData();
   }, []);
   //Set model
-  
+  // const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+
+  const [productDetail, setProductDetail] = useState<any>([]);
+  const handleShowDetail = (item: any) => {
+    setProductDetail(item);
+  };
+  const soLuongSanPham = (type: string) => {
+    if(datas !== null){
+      const sl = datas?.filter((a) => a.category === type);
+      return sl!.length;
+    }
+  };
 
   const Product = (props: any) => {
-    const { productImg, productName, price } = props;
+    const { productImg, productName, price, salePrice, item } = props;
     return (
-      <div className="card col-md-3" >
+      <div
+        className="card col-lg-3 col-4"
+        onClick={() => {
+          handleOpen();
+          handleShowDetail(item);
+        }}
+      >
         <img className="card-img-top" src={productImg} alt="" />
         <div className="card-body">
           <h5 className="card-title">{productName}</h5>
-          <p className="card-text">{price}đ</p>
+          <div className="card-text row">
+            {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ{" "}
+            <del>
+              {salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
+            </del>
+            <div className="card-icon col-1">
+              <AddCircle />
+            </div>
+          </div>
         </div>
-        {/* <BasicModal setOpen={setOpen} open={open} /> */}
       </div>
     );
   };
@@ -40,8 +65,6 @@ export const Product: React.FC = () => {
   const handleGoToSection = (section: any) => {
     return window.scrollTo({ top: section.current.offsetTop });
   };
-
-  
 
   return (
     <div>
@@ -64,7 +87,7 @@ export const Product: React.FC = () => {
 
       <div className="container">
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-lg-3">
             <div className="categories container">
               <p>DANH MỤC</p>
               <hr />
@@ -77,7 +100,7 @@ export const Product: React.FC = () => {
                 >
                   Món nổi bật
                 </div>
-                <div className="quantity col-sm-6">12</div>
+                <div className="quantity col-sm-6">{soLuongSanPham("hot")}</div>
               </div>
               <hr />
               <div
@@ -87,7 +110,9 @@ export const Product: React.FC = () => {
                 }}
               >
                 <div className="category col-sm-6">Trà sữa</div>
-                <div className="quantity col-sm-6">09</div>
+                <div className="quantity col-sm-6">
+                  {soLuongSanPham("category 1")}
+                </div>
               </div>
               <hr />
               <div
@@ -97,7 +122,9 @@ export const Product: React.FC = () => {
                 }}
               >
                 <div className="category col-sm-6">Fresh Fruit Tea</div>
-                <div className="quantity col-sm-6">22</div>
+                <div className="quantity col-sm-6">
+                  {soLuongSanPham("category 2")}
+                </div>
               </div>
               <hr />
               <div
@@ -107,85 +134,73 @@ export const Product: React.FC = () => {
                 }}
               >
                 <div className="category col-sm-6">Sữa chua dẻo</div>
-                <div className="quantity col-sm-6">12</div>
+                <div className="quantity col-sm-6">
+                  {soLuongSanPham("category 3")}
+                </div>
               </div>
               <br />
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-lg-6">
             <div className="products row">
               <p ref={monnoibatSection}>Món nổi bật</p>
-              <div className="card col-3">
-                <img
-                  className="card-img-top"
-                  src="https://tocotocotea.com/wp-content/uploads/2021/12/Hi%CC%80nh-a%CC%89nh-sp-website_1000x1000_choco-ngu%CC%83-co%CC%82%CC%81c-kem-cafe.png"
-                  alt=""
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Choco ngũ cốc kem cà phê</h5>
-                  <p className="card-text">44.000đ</p>
-                </div>
-              </div>
-              <div className="card col-3">
-                <img
-                  className="card-img-top"
-                  src="https://tocotocotea.com/wp-content/uploads/2021/12/Hi%CC%80nh-a%CC%89nh-sp-website_1000x1000_ho%CC%82%CC%80ng-tra%CC%80-ngu%CC%83-co%CC%82%CC%81c-kem-cafe.png"
-                  alt=""
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Choco ngũ cốc kem cà phê</h5>
-                  <p className="card-text">44.000đ</p>
-                </div>
-              </div>
-              <div className="card col-3">
-                <img
-                  className="card-img-top"
-                  src="https://tocotocotea.com/wp-content/uploads/2021/11/Royal-Pearl-Milk-Coffee.png"
-                  alt=""
-                />
-                <div className="card-body">
-                  <h5 className="card-title">Choco ngũ cốc kem cà phê</h5>
-                  <p className="card-text">44.000đ</p>
-                </div>
-              </div>
-              <p ref={trasuaSection}>Trà sữa</p>
               {datas!
-                .filter((data) => data.catergory === "catergory 1")
+                .filter((data) => data.category === "hot")
                 .map((item) => (
                   <Product
                     key={item.id}
-                    productImg={item.productImg}
-                    productName={item.productName}
+                    productImg={item.image}
+                    productName={item.name}
                     price={item.price}
+                    salePrice={item.salePrice}
+                    item={item}
                   />
                 ))}
-              <p ref={freshteaSection}>Fresh Fruit Tea</p>
+              <p ref={trasuaSection}>Trà sữa</p>
               {datas!
-                .filter((data) => data.catergory === "catergory 3")
+                .filter((data) => data.category === "category 1")
                 .map((item) => (
                   <Product
                     key={item.id}
-                    productImg={item.productImg}
-                    productName={item.productName}
+                    productImg={item.image}
+                    productName={item.name}
                     price={item.price}
+                    salePrice={item.salePrice}
+                    item={item}
+                  />
+                ))}
+
+              <p ref={freshteaSection}>Fresh Fruit Tea</p>
+              {datas!
+                .filter((data) => data.category === "category 2")
+                .map((item) => (
+                  <Product
+                    key={item.id}
+                    productImg={item.image}
+                    productName={item.name}
+                    price={item.price}
+                    salePrice={item.salePrice}
+                    item={item}
                   />
                 ))}
               <p className="products-scd" ref={suachuadeoSection}>
                 Sữa chua dẻo
               </p>
               {datas!
-                .filter((data) => data.catergory === "catergory 2")
+                .filter((data) => data.category === "category 3")
                 .map((item) => (
                   <Product
                     key={item.id}
-                    productImg={item.productImg}
-                    productName={item.productName}
+                    productImg={item.image}
+                    productName={item.name}
                     price={item.price}
+                    salePrice={item.salePrice}
+                    item={item}
                   />
                 ))}
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-lg-3">
             <div className="cart col-sm-12">
               <div className="row-3 row custom-cart-header">
                 <div className="col-6">Giỏ hàng của tôi</div>
@@ -209,7 +224,8 @@ export const Product: React.FC = () => {
           </div>
         </div>
       </div>
-      <ScrollToTop/>
+      <ScrollToTop />
+      <BasicModal setOpen={setOpen} open={open} productDetail={productDetail} />
     </div>
   );
-};
+});
