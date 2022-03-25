@@ -7,8 +7,6 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <Routes>
-        <Route path="/recruit" element={<Recruit/>}/>
-        <Route path="/checkout" element={<Checkout/>}/>
       </Routes>
     </div>
   );
