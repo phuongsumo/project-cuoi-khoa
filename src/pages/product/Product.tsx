@@ -2,7 +2,7 @@ import { AddCircle } from "@mui/icons-material";
 import React, { memo, useEffect, useRef, useState } from "react";
 import BasicModal from "../../components/modal/BasicModal";
 import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
-import { IProduct } from "../../interfaces";
+import { IProduct, IState } from "../../interfaces";
 import { getProduct } from "../../services";
 import "./product.css";
 
@@ -58,6 +58,7 @@ export const Product: React.FC = memo(() => {
       </div>
     );
   };
+  //su kien khi click vao danh muc san pham
   const monnoibatSection = useRef<HTMLDivElement | null>(null);
   const trasuaSection = useRef<HTMLDivElement | null>(null);
   const freshteaSection = useRef<HTMLDivElement | null>(null);
@@ -65,6 +66,12 @@ export const Product: React.FC = memo(() => {
   const handleGoToSection = (section: any) => {
     return window.scrollTo({ top: section.current.offsetTop });
   };
+
+  //gio hang
+  const [productcarts, setProductCart] = useState<IState[]>([
+    { name: "Trà sữa", size: "M",ice: 'No',sugar:'50%',topping:[] },
+    { name: "Trà sữa", size: "M",ice: 'No',sugar:'50%',topping:[] },
+  ]);
 
   return (
     <div>
@@ -207,7 +214,19 @@ export const Product: React.FC = memo(() => {
                 <div className="col-6">Xóa tất cả</div>
               </div>
               <hr />
-              <div className="row-3">Chưa có sản phẩm nào</div>
+              {/* {productcarts.map((item)=>{
+                return ( */}
+                  <div className="custom-cart-product row-3 row">
+                    <div className="custom-cart-main col-7">
+                      <div className="custom-cart-title"></div>
+                      <div className="custom-cart-detail"></div>
+                      <div className="custom-cart-pric"></div>
+                    </div>
+                    <div className="custom-cart-quantity col-4">dsa</div>
+                  </div>
+                {/* );
+              })} */}
+              
               <div className="row-3 custom-card-quantity">
                 <img
                   src="https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/icon-glass-tea.png"

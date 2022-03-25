@@ -104,6 +104,19 @@ hr {
   text-align: right;
   padding-top: 10px;
 }
+.custom-cart-product{
+  background: aqua;
+  width: 100%;
+  height: 100;
+  margin-left: 1%;
+}
+.custom-cart-main{
+  background:red;
+
+}
+.custom-cart-quantity{
+  background: gray;
+}
 .custom-btn-pay {
   width: 90%;
   border-radius: 20px;

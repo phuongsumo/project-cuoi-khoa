@@ -8,3 +8,11 @@ export interface IProduct {
 	sizeL: boolean;
 	id: string;
 }
+
+export interface IState {
+	name: string,
+	size: string,
+	ice: string,
+	sugar: string,
+	topping: string[],
+}
