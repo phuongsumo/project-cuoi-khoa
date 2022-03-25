@@ -1,14 +1,16 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import {Recruit, Checkout} from './components/index'
+import {CreateAccount, Login, News} from './components/index'
 import './App.css';
 
 function App(): JSX.Element {
   return (
     <div className="App">
       <Routes>
-        <Route path="/recruit" element={<Recruit/>}/>
-        <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/createAccount" element={<CreateAccount/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/news" element={<News/>}/>
+        <Route path="/" element={<News/>}/>
       </Routes>
     </div>
   );

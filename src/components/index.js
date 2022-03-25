@@ -1,4 +1,16 @@
-export { default as Recruit }
-from './recruit/Recruit'
-export { default as Checkout }
-from './checkout/Checkout'
+
+
+export { default as CreateAccount}
+from './createAccount/CreateAccount'
+
+export { default as Login }
+from './login/Login'
+
+
+export { default as News }
+from './news/News'
+
+
+
+
+
