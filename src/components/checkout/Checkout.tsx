@@ -177,7 +177,7 @@ const Checkout = () => {
   const [hour, setHour] = useState<string>('')
   const [minute, setMinute] = useState<string>('')
   const [error, setError] = useState<string>("")
-  const [login, setLogin] = useState<boolean>(true)
+  const [login, setLogin] = useState<boolean>(false)
   // 
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
@@ -335,7 +335,7 @@ const Checkout = () => {
       handleSubmitOrder("Vui lòng nhập địa chỉ!");
     }
   }
-  let VND = Intl.NumberFormat("en-US", {
+  const VND = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "VND",
   });
@@ -364,18 +364,21 @@ const Checkout = () => {
                         <BsFillPersonFill />
                       </div>
                       {login
-                        ? <input {...register("name", { required: false })} type="text" id={style['customerName']} placeholder='Tên người nhận' />
-                        : <input {...register("name", { required: true })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
-                      {errors.name && <p style={{ color: 'red' }}>name is required</p>}
+                        ? <input {...register("name", { required: false, pattern: /[A-Za-z]+/ })} type="text" id={style['customerName']} placeholder='Tên người nhận' />
+                        : <input {...register("name", { required: true, pattern: /[A-Za-z]+/ })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
+                      {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>name is required</p>)}
+                      {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>name is not correct</p>)}
                     </div>
                     <div className={style.wrapInput}>
                       <div className={style.wrapInputIcon}>
                         <AiFillPhone />
                       </div>
                       {login
-                        ? <input {...register("phone", { required: false })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
-                        : <input {...register("phone", { required: true })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
-                      {errors.phone && <p style={{ color: 'red' }}>your telephone is required</p>}
+                        ? <input {...register("phone", { required: false, pattern: /[0][1-9][0-9]{8}/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
+                        : <input {...register("phone", { required: true, pattern: /[0][1-9][0-9]{8}/, max: 10 })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
+                      {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
+                      {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
+                      {errors.phone?.type === 'max' && (<p style={{ color: 'red' }}>phone is allowed 10 number max</p>)}
                     </div>
                     <div className={style.deliveryLocation}>
                       <div className={style.deliveryLocationTitle}>Giao đến</div>
