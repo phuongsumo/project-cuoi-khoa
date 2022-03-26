@@ -6,10 +6,9 @@ import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import axios from 'axios'
 // import icons
-import { MdKeyboardArrowDown } from 'react-icons/md'
+import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AiFillPhone } from 'react-icons/ai'
-import { MdPlace } from 'react-icons/md'
 import { FaStickyNote, FaStore, FaSearchLocation } from 'react-icons/fa'
 import { IoCloseCircle, IoClose } from 'react-icons/io5'
 import imgButton from './mapData/checkmapimgs/mapbox-marker-icon-20px-orange.png';
@@ -287,7 +286,7 @@ const Checkout = () => {
   // map
   const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_TOKEN || '';
   const [viewport, setViewport] = useState({
-    width: 500,
+    width: '100%',
     height: 200,
     latitude: -74.3372987731628,
     longitude: 40.383321536272049,
@@ -405,11 +404,11 @@ const Checkout = () => {
                     </div>
                     <div ref={mapCheckoutRef} id={style['mapCheckout']}>
                       <ReactMapGL
+                        className={style.mapCheckoutChild}
                         {...viewport}
                         mapboxApiAccessToken={MAPBOX_TOKEN}
                         mapStyle="mapbox://styles/vuongpham/cl127tbw0003q15p6xvieicp6"
-                        onDrag={(newViewport: any) => setViewport(newViewport)}
-                        onWheel={(newViewport: any) => setViewport(newViewport)}
+                        onViewportChange={(newViewport: any) => setViewport(newViewport)}
                       >
                         {map.features.map((park: any) =>
                         (<Marker

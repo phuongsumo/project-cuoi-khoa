@@ -60,7 +60,7 @@ function Footer() {
                 </address>
                 <div className="footer_socials">
                   <ul className={`d-flex my-2`}>
-                    <li className={`me-4 fs-4 rounded`}>
+                    <li className={`fs-4 rounded ${style.icon_box}`}>
                       <a
                         className={` ${style.socialIcon}`}
                         href="https://www.facebook.com/tocotocobubbletea/"
@@ -69,7 +69,7 @@ function Footer() {
                         <AiFillFacebook />
                       </a>
                     </li>
-                    <li className={`me-4 fs-4 rounded`}>
+                    <li className={`fs-4 rounded ${style.icon_box}`}>
                       <a
                         className={` ${style.socialIcon}`}
                         href="https://www.instagram.com/tocotoco_bubble_tea/"
@@ -78,25 +78,25 @@ function Footer() {
                         <AiOutlineInstagram />
                       </a>
                     </li>
-                    <li className={`me-4 fs-4 rounded`}>
+                    <li className={`fs-4 rounded ${style.icon_box}`}>
                       <a
-                        className={` ${style.socialIcon}`}
+                        className={style.socialIcon}
                         href="https://www.youtube.com/c/ToCoToCoBubbleTea/"
                         target="_blank"
                       >
                         <AiFillYoutube />
                       </a>
                     </li>
-                    <li className={`me-4 fs-4 rounded`}>
+                    <li className={`fs-4 rounded ${style.icon_box}`}>
                       <a
-                        className={` ${style.socialIcon}`}
+                        className={style.socialIcon}
                         href="https://www.tiktok.com/@tocotocobubbletea/"
                         target="_blank"
                       >
                         <AiOutlineTwitter />
                       </a>
                     </li>
-                    <li className={`me-4 fs-4 rounded`}>
+                    <li className={`fs-4 rounded ${style.icon_box}`}>
                       <a
                         className={` ${style.socialIcon}`}
                         href="https://zalo.me/2268915497539367639"
