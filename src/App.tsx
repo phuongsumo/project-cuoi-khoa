@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Navbar, HomePage, ListShop, Recruit, Checkout } from './components/index';
+import { Navbar, HomePage, ListShop, Recruit, Checkout, Footer } from './components/index';
+import './App.css';
 
 function App(): JSX.Element {
   return (
@@ -9,9 +10,10 @@ function App(): JSX.Element {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/list-shop" element={<ListShop />} />
-        <Route path="/recruit" element={<Recruit/>}/>
-        <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/recruit" element={<Recruit />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
+      <Footer />
     </div>
   );
 }

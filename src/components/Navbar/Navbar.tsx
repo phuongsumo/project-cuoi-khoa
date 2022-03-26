@@ -110,7 +110,7 @@ const Navbar = () => {
                             <Link to='/list-shop' className={style.nav_link}>Cửa hàng</Link>
                         </li>
                         <li className={style.nav_element}>
-                            <Link to='/' className={style.nav_link}>Tuyển dụng</Link>
+                            <Link to='/recruit' className={style.nav_link}>Tuyển dụng</Link>
                         </li>
                         <li className={style.nav_element}>
                             <Link to='/' className={style.nav_link}>Đăng nhập</Link>

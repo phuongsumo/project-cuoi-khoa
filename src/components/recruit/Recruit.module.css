@@ -35,6 +35,8 @@
 .recruitText {
     padding: 0 130px;
     text-align: justify;
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
 .mainColor {
@@ -83,13 +85,12 @@
 
 .colText {
     padding: 64px 30px;
-    letter-spacing: -1px;
     font-weight: 600;
+    line-height: 1.2;
 }
 
 .colText p {
     font-weight: 400;
-    word-spacing: 6px;
     text-align: justify;
 }
 
@@ -191,113 +192,6 @@
 }
 
 
-/*  */
-
-footer {
-    position: relative;
-    background: url(./img/ft_bg_img.png) no-repeat;
-    background-size: cover;
-    height: auto;
-}
-
-.contact {
-    position: relative;
-}
-
-.contact .rowContact {
-    padding-top: 48px;
-}
-
-.colContact {
-    text-align: left;
-    color: #fff;
-    font-size: 0.8rem;
-}
-
-.colContact ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.colContact ul li {
-    margin-top: 8px;
-}
-
-.colContact a {
-    text-decoration: none;
-    color: #fff;
-    cursor: pointer;
-}
-
-.colContact img {
-    width: 100%;
-}
-
-.colContact h3 {
-    color: #D3B673;
-    margin-bottom: 36px;
-    font-size: 1.2rem;
-}
-
-span.icon {
-    min-width: 30px;
-    text-align: center;
-    display: inline-block;
-    color: #D3B673;
-}
-
-.socialIcons {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.socialIcons a {
-    color: #D3B673;
-    padding-right: 24px;
-    font-size: 1.2rem;
-}
-
-.footerLink {
-    display: flex;
-    margin-top: 36px;
-}
-
-.footerLink a {
-    margin-right: 24px;
-    max-width: 150px;
-}
-
-
-/*  */
-
-.footerCopyRight {
-    border-top: 1.5px solid #ccc;
-    margin-top: 12px;
-    padding: 24px;
-}
-
-.rowCoppyRight {
-    display: flex;
-    justify-content: space-between;
-    color: #fff;
-    position: relative;
-    align-items: center;
-    font-size: 0.8rem;
-}
-
-.rowCoppyRight a {
-    text-decoration: none;
-}
-
-.rowCoppyRight a:hover {
-    color: #0e4eda;
-}
-
-.colCopyRight p {
-    margin-bottom: 0px;
-}
-
-
 /* responsive */
 
 @media (max-width: 480px) {
@@ -312,32 +206,21 @@ span.icon {
         margin-top: 54px;
         padding: 0 14px;
     }
-    .colContact:nth-child(3) {
-        letter-spacing: 4px;
-    }
-    .colContact:nth-child(4) {
-        letter-spacing: 4px;
-    }
 }
 
 @media (max-width: 767.999px) {
     .recruitText {
         padding: 0 8px;
-        letter-spacing: 4px;
-        font-size: 1.2rem;
     }
     .introduce {
         padding: 24px 0;
-        letter-spacing: 3px
     }
     .rowAboutUs {
         flex-direction: column;
     }
     .colText {
         padding: 32px 15px;
-        letter-spacing: 2px;
         font-weight: 600;
-        font-size: 1.2rem;
     }
     .colText h3::before {
         content: "";
@@ -401,8 +284,6 @@ span.icon {
 @media (min-width: 768px) and (max-width: 991.999px) {
     .recruitText {
         padding: 0 8px;
-        letter-spacing: 4px;
-        font-size: 1.2rem;
         line-height: 1.4;
     }
     .recruitPosition {
