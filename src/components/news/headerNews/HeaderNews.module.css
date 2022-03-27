@@ -12,7 +12,7 @@
     z-index: 99;
     padding: 12px 0;
 }
-article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, section {
+ header {
     display: block;
 }
 body * {
@@ -196,10 +196,10 @@ header i.search {
 .fa, .fas {
     font-weight: 900;
 }
-.fa, .far, .fas {
+.fa, .fas {
     font-family: "Font Awesome 5 Free";
 }
-.fa, .fab, .fad, .fal, .far, .fas {
+.fa, .fab, .fas {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     display: inline-block;

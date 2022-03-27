@@ -2,7 +2,7 @@ body * {
     font-family: Barlow;
     font-size: 14px;
 }
-*, *::before, *::after {
+*{
     box-sizing: border-box;
 }
 .category_top_banner {
@@ -103,18 +103,16 @@ body * {
     list-style-type: none !important;
     padding: 0 !important;
 }
-ul, ol {
+ul {
     margin: 0 0 15px 20px;
     padding: 0;
 }
-ol, ul, dl {
+ul, dl {
     margin-top: 0;
     margin-bottom: 1rem;
 }
 ul {
     margin: 0;
-    /* padding: 0; */
-    /* list-style-type: none; */
 }
 .category_menu_content .menu_item {
     height: 36px;
@@ -258,7 +256,7 @@ img {
     list-style: none;
     border-radius: 0.25rem;
 }
-article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, section {
+ nav {
     display: block;
 }
 .screen_reader_text {
@@ -283,21 +281,15 @@ article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, s
     position: absolute!important;
     width: 1px;
 }
-h1, h2, h3, h4, h5, h6 {
+h2 {
     display: block;
     font-family: "Baloo", Helvetica, Arial, sans-serif;
-}
-h2, .h2 {
     font-size: 2rem;
-}
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-bottom: 0.5rem;
     font-family: inherit;
     font-weight: 500;
     line-height: 1.2;
     color: inherit;
-}
-h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: 0.5rem;
 }

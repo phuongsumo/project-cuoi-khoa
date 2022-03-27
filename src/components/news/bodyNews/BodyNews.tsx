@@ -17,13 +17,13 @@ const BodyNews = () => {
                             <div className={styles.menu_category_menu}>
                                 <ul id={styles.menu_category_menu} className={styles.men}>
                                     <li id={styles.menu_item_4480} className={`${styles["menu_item"]} ${styles["menu_item_type_taxonomy"]} ${styles["menu_item_object_category"]} ${styles[" menu_item_4480"]}`}>
-                                        <Link to='/Commercial_story' >Câu chuyện thương hiệu</Link>
+                                        <Link to='/Commercial_story' target='_parent' >Câu chuyện thương hiệu</Link>
                                     </li>
                                     <li id={styles.menu_item_4481} className={`${styles["menu_item"]} ${styles["menu_item_type_taxonomy"]} ${styles["menu_item_object_category"]} ${styles[" menu_item_4481"]}`}>
-                                        <Link to="/Commercial_story" >Tin tức khuyến mại</Link>
+                                        <Link to="/Promotional_news" target='_parent' >Tin tức khuyến mại</Link>
                                     </li>
                                     <li id={styles.menu_item_4482} className={`${styles["menu_item"]} ${styles["menu_item_type_taxonomy"]} ${styles["menu_item_object_category"]} ${styles[" menu_item_4482"]}`}>
-                                        <Link to="/Commercial_story" >Sự kiện</Link>
+                                        <Link to="/Sk_events" target='_parent' > Sự kiện </Link>
                                     </li>
                                 </ul>
                             </div>

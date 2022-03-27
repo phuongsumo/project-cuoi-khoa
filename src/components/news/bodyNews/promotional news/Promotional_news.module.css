@@ -107,8 +107,13 @@ body * {
 }
 ul {
     margin: 0 0 15px 20px;
+    padding: 0;
+}
+ul, dl {
     margin-top: 0;
     margin-bottom: 1rem;
+}
+ul {
     margin: 0;
 }
 .category_menu_content .current_menu_item {
