@@ -1,37 +1,35 @@
-// declare module mapData {
-export interface Properties {
-    short_code: string;
-    wikidata: string;
-}
-
-export interface Geometry {
-    type: string;
-    coordinates: number[];
-}
-
-export interface Context {
+export interface Cart {
+    productId: string;
+    name: string;
+    description: string;
+    quantity: number;
+    productImg: string,
+    price: number;
+    paid: boolean;
+  };
+  // users modal
+  export interface User {
+    username: string;
+    password: string;
+    email: string;
+    phone: number;
+    fullName: string;
+    age: number;
+    avatar: string;
+    address: string;
+    cart: any[];
+    order: any[];
     id: string;
-    wikidata: string;
-    short_code: string;
-    text: string;
-}
-
-export interface Feature {
+  }
+//   product modals
+export interface Product {
+    name: string;
+    price: number;
+    salePrice: number;
+    description: string;
+    image: string;
+    category: string;
+    sizeM: boolean;
+    sizeL: boolean;
     id: string;
-    type: string;
-    place_type: string[];
-    relevance: number;
-    properties: Properties;
-    text: string;
-    place_name: string;
-    bbox: number[];
-    center: number[];
-    geometry: Geometry;
-    context: Context[];
-}
-export interface MapData {
-    type: string;
-    query: string[];
-    features: Feature[];
-}
-// }
+  }

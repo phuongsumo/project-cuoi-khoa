@@ -4,6 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
+import PaypalCheckoutButton from './payment/PaypalCheckoutButton'
+import { User, Product, Cart } from './models'
 import axios from 'axios'
 // import icons
 import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
@@ -18,149 +20,58 @@ import listStores from './mapData/listStores'
 // import {MapData, Feature} from './models'
 
 const Checkout = () => {
-  // users modal
-  interface User {
-    username: string;
-    password: string;
-    email: string;
-    phone: number;
-    fullName: string;
-    age: number;
-    avatar: string;
-    address: string;
-    cart: any[];
-    id: string;
-  }
+  const [user, setUser] = useState<User>(
+    {
+      "username": "username 1",
+      "password": "password 1",
+      "email": "email 1",
+      "phone": 49,
+      "fullName": "fullName 1",
+      "age": 81,
+      "avatar": "http://placeimg.com/640/480/people",
+      "address": "address 1",
+      "cart": [
+        {
+          "productId": "pr1",
+          "name": "aaaaa",
+          "description": "this is aaa",
+          "quantity": 1,
+          "productImg": "https://tocotocotea.com/wp-content/uploads/2021/11/Royal-Pearl-Milk-Coffee.png",
+          "price": 29000,
+          "paid": false
+        },
+        {
+          "productId": "pr2",
+          "name": "bbbbb",
+          "description": "this is bbb",
+          "quantity": 3,
+          "productImg": "https://tocotocotea.com/wp-content/uploads/2021/01/ezgif.com-gif-maker-10.jpg",
+          "price": 34000,
+          "paid": false
 
-  const [users, setUsers] = useState<User[]>(
-    [
-      {
-        "username": "username 1",
-        "password": "password 1",
-        "email": "email 1",
-        "phone": 49,
-        "fullName": "fullName 1",
-        "age": 81,
-        "avatar": "http://placeimg.com/640/480/people",
-        "address": "address 1",
-        "cart": [
+        }
+      ],
+      "order": [
 
-        ],
-        "id": "1"
-      },
-      {
-        "username": "username 2",
-        "password": "password 2",
-        "email": "email 2",
-        "phone": 64,
-        "fullName": "fullName 2",
-        "age": 54,
-        "avatar": "http://placeimg.com/640/480/people",
-        "address": "address 2",
-        "cart": [
-
-        ],
-        "id": "2"
-      },
-      {
-        "username": "username 3",
-        "password": "password 3",
-        "email": "email 3",
-        "phone": 99,
-        "fullName": "fullName 3",
-        "age": 3,
-        "avatar": "http://placeimg.com/640/480/people",
-        "address": "address 3",
-        "cart": [
-
-        ],
-        "id": "3"
-      }
-    ]
+      ],
+      "id": "1"
+    }
   );
-  interface Product {
-    name: string;
-    price: number;
-    salePrice: number;
-    description: string;
-    image: string;
-    category: string;
-    sizeM: boolean;
-    sizeL: boolean;
-    id: string;
-  }
-  const [products, setProducts] = useState<Product[]>(
-    [
-      {
-        "name": "name 1",
-        "price": 29,
-        "salePrice": 76,
-        "description": "description 1",
-        "image": "http://placeimg.com/640/480/fashion",
-        "category": "category 1",
-        "sizeM": false,
-        "sizeL": false,
-        "id": "1"
-      },
-      {
-        "name": "name 2",
-        "price": 53,
-        "salePrice": 12,
-        "description": "description 2",
-        "image": "http://placeimg.com/640/480/animals",
-        "category": "category 1",
-        "sizeM": false,
-        "sizeL": false,
-        "id": "2"
-      },
-      {
-        "name": "name 3",
-        "price": 31,
-        "salePrice": 16,
-        "description": "description 3",
-        "image": "http://placeimg.com/640/480/business",
-        "category": "category 1",
-        "sizeM": false,
-        "sizeL": false,
-        "id": "3"
-      }
-    ]
-  );
-  interface Cart {
-    userId: string;
-    title: string;
-    description: string;
-    quantity: number;
-    productImg: string,
-    price: number;
-  };
-  const [cart, setCart] = useState<Cart[]>(
-    [
-      {
-        "userId": "us1",
-        "title": "aaaaa",
-        "description": "this is aaa",
-        "quantity": 1,
-        "productImg": "https://tocotocotea.com/wp-content/uploads/2021/11/Royal-Pearl-Milk-Coffee.png",
-        "price": 29000
-      },
-      {
-        "userId": "us2",
-        "title": "bbbbb",
-        "description": "this is bbb",
-        "quantity": 3,
-        "productImg": "https://tocotocotea.com/wp-content/uploads/2021/01/ezgif.com-gif-maker-10.jpg",
-        "price": 34000
-      }
-    ]
-  );
+  // async function fetchData() {
+  //   let response = await axios(
+  //     'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users'
+  //   );
+  //   let user = await response.data;
+  //   setUser({ ...user });
+  // }
   const [quantity, setQuantity] = useState<number>(0)
   const [price, setPrice] = useState<number>(0)
   const [transFee, setTransFee] = useState<number>(18000);
   useEffect(() => {
+    // fetchData();
     let s = 0;
     let p = 0;
-    cart.map((item) => {
+    user.cart.map((item) => {
       s = s + item.quantity;
       p += item.price * item.quantity;
     })
@@ -174,10 +85,11 @@ const Checkout = () => {
   const [checkSearchBox, setCheckSearchBox] = useState<boolean>(false)
   const [popupChooseStore, setPopupChooseStore] = useState<boolean>(false)
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
+  const [checkout, setCheckout] = useState<boolean>(false)
   const [hour, setHour] = useState<string>('')
   const [minute, setMinute] = useState<string>('')
   const [error, setError] = useState<string>("")
-  const [login, setLogin] = useState<boolean>(false)
+  const [login, setLogin] = useState<boolean>(true)
   // 
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
@@ -190,7 +102,8 @@ const Checkout = () => {
   const fillStoreChoose = useRef<any>(null);
   const errorModals = useRef<any>(null);
   useEffect(() => {
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979'
+    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (momocheckedRef.current as any).checked = true;
   }, [])
   // show/hide map and note field
   const handleOnlButton = () => {
@@ -274,9 +187,21 @@ const Checkout = () => {
   } = useForm();
   const today = new Date();
   const OnSubmit = (data: any) => {
-    setFormData(data);
     if (storedChoosed.name) {
-      setPopupSuccessOrder(true);
+      if ((coldcheckedRef.current as any).checked === true) {
+        setCheckout(false)
+        setPopupSuccessOrder(true)
+        user.order = [...user.cart];
+        user.order.map((item: Cart) => {
+          item.paid = true;
+        })
+        console.log(user.order)
+      } else
+        if ((momocheckedRef.current as any).checked === true) {
+          setPopupSuccessOrder(false)
+          setCheckout(true)
+        }
+      setFormData(data);
     }
     else {
       handleSubmitOrder("Vui lòng nhập tên shop!");
@@ -287,7 +212,7 @@ const Checkout = () => {
   const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_TOKEN || '';
   const [viewport, setViewport] = useState({
     width: '100%',
-    height: 200,
+    height: '100%',
     latitude: -74.3372987731628,
     longitude: 40.383321536272049,
     zoom: 10
@@ -300,6 +225,7 @@ const Checkout = () => {
   const handleAddressChange = (e: any) => {
     setViewport({
       ...viewport,
+      width: '100%',
       zoom: 10
     })
     //checksearchbox nen de mot lan
@@ -321,7 +247,8 @@ const Checkout = () => {
       ...viewport,
       latitude: item.geometry.coordinates[1],
       longitude: item.geometry.coordinates[0],
-      zoom: 15
+      zoom: 15,
+      width: '100%'
     })
     setSearchAddress(item.properties.name)
     setSearchAddressOnClick(item.properties.name)
@@ -374,11 +301,10 @@ const Checkout = () => {
                         <AiFillPhone />
                       </div>
                       {login
-                        ? <input {...register("phone", { required: false, pattern: /[0][1-9][0-9]{8}/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
-                        : <input {...register("phone", { required: true, pattern: /[0][1-9][0-9]{8}/, max: 10 })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
+                        ? <input {...register("phone", { required: false, pattern: /[0][1-9]?[0-9]{8}$/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
+                        : <input {...register("phone", { required: true, pattern: /[0][1-9]?[0-9]{8}$/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
                       {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
                       {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
-                      {errors.phone?.type === 'max' && (<p style={{ color: 'red' }}>phone is allowed 10 number max</p>)}
                     </div>
                     <div className={style.deliveryLocation}>
                       <div className={style.deliveryLocationTitle}>Giao đến</div>
@@ -411,7 +337,7 @@ const Checkout = () => {
                         {...viewport}
                         mapboxApiAccessToken={MAPBOX_TOKEN}
                         mapStyle="mapbox://styles/vuongpham/cl127tbw0003q15p6xvieicp6"
-                        onViewportChange={(newViewport: any) => setViewport(newViewport)}
+                        onViewportChange={(newViewport: any) => setViewport({ ...newViewport, width: '100%' })}
                       >
                         {map.features.map((park: any) =>
                         (<Marker
@@ -457,7 +383,7 @@ const Checkout = () => {
                       </label>
                       <label onClick={() => handleMomoSelectedRadio()} htmlFor="" className={`${style.containerRadio} ${style.momoPayment}`}>
                         <span>Thanh toán qua momo</span>
-                        <input ref={momocheckedRef} type="radio" checked name="type" value="momo" />
+                        <input ref={momocheckedRef} type="radio" name="type" value="momo" />
                         <span ref={momoMarkRadio} className={`${style.checkmarkRadio}`}></span>
                       </label>
                     </div>
@@ -488,7 +414,7 @@ const Checkout = () => {
                       </div>
                     </div>
                     <div className={style.listCheckout}>
-                      {cart && cart.map((cartItem) => {
+                      {user.cart && user.cart.map((cartItem) => {
                         return (
                           <div className={style.productCheckout}>
                             <img src={cartItem.productImg} alt="product image" />
@@ -547,8 +473,12 @@ const Checkout = () => {
               </Col>
             </Row>
           </form>
-
         </Container>
+        {checkout && <div className={style.paypalCheckoutMethod} onClick={() => { setCheckout((false)) }}>
+          <div className={style.paypalCheckoutButton}>
+            <PaypalCheckoutButton products={user} />
+          </div>
+        </div>}
       </div>
       <div>
         {
@@ -642,7 +572,7 @@ const Checkout = () => {
             }
           </div>
         </div>
-        <div onClick={() => { setPopupChooseStore(false) }} className={style.overlay}></div>
+        <div onClick={() => { setPopupChooseStore(false) }} className={style.storeOverlay}></div>
       </div>}
       {/* error modals */}
       <div ref={errorModals} className={style.errorModal}>
@@ -657,14 +587,14 @@ const Checkout = () => {
           <div className={style.successMessagePopupContent}>
             <div className={style.orderResult}>
               <div className={style.orderResultTitle}>Đặt hàng thành công!</div>
-              <div className={style.login}>Đăng nhập để xem chi tiết đơn hàng!</div>
-              <div onClick={() => setPopupSuccessOrder(false)} className={style.resultOk}>Đồng ý</div>
+              <div onClick={() => setPopupSuccessOrder(false)} className={style.resultOk}><Link to="/">Đồng ý</Link></div>
               <div></div>
             </div>
           </div>
         </div>
         <div onClick={() => setPopupSuccessOrder(false)} className={style.overlay}></div>
       </div>}
+
     </div >
   )
 }
