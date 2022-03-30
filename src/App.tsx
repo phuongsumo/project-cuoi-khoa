@@ -1,6 +1,14 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Navbar, HomePage, ListShop, Recruit, Checkout, Footer } from './components/index';
+import {
+  Navbar,
+  HomePage,
+  ListShop,
+  Recruit,
+  Checkout,
+  Footer,
+  Product,
+} from "./components/index";
 import './App.css';
 
 function App(): JSX.Element {
@@ -12,6 +20,7 @@ function App(): JSX.Element {
         <Route path="/list-shop" element={<ListShop />} />
         <Route path="/recruit" element={<Recruit />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/product" element={<Product />} />
       </Routes>
       <Footer />
     </div>

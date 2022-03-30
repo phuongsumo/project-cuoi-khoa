@@ -1,0 +1,155 @@
+.custom-box-modal {
+  overflow-y: initial !important;
+}
+.modal-content-up {
+  width: 100%;
+  height: 36%;
+  justify-content: space-between;
+  opacity: 0.95;
+}
+.modal-img {
+  width: 37%;
+  height: 100%;
+}
+.modal-img img {
+  background: no-repeat center;
+  width: 100%;
+  height: 100%;
+  border-radius: 5%;
+}
+.modal-info {
+  height: 100%;
+}
+.modal-info-title {
+  font-size: 140%;
+  font-weight: 600;
+}
+.modal-info-price {
+  color: #d8b979;
+  margin: 5% 0;
+  font-size: 110%;
+}
+.modal-info-price del {
+  color: black;
+  font-size: 90%;
+  margin-left: 5%;
+}
+.modal-info-quantity-total {
+  height: auto;
+  margin: 5% 0;
+  font-size: 110%;
+  align-items: center;
+}
+.modal-info-quantity {
+  margin-left: -6.5%;
+}
+.custom-icon {
+  color: #799dd9;
+  margin: 5%;
+  font-size: 150% !important;
+  cursor: pointer;
+}
+.modal-info-total {
+  background: #d8b979;
+  width: auto;
+  height: auto;
+  color: white;
+  text-align: center;
+  align-items: center;
+  padding: 3% 3%;
+  margin-left: 5%;
+  border-radius: 20px;
+  cursor: pointer;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}
+.modal-content-down {
+  margin-top: 5%;
+  /* max-height: calc(100vh - 200px); */
+  height:60%;
+  width: 100%;
+  overflow-y: auto;  
+  scrollbar-width: none !important;
+}
+/* style horizontal scrollbar by CSS? */
+::-webkit-scrollbar{
+    height: 4px !important;
+    width: 4px;
+    background: gray;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #d8b979; 
+}
+
+.modal-content-down p {
+  font-size: 110%;
+  font-weight: 600;
+  margin-bottom: 2%;
+}
+.modal-select {
+  margin: 3% 0;
+}
+.wrap-input {
+  background: white;
+  margin-left: 2%;
+  padding: 2.5% 0;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.custom-modal-input {
+  margin: 0 2%;
+}
+.custom-input {
+  margin-right: 2%;
+  font-size: 110%;
+  border: none;
+  cursor: pointer;
+  margin-left: -8%;
+}
+.custom-checkbox {
+  cursor: pointer;
+  margin-right: 1%;
+}
+label {
+  cursor: pointer;
+}
+.custom-modal-checkbox {
+  margin: 0 0 2.5% -1%;
+  cursor: pointer;
+}
+.custom-icon-close {
+  position: fixed;
+  height: auto;
+  width: auto;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.custom-icon-close:hover {
+  color: gray !important;
+}
+.custom-modal-checkbox-price {
+  text-align: right;
+}
+@media screen and (max-width: 750px) {
+  .custom-box-modal {
+    width: 90% !important;
+  }
+  .modal-content-up {
+    height: 25%;
+    margin-bottom: 20%;
+  }
+  .modal-img {
+    width: 50%;
+  }
+  .modal-info-total {
+    padding: 8% 10%;
+  }
+}

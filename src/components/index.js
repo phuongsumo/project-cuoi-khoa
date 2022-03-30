@@ -10,3 +10,5 @@ export { default as Checkout }
     from './checkout/Checkout';
 export { default as Footer }
     from './footer/Footer';
+export { default as Product }
+    from './product/Product';
