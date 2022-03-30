@@ -1,0 +1,879 @@
+
+.pageCheckout {
+    background-color: #fbfbfb;
+    margin-top: 50px;
+    padding: 24px 0;
+}
+
+.doubleButton {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.wrapInput.hide {
+    display: none;
+}
+
+#mapCheckout.hide {
+    display: none;
+}
+
+.singleButton {
+    border: none;
+    border-radius: 30px;
+    width: 49%;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+    box-shadow: 0 0 10px 0;
+    outline: 1px solid #ee4d2d;
+    background-color: #fff;
+    color: #ee4d2d;
+}
+
+.singleButton:not(.active):hover {
+    color: #ffffff;
+    background-color: #ee4d2d;
+    outline: none;
+}
+
+.singleButton.active {
+    color: #ffffff;
+    background-color: #ee4d2d;
+    outline: none;
+}
+
+.singleButton.active:hover {
+    outline: 1px solid #ee4d2d;
+    background-color: #fff;
+    color: #ee4d2d;
+}
+
+
+/* .singleButton:hover {
+    outline: 1px solid #ee4d2d;
+    background-color: #fff;
+    color: #ee4d2d;
+}
+
+
+.singleButton:hover {
+    outline: none;
+    background-color: #ee4d2d;
+    color: #fff;
+} */
+
+
+/* checkout detail */
+
+.deliveryInfoTitle {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.deliveryInfoContent {
+    box-shadow: 0 0 10px -4px;
+    background-color: #fff;
+    margin-top: 12px;
+    border-radius: 2px;
+}
+
+.checkmarkRadio {
+    position: absolute;
+    top: -webkit-calc(50% - 8px);
+    left: 0px;
+    height: 16px;
+    width: 16px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.paymentContent {
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+}
+
+.paymentContent .containerRadio {
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    position: relative;
+    padding-left: 24px;
+    cursor: pointer;
+}
+
+.containerRadio:hover .checkmarkRadio:not(.noHover) {
+    background-color: #ccc !important;
+}
+
+.containerRadio input {
+    display: none;
+}
+
+.wrapInput {
+    margin: 0 12px;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.wrapInput input {
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 0.7rem;
+    position: relative;
+}
+
+.wrapInput p {
+    position: absolute;
+    right: 20px;
+    top: 24px;
+    font-size: 0.7rem;
+}
+
+.wrapInputIcon {
+    min-width: 40px;
+    text-align: center;
+}
+
+.wrapInput::after {
+    content: "";
+    height: 1px;
+    width: 95%;
+    position: absolute;
+    background-color: rgb(200, 200, 200);
+    top: 36px;
+    left: 12px;
+}
+
+.deliveryLocationTitle {
+    margin-left: 24px;
+    font-size: 0.8rem;
+    margin-top: 24px;
+}
+
+.deliveryDateTime {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 28px;
+    font-size: 0.8rem;
+}
+
+.deliveryDateTime .left .time {
+    font-weight: bold;
+}
+
+.deliveryDateTime .right {
+    cursor: pointer;
+    color: #7da2da;
+    transition: all 0.1s ease;
+}
+
+.deliveryDateTime .right:hover {
+    color: #5a9cff;
+    font-weight: bold;
+}
+
+#mapCheckout {
+    height: 200px;
+    background-color: #ccc;
+}
+
+.mapButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.mapButton img {
+    width: 20px;
+    height: 20px;
+}
+
+.searchBox {
+    position: absolute;
+    background: #fff;
+    min-width: 300px;
+    transform: translateY(3.8rem);
+    left: 12px;
+    top: -8px;
+    z-index: 9;
+    box-shadow: 0 0 4px 2px rgb(128 128 128 / 15%);
+    border-radius: 5px;
+    min-height: 100px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.searchItem {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.searchItem .name {
+    font-weight: bold;
+}
+
+.paymentMethod {
+    margin-top: 36px;
+}
+
+.chooseStoreContent {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.chooseStoreContent .left {
+    cursor: pointer;
+    transition: .3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.chooseStoreContent .left .storeName {
+    margin-left: 12px;
+    font-size: 0.9rem;
+}
+
+.chooseStoreContent .right {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.chooseStoreContent .left:hover {
+    opacity: 0.8;
+}
+
+.chooseStore {
+    padding: 12px 18px;
+    border-bottom: 1px solid #ccc;
+}
+
+.chooseStoreTitle {
+    font-size: 0.8rem;
+}
+
+.popupChooseStore {
+    width: 400px;
+    height: 500px;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: calc(50% - 250px);
+    left: calc(50% - 200px);
+    background: #ffffff;
+    z-index: 2;
+    border-radius: 3px;
+    box-shadow: 0 2px 10px 0 rgb(0 0 0 / 6%);
+}
+
+.popupChooseStore .popupSearchBox {
+    display: flex;
+    border-bottom: 1px solid #f1f1f1;
+    padding-left: 15px;
+    padding-right: 10px;
+}
+
+.popupChooseStore .listStore {
+    padding-left: 15px;
+    padding-right: 10px;
+    height: 1px;
+    flex-grow: 1;
+    overflow-y: scroll;
+    overflow: scroll;
+}
+
+.popupChooseStore .iconSearch {
+    width: 14px;
+    line-height: 35px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s ease;
+}
+
+.popupChooseStore .iconSearch:hover {
+    transform: scale(1.25);
+    opacity: 0.8
+}
+
+.popupChooseStore input.ipSearch {
+    border: none;
+    background: var(--tocotoco-color-white);
+    height: 38px;
+    padding: 0 0 0 10px;
+    width: 100%;
+    outline: 0;
+    box-shadow: unset;
+}
+
+.popupChooseStore .storeItem {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.popupChooseStore .storeName {
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.popupChooseStore .storeAddress {
+    font-size: 12px;
+    color: #7c7c7c;
+}
+
+.popupChooseStore .listStore .right {
+    color: #7c7c7c;
+    font-weight: 500;
+}
+
+.listCheckout {
+    padding: 0 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.productCheckout {
+    display: flex;
+    align-items: center;
+    padding: 12px 0 8px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.productCheckout img {
+    width: 70px;
+    margin-right: 12px;
+}
+
+.productCheckoutContent .title {
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding-bottom: 8px;
+}
+
+.productCheckoutContent .customizations {
+    font-size: 13px;
+    padding-left: 5px;
+    color: #7c7c7c;
+}
+
+.productCheckoutContent .quantity {
+    font-size: 13px;
+    padding-left: 5px;
+    padding-top: 3px;
+    font-weight: bold;
+    color: #8a733f;
+}
+
+.promotionCode {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.promotionCode .left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.promotionCode .left img {
+    width: 24px;
+    margin-right: 12px;
+}
+
+.promotionCode .right .btnAddVoucher {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    color: #fff;
+    background-color: #d8b979;
+    border-radius: 20px;
+    transition: 0.3s ease;
+    box-shadow: 0 0 10px 0;
+}
+
+.promotionCode .right .btnAddVoucher:hover {
+    outline: 1px solid #d8b979;
+    color: #d8b979;
+    background-color: #fff;
+}
+
+.promotionPopup {
+    width: 650px;
+    height: 350px;
+    top: -webkit-calc(50% - 175px);
+    left: -webkit-calc(50% - 325px);
+    position: fixed;
+    z-index: 5;
+    background-color: #fff;
+    box-shadow: 0 0 10px 0px;
+}
+
+.promotionPopupTitle {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 24px;
+}
+
+.promotionPopupContent {
+    width: 100%;
+    overflow: hidden;
+    padding: 12px 20px;
+    font-size: 0.8rem;
+}
+
+.wrapPromotionPopup {
+    display: flex;
+    margin: 10px 20px;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    overflow-y: overlay;
+    position: relative;
+}
+
+.wrapPromotionPopup input {
+    font-size: 0.8em;
+    outline: none;
+    padding: 8px 4px;
+    flex-grow: 1;
+    border-radius: 3px;
+    border: 1px solid #c99e65;
+}
+
+.wrapPromotionPopup button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    background-color: #c99e65;
+    color: #fff;
+    padding: 0 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.wrapPromotionPopup button:hover {
+    color: #c99e65;
+    border: 1px solid #c99e65;
+    background-color: #fff;
+}
+
+.checkoutPrice {
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.checkoutPrice .priceTop {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkoutPrice .priceTop .total {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.checkoutPrice .priceTop .total .totalNumber {
+    font-weight: bold;
+}
+
+.txtRight {
+    width: 80px;
+    text-align: right;
+}
+
+.transportPrice,
+.promotionAmount,
+.grandTotal {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 0;
+}
+
+.grandTotal .grandTotalTitle {
+    font-weight: bold;
+}
+
+.grandTotal .grandTotalNumber {
+    font-weight: bold;
+    color: #b0854b;
+}
+
+.checkoutNote {
+    padding: 16px 12px 8px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin-top: 4px;
+}
+
+.checkoutNote .taCheckoutNote {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 0.8rem;
+    height: 100%;
+}
+
+.wrapCheckoutBtn {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.wrapCheckoutBtn button {
+    border-radius: 20px;
+    padding: 10px 24px;
+    margin-top: 12px;
+    transition: .3s ease;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 10px 0px;
+}
+
+.wrapCheckoutBtn .btnOrder {
+    color: #fff;
+    background-color: #ee4d2d;
+}
+
+.wrapCheckoutBtn .btnOrder:hover {
+    color: #ee4d2d;
+    background-color: #fff;
+    outline: 1px solid #ee4d2d;
+}
+
+.wrapCheckoutBtn .btnBackToMenu {
+    color: #b0854b;
+    background-color: #fff;
+    outline: 1px solid #b0854b;
+}
+
+.wrapCheckoutBtn .btnBackToMenu a {
+    color: #b0854b;
+    text-decoration: none;
+}
+
+.wrapCheckoutBtn .btnBackToMenu:hover {
+    color: #fff;
+    background-color: #b0854b;
+}
+
+.wrapCheckoutBtn .btnBackToMenu:hover a {
+    color: #fff;
+}
+
+
+/*  */
+
+.editDeliveryTimePopUp {
+    width: 300px;
+    height: 200px;
+    background-color: rgb(255, 255, 255);
+    padding: 24px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: fixed;
+    top: -webkit-calc(50% - 100px);
+    left: -webkit-calc(50% - 150px);
+    border-radius: 4px;
+    z-index: 5;
+    box-shadow: 0 0 11px -3px;
+}
+
+.timePopUpTitle {
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.timePopUpBtn {
+    position: absolute;
+    transition: all 0.4s ease;
+    top: 2px;
+    right: 2px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.popUpIcon {
+    width: 100%;
+    height: 100%;
+    vertical-align: unset;
+}
+
+.timePopUpBtn:hover {
+    transform: rotate(180deg);
+}
+
+.timePopUpContent {
+    width: 100%;
+}
+
+.timePopUpWrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.wrapSelectTime {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 36px;
+}
+
+.wrapSelectTime select {
+    padding: 8px 16px;
+    margin: 0 8px;
+    border-radius: 3px;
+    width: 50%;
+    /* overflow: hidden; */
+    border: 1px solid #b0854b;
+    outline: none;
+}
+
+.wrapSelectTime select:focus {
+    box-shadow: 0 0 10px 4px #80bdff;
+    border: 1px solid #80bdff;
+}
+
+.wrapSelectTimeBtn {
+    text-align: center;
+    background-color: #b0854b;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 20px;
+    margin-top: 24px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.4s ease;
+    border: none;
+}
+
+.wrapSelectTimeBtn:hover {
+    color: #b0854b;
+    background-color: #fff;
+    border: 1px solid #b0854b;
+    box-shadow: 0 0 9px 0px;
+}
+
+.promotionOverlay,
+.overlay {
+    background-color: #000;
+    opacity: 0.4;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transition: 0.4s ease;
+}
+
+
+/* error modals */
+
+.errorModal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    opacity: 0.5;
+    transition: 1s ease;
+    transform: translate(-50%, -150%);
+    background-color: #ffcc89;
+    color: #b16400;
+    display: flex;
+    align-items: center;
+    padding: 16px 28px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px 0px;
+}
+
+.errorModal .errorMessage {
+    font-size: 0.8rem;
+    margin-right: 20px;
+    flex-grow: 1;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .doubleButton {
+        flex-direction: column;
+    }
+    .singleButton {
+        width: 100%;
+        margin-top: 12px;
+        border-radius: 8px;
+    }
+    .wrapInput {
+        flex-direction: column;
+        text-align: left;
+    }
+    .wrapInput::after {
+        top: 48px;
+        width: 100%;
+        left: 0;
+    }
+    .wrapInputIcon {
+        text-align: left;
+        width: 100%;
+        margin-bottom: 4px;
+    }
+    .deliveryLocationTitle {
+        margin-left: 12px;
+    }
+    .deliveryDateTime {
+        padding: 12px 8px;
+    }
+    .checkoutDetailLeft {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .checkoutDetailRight {
+        margin-top: 36px;
+        height: auto;
+    }
+    .chooseStoreTitle {
+        margin-bottom: 12px;
+    }
+    .promotionCode .right .btnAddVoucher {
+        padding: 10px 28px;
+    }
+    .promotionCode .left {
+        flex-grow: 1;
+    }
+    .wrapCheckoutBtn {
+        padding-top: 36px;
+    }
+    .wrapCheckoutBtn button {
+        border-radius: 8px;
+    }
+}
+
+
+/* success order */
+
+.successMessagePopup {
+    width: 400px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    box-shadow: 0 2px 10px 0 rgb(0 0 0 / 6%);
+    border-radius: 3px;
+    background: #ffffff;
+    position: fixed;
+    padding: 40px 0px 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.successMessagePopupTitle {
+    position: absolute;
+    top: 8px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.successMessagePopupContent {
+    width: 100%;
+    overflow: hidden;
+}
+
+.orderResult {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+}
+
+.orderResultTitle {
+    font-size: 25px;
+    padding-bottom: 40px;
+}
+
+.successMessagePopupContent .resultOk {
+    border-radius: 24px;
+    background-color: #d8b979;
+    color: #ffffff;
+    padding: 8px 24px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: .3s ease;
+}
+
+.successMessagePopupContent .resultOk:hover {
+    color: #d8b979;
+    background-color: #ffffff;
+    outline: 1px solid #d8b979;
+}
+
+@media (min-width: 480.001px) and (max-width: 767.999px) {
+    .checkoutDetailRight {
+        margin-top: 36px;
+    }
+}
+
+@media (max-width: 767.999px) {
+    .checkoutNote textarea {
+        min-height: 60px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.999px) {
+    .wrapCheckoutBtn {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .wrapCheckoutBtn button {
+        width: 48%;
+    }
+    .deliveryInfoTitle {
+        margin-top: 36px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .checkoutDetailLeft,
+    .checkoutDetailRight {
+        padding: 0 8px;
+    }
+}

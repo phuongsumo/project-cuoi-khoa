@@ -6,7 +6,7 @@ import { IProduct, IState } from "../../interfaces";
 import { getProduct } from "../../services";
 import "./product.css";
 
-export const Product: React.FC = memo(() => {
+const Product: React.FC = memo(() => {
   const [datas, setData] = useState<IProduct[] | null>([]);
   useEffect(() => {
     const getData = async () => {
@@ -504,3 +504,5 @@ export const Product: React.FC = memo(() => {
     </div>
   );
 });
+
+export default Product;
