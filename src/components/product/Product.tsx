@@ -43,7 +43,7 @@ const Product: React.FC = memo(() => {
     const { productImg, productName, price, salePrice, item } = props;
     return (
       <div
-        className="card col-lg-3 col-4"
+        className="card custom-card col-lg-3 col-4"
         onClick={() => {
           handleOpen();
           handleShowDetail(item);
@@ -201,27 +201,20 @@ const Product: React.FC = memo(() => {
     }
   };
 
+  console.log("document.body.scrollHeight", document.body.scrollHeight);
+
   return (
     <div>
-      <nav className="navbar navbar-light bg-light justify-content-between">
-        <a className="navbar-brand" href="http://">
+      <nav className="navbar navbar-light bg-light justify-content-between custom-navbar">
+        {/* <a className="navbar-brand custom-navbar-brand" href="http://">
           <img
             src="https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/logo.png"
             alt=""
           ></img>
-        </a>
-        <form className="form-inline">
-          <input
-            className="form-control mr-sm-2"
-            type="search"
-            placeholder="Tìm kiếm sản phẩm ..."
-            aria-label="Search"
-            onChange={(e) => setSearchValue(e.target.value.trim())}
-          />
-        </form>
+        </a> */}
       </nav>
 
-      <div className="container">
+      <div className="custom-product-container container">
         <div className="row">
           <div className="col-lg-3">
             <div className="categories container">
@@ -278,6 +271,15 @@ const Product: React.FC = memo(() => {
             </div>
           </div>
           <div className="col-lg-6">
+            <div className="custom-form-search row">
+              <input
+                className="form-control custom-search-input mr-sm-2"
+                type="search"
+                placeholder="Tìm kiếm sản phẩm ..."
+                aria-label="Search"
+                onChange={(e) => setSearchValue(e.target.value.trim())}
+              />
+            </div>
             <div className="products row">
               <p ref={monnoibatSection}>Món nổi bật</p>
               {!searchValue
