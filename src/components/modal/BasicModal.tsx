@@ -1,7 +1,8 @@
 import { AddCircle, Close, RemoveCircle } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { IState } from "../../interfaces";
 import "./basicModal.css";
 
 const style = {
@@ -20,10 +21,22 @@ export default function BasicModal({
   open,
   setOpen,
   productDetail,
+  setCartQuantity,
+  productcarts,
+  setProductCarts,
+  INIT_DATA,
+  seletedProduct,
+  setSeletedProduct,
 }: {
   open: boolean;
   setOpen: any;
   productDetail: any;
+  setCartQuantity: any;
+  productcarts: any;
+  setProductCarts: any;
+  INIT_DATA:any;
+  seletedProduct:any;
+  setSeletedProduct:any;
 }) {
   const handleClose = () => {
     setOpen(false);
@@ -34,6 +47,7 @@ export default function BasicModal({
   const [quantity, setQuantity] = useState<number>(1);
 
   const [total, setTotal] = useState<number>(0);
+
   // tang so luong
   const increase = () => {
     setQuantity(quantity + 1);
@@ -69,8 +83,40 @@ export default function BasicModal({
       setTotal(total - 9000);
     }
   };
+
+  useEffect(() => {
+    if (open === true) {
+      setSeletedProduct(INIT_DATA);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+  useEffect(() => {
+    setSeletedProduct({
+      ...seletedProduct,
+      name: productDetail.name,
+      price: total === 0 ? productDetail.price : total,
+      quantitySelect: quantity,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productDetail.name, total, productDetail.price, quantity]);
+
+  // xu li select radio button click
+  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked } = e.target;
+    const { topping } = seletedProduct;
+    setSeletedProduct({
+      ...seletedProduct,
+      [name]: value,
+    });
+    if (name === "topping" && checked) {
+      setSeletedProduct({
+        ...seletedProduct,
+        topping: [...topping, value],
+      });
+    }
+  };
+
   return (
-    
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
@@ -109,7 +155,18 @@ export default function BasicModal({
                   {quantity}{" "}
                   <AddCircle className="custom-icon" onClick={increase} />
                 </div>
-                <div className="modal-info-total col-lg-6">
+                <div
+                  className="modal-info-total col-lg-6"
+                  onClick={() => {
+                    setCartQuantity(quantity);
+
+                    console.log("ok", seletedProduct);
+
+                    handleClose();
+                    productcarts.push(seletedProduct);
+                    setProductCarts([...productcarts]);
+                  }}
+                >
                   {total! === 0
                     ? `+ ${productDetail?.price
                         ?.toString()
@@ -139,8 +196,9 @@ export default function BasicModal({
                       name="size"
                       className="custom-input"
                       id="sizem"
-                      // checked
                       value="m"
+                      checked={seletedProduct.size === "m"}
+                      onChange={(e) => handleSelect(e)}
                     />
                     <label htmlFor="sizem">Size M</label>
                   </div>
@@ -153,6 +211,8 @@ export default function BasicModal({
                       className="custom-input"
                       id="sizel"
                       value="l"
+                      checked={seletedProduct.size === "l"}
+                      onChange={(e) => handleSelect(e)}
                     />
                     <label htmlFor="sizel">Size L</label>
                   </div>
@@ -169,6 +229,8 @@ export default function BasicModal({
                     className="custom-input"
                     id="100sugar"
                     value="100sugar"
+                    checked={seletedProduct.sugar === "100sugar"}
+                    onChange={(e) => handleSelect(e)}
                   />
                   <label htmlFor="100sugar">100% đường</label>
                 </div>
@@ -179,8 +241,39 @@ export default function BasicModal({
                     className="custom-input"
                     id="50sugar"
                     value="50sugar"
+                    checked={seletedProduct.sugar === "50sugar"}
+                    onChange={(e) => handleSelect(e)}
                   />
                   <label htmlFor="50sugar">50% đường</label>
+                </div>
+              </div>
+            </div>
+            <div className="modal-select row col-12">
+              <p>Chọn đá</p>
+              <div className="wrap-input row">
+                <div className="custom-modal-input col-5">
+                  <input
+                    type="radio"
+                    name="ice"
+                    className="custom-input"
+                    id="100ice"
+                    value="100ice"
+                    checked={seletedProduct.ice === "100ice"}
+                    onChange={(e) => handleSelect(e)}
+                  />
+                  <label htmlFor="100ice">100% đá</label>
+                </div>
+                <div className="custom-modal-input col-5">
+                  <input
+                    type="radio"
+                    name="ice"
+                    className="custom-input"
+                    id="50ice"
+                    value="50ice"
+                    checked={seletedProduct.ice === "50ice"}
+                    onChange={(e) => handleSelect(e)}
+                  />
+                  <label htmlFor="50ice">50% đá</label>
                 </div>
               </div>
             </div>
@@ -190,11 +283,12 @@ export default function BasicModal({
                 <div className="custom-modal-checkbox col-7">
                   <input
                     type="checkbox"
-                    name="ttsm"
+                    name="topping"
                     className="custom-checkbox"
                     id="ttsm"
                     value="ttsm"
                     onClick={(e) => plusTopping(e)}
+                    onChange={(e) => handleSelect(e)}
                   />
                   <label htmlFor="ttsm" style={{ margin: "0 1%" }}>
                     Thêm trân châu sương mai
@@ -208,11 +302,12 @@ export default function BasicModal({
                 <div className="custom-modal-checkbox col-7">
                   <input
                     type="checkbox"
-                    name="hatre"
+                    name="topping"
                     className="custom-checkbox"
                     id="hatre"
                     value="hatre"
                     onClick={(e) => plusTopping(e)}
+                    onChange={(e) => handleSelect(e)}
                   />
                   <label htmlFor="hatre" style={{ margin: "0 1%" }}>
                     Thêm hạt rẻ

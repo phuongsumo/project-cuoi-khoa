@@ -133,7 +133,7 @@ label {
   cursor: pointer;
 }
 .custom-icon-close:hover {
-  font-size: 200% !important;
+  color: gray !important;
 }
 .custom-modal-checkbox-price {
   text-align: right;

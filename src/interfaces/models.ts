@@ -10,9 +10,11 @@ export interface IProduct {
 }
 
 export interface IState {
-	name: string,
-	size: string,
-	ice: string,
-	sugar: string,
-	topping: string[],
+	name?: string,
+	price?: number,
+	quantitySelect?: number,
+	size?: string | null ,
+	ice?: string,
+	sugar?: string,
+	topping?: string[] | any,
 }

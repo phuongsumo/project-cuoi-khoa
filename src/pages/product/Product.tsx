@@ -1,4 +1,4 @@
-import { AddCircle } from "@mui/icons-material";
+import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import React, { memo, useEffect, useRef, useState } from "react";
 import BasicModal from "../../components/modal/BasicModal";
 import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
@@ -26,12 +26,13 @@ export const Product: React.FC = memo(() => {
     setProductDetail(item);
   };
   const soLuongSanPham = (type: string) => {
-    if(datas !== null){
+    if (datas !== null) {
       const sl = datas?.filter((a) => a.category === type);
       return sl!.length;
     }
   };
 
+  // giao diện card sản phẩm
   const Product = (props: any) => {
     const { productImg, productName, price, salePrice, item } = props;
     return (
@@ -40,6 +41,7 @@ export const Product: React.FC = memo(() => {
         onClick={() => {
           handleOpen();
           handleShowDetail(item);
+          setSeletedProduct(INIT_DATA);
         }}
       >
         <img className="card-img-top" src={productImg} alt="" />
@@ -58,6 +60,52 @@ export const Product: React.FC = memo(() => {
       </div>
     );
   };
+  //giao diện giỏ hàng
+  const Cart = (props: any) => {
+    const {
+      cartName,
+      cartPrice,
+      cartSize,
+      cartTopping,
+      cartIce,
+      cartSugar,
+      cartQuantity,
+    } = props;
+    return (
+      <>
+        <div className="custom-cart-product row-3 row">
+          <div className="custom-cart-main col-9">
+            <div className="custom-cart-title">
+              {cartName} ({cartSize.toUpperCase()})
+            </div>
+            <div className="custom-cart-detail">
+              Thêm{" "}
+              {cartTopping!.map((a: string) => (
+                <span>{a}, </span>
+              ))}
+              {cartIce}% đá, {cartSugar}% đường
+            </div>
+            <div className="custom-cart-price">
+              {cartQuantity} x{" "}
+              <span>
+                {cartPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              </span>{" "}
+              ={" "}
+              {(cartQuantity * cartPrice)
+                ?.toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
+              đ
+            </div>
+          </div>
+          <div className="custom-cart-inDeCrease col-3 d-flex align-items-center">
+            <RemoveCircle className="custom-cart-icon" onClick={decrease} />{" "}
+            {cartQuantity} <AddCircle className="custom-cart-icon" onClick={increase} />
+          </div>
+        </div>
+        <hr />
+      </>
+    );
+  };
   //su kien khi click vao danh muc san pham
   const monnoibatSection = useRef<HTMLDivElement | null>(null);
   const trasuaSection = useRef<HTMLDivElement | null>(null);
@@ -68,10 +116,50 @@ export const Product: React.FC = memo(() => {
   };
 
   //gio hang
-  const [productcarts, setProductCart] = useState<IState[]>([
-    { name: "Trà sữa", size: "M",ice: 'No',sugar:'50%',topping:[] },
-    { name: "Trà sữa", size: "M",ice: 'No',sugar:'50%',topping:[] },
-  ]);
+  const [productcarts, setProductCarts] = useState<IState[]>([]);
+  console.log('productcarts',productcarts)
+
+  //so luong san pham muon mua
+  const [cartQuantity, setCartQuantity] = useState<number>(1);
+
+  const INIT_DATA: IState = {
+    name: "",
+    price: 0,
+    quantitySelect: 1,
+    size: "m",
+    sugar: "100sugar",
+    ice: "100ice",
+    topping: [],
+  };
+
+  //san pham da chon
+  const [seletedProduct, setSeletedProduct] = useState<IState>(INIT_DATA);
+
+  // tang so luong
+  const increase = () => {
+    console.log('tang');
+    console.log();
+    
+    
+    // if (quantity === 1 && total === 0) {
+    //   setTotal(2 * productDetail.price);
+    // } else {
+    //   setTotal(total + productDetail.price);
+    // }
+  };
+  // giam so luong
+  const decrease = () => {
+    console.log('giam');
+    
+    // if (quantity > 1) {
+    //   setQuantity(quantity - 1);
+    //   if (quantity === 1 && total === 0) {
+    //     setTotal(productDetail.price);
+    //   } else {
+    //     setTotal(total - productDetail.price);
+    //   }
+    }
+  
 
   return (
     <div>
@@ -210,23 +298,34 @@ export const Product: React.FC = memo(() => {
           <div className="col-lg-3">
             <div className="cart col-sm-12">
               <div className="row-3 row custom-cart-header">
-                <div className="col-6">Giỏ hàng của tôi</div>
-                <div className="col-6">Xóa tất cả</div>
+                <div className="col-7">GIỎ HÀNG CỦA TÔI</div>
+                <div
+                  className="col-5"
+                  onClick={() => {
+                    setProductCarts([]);
+                  }}
+                >
+                  Xóa tất cả
+                </div>
               </div>
               <hr />
-              {/* {productcarts.map((item)=>{
-                return ( */}
-                  <div className="custom-cart-product row-3 row">
-                    <div className="custom-cart-main col-7">
-                      <div className="custom-cart-title"></div>
-                      <div className="custom-cart-detail"></div>
-                      <div className="custom-cart-pric"></div>
-                    </div>
-                    <div className="custom-cart-quantity col-4">dsa</div>
-                  </div>
-                {/* );
-              })} */}
-              
+              {productcarts!.map((item, index) => {
+                return (
+                  <Cart
+                    key={index}
+                    cartName={item.name}
+                    cartPrice={item.price}
+                    cartSize={item.size}
+                    cartTopping={item.topping.map((t: string) => {
+                      return t === "ttsm" ? "trân châu sương mai" : "hạt rẻ";
+                    })}
+                    cartIce={item.ice === "100ice" ? "100" : "50"}
+                    cartSugar={item.sugar === "100sugar" ? "100" : "50"}
+                    cartQuantity={item.quantitySelect}
+                  />
+                );
+              })}
+
               <div className="row-3 custom-card-quantity">
                 <img
                   src="https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/icon-glass-tea.png"
@@ -244,7 +343,17 @@ export const Product: React.FC = memo(() => {
         </div>
       </div>
       <ScrollToTop />
-      <BasicModal setOpen={setOpen} open={open} productDetail={productDetail} />
+      <BasicModal
+        setOpen={setOpen}
+        open={open}
+        productDetail={productDetail}
+        setCartQuantity={setCartQuantity}
+        productcarts={productcarts}
+        setProductCarts={setProductCarts}
+        INIT_DATA={INIT_DATA}
+        seletedProduct={seletedProduct}
+        setSeletedProduct={setSeletedProduct}
+      />
     </div>
   );
 });
