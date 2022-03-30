@@ -21,8 +21,8 @@ export default function BasicModal({
   open,
   setOpen,
   productDetail,
-  setCartQuantity,
-  productcarts,
+  // setCartQuantity,
+  productCarts,
   setProductCarts,
   INIT_DATA,
   seletedProduct,
@@ -31,8 +31,8 @@ export default function BasicModal({
   open: boolean;
   setOpen: any;
   productDetail: any;
-  setCartQuantity: any;
-  productcarts: any;
+  // setCartQuantity: any;
+  productCarts: any;
   setProductCarts: any;
   INIT_DATA:any;
   seletedProduct:any;
@@ -158,13 +158,13 @@ export default function BasicModal({
                 <div
                   className="modal-info-total col-lg-6"
                   onClick={() => {
-                    setCartQuantity(quantity);
+                    // setCartQuantity(quantity);
 
                     console.log("ok", seletedProduct);
 
                     handleClose();
-                    productcarts.push(seletedProduct);
-                    setProductCarts([...productcarts]);
+                    productCarts.push(seletedProduct);
+                    setProductCarts([...productCarts]);
                   }}
                 >
                   {total! === 0

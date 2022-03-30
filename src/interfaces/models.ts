@@ -17,4 +17,5 @@ export interface IState {
 	ice?: string,
 	sugar?: string,
 	topping?: string[] | any,
+	totalMoney?: number | null,
 }

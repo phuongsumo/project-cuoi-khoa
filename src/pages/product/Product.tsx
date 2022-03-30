@@ -19,7 +19,9 @@ export const Product: React.FC = memo(() => {
   //Set model
   // const [open, setOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   const [productDetail, setProductDetail] = useState<any>([]);
   const handleShowDetail = (item: any) => {
@@ -31,6 +33,10 @@ export const Product: React.FC = memo(() => {
       return sl!.length;
     }
   };
+
+  // get value search
+  const [searchValue, setSearchValue] = useState<string | null>("");
+  console.log(searchValue);
 
   // giao diện card sản phẩm
   const Product = (props: any) => {
@@ -70,6 +76,8 @@ export const Product: React.FC = memo(() => {
       cartIce,
       cartSugar,
       cartQuantity,
+      handleIncrease,
+      handleDecrease,
     } = props;
     return (
       <>
@@ -98,8 +106,15 @@ export const Product: React.FC = memo(() => {
             </div>
           </div>
           <div className="custom-cart-inDeCrease col-3 d-flex align-items-center">
-            <RemoveCircle className="custom-cart-icon" onClick={decrease} />{" "}
-            {cartQuantity} <AddCircle className="custom-cart-icon" onClick={increase} />
+            <RemoveCircle
+              className="custom-cart-icon"
+              onClick={() => handleDecrease()}
+            />{" "}
+            {cartQuantity}{" "}
+            <AddCircle
+              className="custom-cart-icon"
+              onClick={() => handleIncrease()}
+            />
           </div>
         </div>
         <hr />
@@ -116,11 +131,19 @@ export const Product: React.FC = memo(() => {
   };
 
   //gio hang
-  const [productcarts, setProductCarts] = useState<IState[]>([]);
-  console.log('productcarts',productcarts)
+  const [productCarts, setProductCarts] = useState<IState[]>([]);
+  console.log("productCarts", productCarts);
 
-  //so luong san pham muon mua
-  const [cartQuantity, setCartQuantity] = useState<number>(1);
+  const [checkEmpty, setCheckEmpty] = useState<string | null>();
+  console.log(checkEmpty);
+  //show text khi không có data
+  useEffect(() => {
+    if (productCarts.length === 0) {
+      setCheckEmpty("\xa0\xa0\xa0\xa0" + " Chưa có sản phẩm nào!");
+    } else {
+      setCheckEmpty("");
+    }
+  }, [productCarts.length]);
 
   const INIT_DATA: IState = {
     name: "",
@@ -135,31 +158,48 @@ export const Product: React.FC = memo(() => {
   //san pham da chon
   const [seletedProduct, setSeletedProduct] = useState<IState>(INIT_DATA);
 
+  //so luong san pham muon mua
+  // const [cartQuantity, setCartQuantity] = useState<number>(1);
+  // console.log("cartQuantity", cartQuantity);
+
   // tang so luong
-  const increase = () => {
-    console.log('tang');
-    console.log();
-    
-    
-    // if (quantity === 1 && total === 0) {
-    //   setTotal(2 * productDetail.price);
-    // } else {
-    //   setTotal(total + productDetail.price);
-    // }
+  const increase = (i: any) => {
+    console.log("tang");
+    console.log("i", i);
+
+    let items = [...productCarts];
+
+    let item = { ...items[i] };
+
+    item.quantitySelect = item.quantitySelect! + 1;
+
+    items[i] = item;
+
+    setProductCarts([...items]);
+
+    console.log(item);
   };
   // giam so luong
-  const decrease = () => {
-    console.log('giam');
-    
-    // if (quantity > 1) {
-    //   setQuantity(quantity - 1);
-    //   if (quantity === 1 && total === 0) {
-    //     setTotal(productDetail.price);
-    //   } else {
-    //     setTotal(total - productDetail.price);
-    //   }
+  const decrease = (i: any) => {
+    console.log("giam");
+    console.log("i", i);
+    console.log(productCarts[i]);
+
+    let items = [...productCarts];
+
+    let item = { ...items[i] };
+
+    item.quantitySelect = item.quantitySelect! - 1;
+
+    items[i] = item;
+
+    setProductCarts([...items]);
+
+    if (item.quantitySelect <= 0) {
+      items.splice(i, 1);
+      setProductCarts([...items]);
     }
-  
+  };
 
   return (
     <div>
@@ -176,6 +216,7 @@ export const Product: React.FC = memo(() => {
             type="search"
             placeholder="Tìm kiếm sản phẩm ..."
             aria-label="Search"
+            onChange={(e) => setSearchValue(e.target.value.trim())}
           />
         </form>
       </nav>
@@ -239,60 +280,143 @@ export const Product: React.FC = memo(() => {
           <div className="col-lg-6">
             <div className="products row">
               <p ref={monnoibatSection}>Món nổi bật</p>
-              {datas!
-                .filter((data) => data.category === "hot")
-                .map((item) => (
-                  <Product
-                    key={item.id}
-                    productImg={item.image}
-                    productName={item.name}
-                    price={item.price}
-                    salePrice={item.salePrice}
-                    item={item}
-                  />
-                ))}
+              {!searchValue
+                ? datas!
+                    .filter((data) => data.category === "hot")
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))
+                : datas!
+                    .filter(
+                      (data) =>
+                        data.name
+                          .toLowerCase()
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .includes(searchValue) && data.category === "hot"
+                    )
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))}
               <p ref={trasuaSection}>Trà sữa</p>
-              {datas!
-                .filter((data) => data.category === "category 1")
-                .map((item) => (
-                  <Product
-                    key={item.id}
-                    productImg={item.image}
-                    productName={item.name}
-                    price={item.price}
-                    salePrice={item.salePrice}
-                    item={item}
-                  />
-                ))}
+              {!searchValue
+                ? datas!
+                    .filter((data) => data.category === "category 1")
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))
+                : datas!
+                    .filter(
+                      (data) =>
+                        data.name
+                          .toLowerCase()
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .includes(searchValue) &&
+                        data.category === "category 1"
+                    )
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))}
 
               <p ref={freshteaSection}>Fresh Fruit Tea</p>
-              {datas!
-                .filter((data) => data.category === "category 2")
-                .map((item) => (
-                  <Product
-                    key={item.id}
-                    productImg={item.image}
-                    productName={item.name}
-                    price={item.price}
-                    salePrice={item.salePrice}
-                    item={item}
-                  />
-                ))}
+              {!searchValue
+                ? datas!
+                    .filter((data) => data.category === "category 2")
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))
+                : datas!
+                    .filter(
+                      (data) =>
+                        data.name
+                          .toLowerCase()
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .includes(searchValue) &&
+                        data.category === "category 2"
+                    )
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))}
               <p className="products-scd" ref={suachuadeoSection}>
                 Sữa chua dẻo
               </p>
-              {datas!
-                .filter((data) => data.category === "category 3")
-                .map((item) => (
-                  <Product
-                    key={item.id}
-                    productImg={item.image}
-                    productName={item.name}
-                    price={item.price}
-                    salePrice={item.salePrice}
-                    item={item}
-                  />
-                ))}
+              {!searchValue
+                ? datas!
+                    .filter((data) => data.category === "category 3")
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))
+                : datas!
+                    .filter(
+                      (data) =>
+                        data.name
+                          .toLowerCase()
+                          .normalize("NFD")
+                          .replace(/[\u0300-\u036f]/g, "")
+                          .includes(searchValue) &&
+                        data.category === "category 3"
+                    )
+                    .map((item) => (
+                      <Product
+                        key={item.id}
+                        productImg={item.image}
+                        productName={item.name}
+                        price={item.price}
+                        salePrice={item.salePrice}
+                        item={item}
+                      />
+                    ))}
             </div>
           </div>
           <div className="col-lg-3">
@@ -309,29 +433,52 @@ export const Product: React.FC = memo(() => {
                 </div>
               </div>
               <hr />
-              {productcarts!.map((item, index) => {
-                return (
-                  <Cart
-                    key={index}
-                    cartName={item.name}
-                    cartPrice={item.price}
-                    cartSize={item.size}
-                    cartTopping={item.topping.map((t: string) => {
-                      return t === "ttsm" ? "trân châu sương mai" : "hạt rẻ";
-                    })}
-                    cartIce={item.ice === "100ice" ? "100" : "50"}
-                    cartSugar={item.sugar === "100sugar" ? "100" : "50"}
-                    cartQuantity={item.quantitySelect}
-                  />
-                );
-              })}
 
+              {!checkEmpty
+                ? productCarts?.map((item, index) => {
+                    return (
+                      <Cart
+                        key={index}
+                        cartName={item.name}
+                        cartPrice={item.price}
+                        cartSize={item.size}
+                        cartTopping={item.topping.map((t: string) => {
+                          return t === "ttsm"
+                            ? "trân châu sương mai"
+                            : "hạt rẻ";
+                        })}
+                        cartIce={item.ice === "100ice" ? "100" : "50"}
+                        cartSugar={item.sugar === "100sugar" ? "100" : "50"}
+                        cartQuantity={item.quantitySelect}
+                        handleIncrease={() => increase(index)}
+                        handleDecrease={() => decrease(index)}
+                      />
+                    );
+                  })
+                : checkEmpty}
               <div className="row-3 custom-card-quantity">
                 <img
                   src="https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/icon-glass-tea.png"
                   alt=""
                 ></img>
-                x 0 = 0 đ
+                x{" "}
+                {productCarts.reduce(
+                  (total, currentValue) =>
+                    (total = total + currentValue.quantitySelect!),
+                  0
+                )}
+                ={" "}
+                {productCarts
+                  .reduce(
+                    (total, currentValue) =>
+                      (total =
+                        total +
+                        currentValue.quantitySelect! * currentValue.price!),
+                    0
+                  )
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
+                đ
               </div>
               <div className="row-3 ">
                 <button type="button" className="btn custom-btn-pay">
@@ -347,8 +494,8 @@ export const Product: React.FC = memo(() => {
         setOpen={setOpen}
         open={open}
         productDetail={productDetail}
-        setCartQuantity={setCartQuantity}
-        productcarts={productcarts}
+        // setCartQuantity={setCartQuantity}
+        productCarts={productCarts}
         setProductCarts={setProductCarts}
         INIT_DATA={INIT_DATA}
         seletedProduct={seletedProduct}
