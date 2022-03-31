@@ -1,6 +1,6 @@
 import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import React, { memo, useEffect, useRef, useState } from "react";
-import BasicModal from "../../components/modal/BasicModal";
+import BasicModal from "./modal/BasicModal";
 import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
 import { IProduct, IState } from "../../interfaces";
 import { getProduct } from "../../services";
@@ -127,7 +127,7 @@ const Product: React.FC = memo(() => {
   const freshteaSection = useRef<HTMLDivElement | null>(null);
   const suachuadeoSection = useRef<HTMLDivElement | null>(null);
   const handleGoToSection = (section: any) => {
-    return window.scrollTo({ top: section.current.offsetTop });
+    return window.scrollTo({ top: section.current.offsetTop -80});
   };
 
   //gio hang
@@ -271,13 +271,12 @@ const Product: React.FC = memo(() => {
             </div>
           </div>
           <div className="col-lg-6">
-            <div className="custom-form-search row">
+            <div className="custom-form-search">
               <input
-                className="form-control custom-search-input mr-sm-2"
-                type="search"
-                placeholder="Tìm kiếm sản phẩm ..."
-                aria-label="Search"
-                onChange={(e) => setSearchValue(e.target.value.trim())}
+                type="text"
+                className="custom-form-input"
+                placeholder="Tìm kiếm sản phẩm..."
+                onChange={e => setSearchValue(e.target.value.trim())}
               />
             </div>
             <div className="products row">

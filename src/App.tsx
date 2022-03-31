@@ -8,6 +8,8 @@ import {
   Checkout,
   Footer,
   Product,
+  Achievement,
+  HistoryAndMission,
 } from "./components/index";
 import './App.css';
 
@@ -21,6 +23,8 @@ function App(): JSX.Element {
         <Route path="/recruit" element={<Recruit />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/achievement" element={<Achievement />} />
+        <Route path="/historyAndMission" element={<HistoryAndMission />} />
       </Routes>
       <Footer />
     </div>

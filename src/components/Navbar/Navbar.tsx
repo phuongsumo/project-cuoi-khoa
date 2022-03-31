@@ -74,12 +74,12 @@ const Navbar = () => {
                   <IoIosArrowDown className={style.nav_icons} />
                   <ul ref={subNavIntro} className={style.sub_nav_list}>
                     <li className={style.sub_item}>
-                      <Link to="/" className={style.sub_link}>
+                      <Link to="/historyAndMission" className={style.sub_link}>
                         lịch sử và sứ mệnh
                       </Link>
                     </li>
                     <li className={style.sub_item}>
-                      <Link to="/" className={style.sub_link}>
+                      <Link to="/achievement" className={style.sub_link}>
                         thành tựu đạt được
                       </Link>
                     </li>
