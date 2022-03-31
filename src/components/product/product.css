@@ -7,15 +7,6 @@
   margin-bottom: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-/* .card img {
-  width: 200px;
-  height: 50px ;
-} */
-/* .custom-navbar-brand img{
-  width: 200px !important;
-  height: 50px ;
-
-} */
 .form-control {
   width: 300px;
   height: 40px;
@@ -73,99 +64,11 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding-top: 10px;
 }
-.custom-card {
-  width: 29%;
-  margin: 5px 5px;
-  cursor: pointer;
-}
-.products .custom-card {
-  height: 240px;
-}
-.products .custom-card img {
-  height: 60%;
-}
-.custom-card .card-body {
-  width: 99%;
-  padding: 1% 15%;
-}
-.products .card-title {
-  width: 144% !important;
-  height: 40%;
-  font-size: 17px;
-  margin-top: 2%;
-  margin-left: -22%;
-}
-.custom-card .card-text {
-  width: 150%;
-  margin-left: -20%;
-  color: #8a733f;
-  font-weight: 600;
-}
-.custom-card .card-text del {
-  width: auto !important;
-  font-weight: 100 !important;
-  color: black !important;
-  font-size: 90%;
-  margin-left: -4%;
-}
-.custom-card .card-icon {
-  width: 10%;
-  font-size: 90%;
-  margin-top: -4%;
-  padding-left: 0;
-  color: #799dd9;
-}
+
 .products p {
   margin-top: 5px;
 }
-.cart {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  padding-right: 3%;
-}
-.custom-cart-header {
-  text-align: right;
-  padding-top: 10px;
-  font-weight: 500;
-}
-.custom-cart-header div:nth-child(2) {
-  font-weight: normal;
-  font-size: 90%;
-  cursor: pointer;
-}
-.custom-cart-product {
-  width: 100%;
-  height: 100;
-  margin: 0 0 5% 1%;
-  justify-content: space-between;
-}
-.custom-cart-main {
-  width: 73%;
-}
-.custom-cart-title {
-  font-weight: 450;
-  margin-bottom: 4%;
-}
-.custom-cart-detail {
-  width: 100%;
-  margin-bottom: 4%;
-  font-size: 98%;
-  color: #adaeae;
-}
-.custom-cart-price {
-  color: #8a733f;
-  font-weight: 500;
-}
-.custom-cart-inDeCrease {
-  width: auto;
-  height: auto;
-  text-align: center;
-}
-.custom-cart-icon {
-  font-size: 140% !important;
-  color: #799dd9;
-  margin: 0 5%;
-  cursor: pointer;
-}
+
 .custom-btn-pay {
   width: 90%;
   border-radius: 20px;

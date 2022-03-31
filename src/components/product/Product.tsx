@@ -1,150 +1,13 @@
-import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import React, { memo, useEffect, useRef, useState } from "react";
-import BasicModal from "./modal/BasicModal";
 import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
 import { IProduct, IState } from "../../interfaces";
 import { getProduct } from "../../services";
+import CardProduct from "./cardProduct/CardProduct";
+import Cart from "./cart/Cart";
+import BasicModal from "./modal/BasicModal";
 import "./product.css";
 
 const Product: React.FC = memo(() => {
-  const [datas, setData] = useState<IProduct[] | null>([]);
-  useEffect(() => {
-    const getData = async () => {
-      const response = await getProduct();
-      let data = await response.data;
-      setData(data);
-    };
-    getData();
-  }, []);
-  //Set model
-  // const [open, setOpen] = React.useState(false);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const [productDetail, setProductDetail] = useState<any>([]);
-  const handleShowDetail = (item: any) => {
-    setProductDetail(item);
-  };
-  const soLuongSanPham = (type: string) => {
-    if (datas !== null) {
-      const sl = datas?.filter((a) => a.category === type);
-      return sl!.length;
-    }
-  };
-
-  // get value search
-  const [searchValue, setSearchValue] = useState<string | null>("");
-  console.log(searchValue);
-
-  // giao diện card sản phẩm
-  const Product = (props: any) => {
-    const { productImg, productName, price, salePrice, item } = props;
-    return (
-      <div
-        className="card custom-card col-lg-3 col-4"
-        onClick={() => {
-          handleOpen();
-          handleShowDetail(item);
-          setSeletedProduct(INIT_DATA);
-        }}
-      >
-        <img className="card-img-top" src={productImg} alt="" />
-        <div className="card-body">
-          <h5 className="card-title">{productName}</h5>
-          <div className="card-text row">
-            {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ{" "}
-            <del>
-              {salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
-            </del>
-            <div className="card-icon col-1">
-              <AddCircle />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  //giao diện giỏ hàng
-  const Cart = (props: any) => {
-    const {
-      cartName,
-      cartPrice,
-      cartSize,
-      cartTopping,
-      cartIce,
-      cartSugar,
-      cartQuantity,
-      handleIncrease,
-      handleDecrease,
-    } = props;
-    return (
-      <>
-        <div className="custom-cart-product row-3 row">
-          <div className="custom-cart-main col-9">
-            <div className="custom-cart-title">
-              {cartName} ({cartSize.toUpperCase()})
-            </div>
-            <div className="custom-cart-detail">
-              Thêm{" "}
-              {cartTopping!.map((a: string) => (
-                <span>{a}, </span>
-              ))}
-              {cartIce}% đá, {cartSugar}% đường
-            </div>
-            <div className="custom-cart-price">
-              {cartQuantity} x{" "}
-              <span>
-                {cartPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-              </span>{" "}
-              ={" "}
-              {(cartQuantity * cartPrice)
-                ?.toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
-              đ
-            </div>
-          </div>
-          <div className="custom-cart-inDeCrease col-3 d-flex align-items-center">
-            <RemoveCircle
-              className="custom-cart-icon"
-              onClick={() => handleDecrease()}
-            />{" "}
-            {cartQuantity}{" "}
-            <AddCircle
-              className="custom-cart-icon"
-              onClick={() => handleIncrease()}
-            />
-          </div>
-        </div>
-        <hr />
-      </>
-    );
-  };
-  //su kien khi click vao danh muc san pham
-  const monnoibatSection = useRef<HTMLDivElement | null>(null);
-  const trasuaSection = useRef<HTMLDivElement | null>(null);
-  const freshteaSection = useRef<HTMLDivElement | null>(null);
-  const suachuadeoSection = useRef<HTMLDivElement | null>(null);
-  const handleGoToSection = (section: any) => {
-    return window.scrollTo({ top: section.current.offsetTop -80});
-  };
-
-  //gio hang
-  const [productCarts, setProductCarts] = useState<IState[]>([]);
-  console.log("productCarts", productCarts);
-
-  const [checkEmpty, setCheckEmpty] = useState<string | null>();
-  console.log(checkEmpty);
-  //show text khi không có data
-  useEffect(() => {
-    if (productCarts.length === 0) {
-      setCheckEmpty("\xa0\xa0\xa0\xa0" + " Chưa có sản phẩm nào!");
-    } else {
-      setCheckEmpty("");
-    }
-  }, [productCarts.length]);
-
   const INIT_DATA: IState = {
     name: "",
     price: 0,
@@ -155,64 +18,88 @@ const Product: React.FC = memo(() => {
     topping: [],
   };
 
+  const [datas, setData] = useState<IProduct[] | null>([]);
+  const [open, setOpen] = useState(false);
+
+  const [productDetail, setProductDetail] = useState<any>([]);
+
+  // get value search
+  const [searchValue, setSearchValue] = useState<string | null>("");
+
+  //gio hang
+  const [productCarts, setProductCarts] = useState<IState[]>([]);
+
+  const [checkEmpty, setCheckEmpty] = useState<string | null>();
+
   //san pham da chon
   const [seletedProduct, setSeletedProduct] = useState<IState>(INIT_DATA);
+  console.log(seletedProduct)
 
-  //so luong san pham muon mua
-  // const [cartQuantity, setCartQuantity] = useState<number>(1);
-  // console.log("cartQuantity", cartQuantity);
+  //su kien khi click vao danh muc san pham
+  const monnoibatSection = useRef<HTMLDivElement | null>(null);
+  const trasuaSection = useRef<HTMLDivElement | null>(null);
+  const freshteaSection = useRef<HTMLDivElement | null>(null);
+  const suachuadeoSection = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await getProduct();
+      const data = await response.data;
+      setData(data);
+    };
+    getData();
+  }, []);
+  //show text khi không có data
+  useEffect(() => {
+    if (productCarts.length === 0) {
+      setCheckEmpty("\xa0\xa0\xa0\xa0" + " Chưa có sản phẩm nào!");
+    } else {
+      setCheckEmpty("");
+    }
+  }, [productCarts.length]);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleGoToSection = (section: any) => {
+    return window.scrollTo({ top: section.current.offsetTop - 80 });
+  };
+  const handleShowDetail = (item: any) => {
+    console.log('item',item)
+    setProductDetail(item);
+    setSeletedProduct({ ...seletedProduct, name : item.name,price : item.price});
+  };
+  const soLuongSanPham = (type: string) => {
+    if (datas !== null) {
+      const sl = datas?.filter((a) => a.category === type);
+      return sl!.length;
+    }
+  };
 
   // tang so luong
   const increase = (i: any) => {
-    console.log("tang");
-    console.log("i", i);
-
     let items = [...productCarts];
-
     let item = { ...items[i] };
-
     item.quantitySelect = item.quantitySelect! + 1;
-
     items[i] = item;
-
     setProductCarts([...items]);
-
-    console.log(item);
   };
   // giam so luong
   const decrease = (i: any) => {
-    console.log("giam");
-    console.log("i", i);
-    console.log(productCarts[i]);
-
     let items = [...productCarts];
-
-    let item = { ...items[i] };
-
+    let item = { ...items[i] }
     item.quantitySelect = item.quantitySelect! - 1;
-
     items[i] = item;
-
     setProductCarts([...items]);
-
     if (item.quantitySelect <= 0) {
       items.splice(i, 1);
       setProductCarts([...items]);
     }
   };
 
-  console.log("document.body.scrollHeight", document.body.scrollHeight);
-
   return (
     <div>
-      <nav className="navbar navbar-light bg-light justify-content-between custom-navbar">
-        {/* <a className="navbar-brand custom-navbar-brand" href="http://">
-          <img
-            src="https://tocotocotea.com/wp-content/themes/tocotocotea/assets/images/logo.png"
-            alt=""
-          ></img>
-        </a> */}
-      </nav>
+      <nav className="navbar navbar-light bg-light justify-content-between custom-navbar"></nav>
 
       <div className="custom-product-container container">
         <div className="row">
@@ -276,7 +163,7 @@ const Product: React.FC = memo(() => {
                 type="text"
                 className="custom-form-input"
                 placeholder="Tìm kiếm sản phẩm..."
-                onChange={e => setSearchValue(e.target.value.trim())}
+                onChange={(e) => setSearchValue(e.target.value.trim())}
               />
             </div>
             <div className="products row">
@@ -285,13 +172,15 @@ const Product: React.FC = memo(() => {
                 ? datas!
                     .filter((data) => data.category === "hot")
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))
                 : datas!
@@ -304,13 +193,15 @@ const Product: React.FC = memo(() => {
                           .includes(searchValue) && data.category === "hot"
                     )
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))}
               <p ref={trasuaSection}>Trà sữa</p>
@@ -318,13 +209,15 @@ const Product: React.FC = memo(() => {
                 ? datas!
                     .filter((data) => data.category === "category 1")
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))
                 : datas!
@@ -338,13 +231,15 @@ const Product: React.FC = memo(() => {
                         data.category === "category 1"
                     )
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))}
 
@@ -353,13 +248,15 @@ const Product: React.FC = memo(() => {
                 ? datas!
                     .filter((data) => data.category === "category 2")
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))
                 : datas!
@@ -373,13 +270,15 @@ const Product: React.FC = memo(() => {
                         data.category === "category 2"
                     )
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))}
               <p className="products-scd" ref={suachuadeoSection}>
@@ -389,13 +288,15 @@ const Product: React.FC = memo(() => {
                 ? datas!
                     .filter((data) => data.category === "category 3")
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))
                 : datas!
@@ -409,13 +310,15 @@ const Product: React.FC = memo(() => {
                         data.category === "category 3"
                     )
                     .map((item) => (
-                      <Product
+                      <CardProduct
                         key={item.id}
                         productImg={item.image}
                         productName={item.name}
                         price={item.price}
                         salePrice={item.salePrice}
                         item={item}
+                        handleOpen={() => handleOpen()}
+                        handleShowDetail={() => handleShowDetail(item)}
                       />
                     ))}
             </div>

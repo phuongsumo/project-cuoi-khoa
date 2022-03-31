@@ -1,9 +1,23 @@
 import { AddCircle, Close, RemoveCircle } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { IState } from "../../../interfaces";
 import "./basicModal.css";
+
+var context = {
+  username: "username 21",
+  password: "password 21",
+  email: "email 21",
+  phone: "phone 21",
+  fullName: "fullName 21",
+  age: "age 21",
+  avatar: "http://placeimg.com/640/480/people",
+  address: "address 21",
+  cart: [],
+  orders: [],
+  id: "21",
+};
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,7 +35,6 @@ export default function BasicModal({
   open,
   setOpen,
   productDetail,
-  // setCartQuantity,
   productCarts,
   setProductCarts,
   INIT_DATA,
@@ -31,22 +44,42 @@ export default function BasicModal({
   open: boolean;
   setOpen: any;
   productDetail: any;
-  // setCartQuantity: any;
   productCarts: any;
   setProductCarts: any;
-  INIT_DATA:any;
-  seletedProduct:any;
-  setSeletedProduct:any;
+  INIT_DATA: any;
+  seletedProduct: any;
+  setSeletedProduct: any;
 }) {
+  const [quantity, setQuantity] = useState<number>(1);
+
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => {
+    setSeletedProduct({
+      ...seletedProduct,
+      price: total !== seletedProduct.price ? seletedProduct.price : total,
+      quantitySelect: quantity,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ total, productDetail.price, quantity]);
+
   const handleClose = () => {
     setOpen(false);
     setQuantity(1);
     setTotal(0);
+    setSeletedProduct(INIT_DATA);
   };
 
-  const [quantity, setQuantity] = useState<number>(1);
-
-  const [total, setTotal] = useState<number>(0);
+  const putCart = async () => {
+    const test: any[] = context.cart;
+    await axios.put(
+      "https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/21",
+      {
+        ...context,
+        cart: [...test, seletedProduct],
+      }
+    );
+  };
 
   // tang so luong
   const increase = () => {
@@ -84,22 +117,6 @@ export default function BasicModal({
     }
   };
 
-  useEffect(() => {
-    if (open === true) {
-      setSeletedProduct(INIT_DATA);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
-  useEffect(() => {
-    setSeletedProduct({
-      ...seletedProduct,
-      name: productDetail.name,
-      price: total === 0 ? productDetail.price : total,
-      quantitySelect: quantity,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productDetail.name, total, productDetail.price, quantity]);
-
   // xu li select radio button click
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
@@ -118,7 +135,6 @@ export default function BasicModal({
 
   return (
     <div>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -158,13 +174,10 @@ export default function BasicModal({
                 <div
                   className="modal-info-total col-lg-6"
                   onClick={() => {
-                    // setCartQuantity(quantity);
-
-                    console.log("ok", seletedProduct);
-
                     handleClose();
                     productCarts.push(seletedProduct);
                     setProductCarts([...productCarts]);
+                    putCart();
                   }}
                 >
                   {total! === 0
