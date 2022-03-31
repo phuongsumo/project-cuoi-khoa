@@ -2,7 +2,7 @@ import { AddCircle, Close, RemoveCircle } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import React, { useEffect, useState } from "react";
-import { IState } from "../../interfaces";
+import { IState } from "../../../interfaces";
 import "./basicModal.css";
 
 const style = {
