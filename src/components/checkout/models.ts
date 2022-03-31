@@ -12,13 +12,13 @@ export interface Cart {
     username: string;
     password: string;
     email: string;
-    phone: number;
+    phone: number|string;
     fullName: string;
     age: number;
     avatar: string;
     address: string;
-    cart: any[];
-    order: any[];
+    cart: Cart[];
+    orders: Cart[];
     id: string;
   }
 //   product modals
@@ -33,3 +33,28 @@ export interface Product {
     sizeL: boolean;
     id: string;
   }
+
+  // map modals
+  export interface Properties {
+    id?: string;
+    name: string;
+    distance: string;
+    address?: string;
+    district?: string;
+}
+
+export interface Geometry {
+    type: string;
+    coordinates: number[];
+}
+
+export interface Feature {
+    type: string;
+    properties: Properties;
+    geometry: Geometry;
+}
+
+export interface Map {
+    type: string;
+    features: Feature[];
+}

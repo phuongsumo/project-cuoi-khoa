@@ -9,7 +9,7 @@
     transition: all 0.3s ease;
 }
 
-button {
+.redirectOrderPage button {
     border: none;
     outline: 1px solid #d3b673;
     background-color: #fff;
@@ -20,7 +20,7 @@ button {
     border-radius: 4px;
 }
 
-button a {
+.redirectOrderPage button a {
     color: #d3b673;
     text-decoration: none;
     font-size: 1rem;
@@ -28,10 +28,10 @@ button a {
     line-height: 2;
 }
 
-button:hover {
+.redirectOrderPage button:hover {
     background-color: #d3b673;
 }
 
-button:hover a {
+.redirectOrderPage button:hover a {
     color: #fff;
 }
