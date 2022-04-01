@@ -96,22 +96,22 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className={style.nav_element}>
-                <Link to="/" className={style.nav_link}>
+                <Link to="/News" className={style.nav_link}>
                   Tin tức
                   <IoIosArrowDown className={style.nav_icons} />
                   <ul ref={subNavNew} className={style.sub_nav_list}>
                     <li className={style.sub_item}>
-                      <Link to="/" className={style.sub_link}>
+                      <Link to="/Commercial_story" className={style.sub_link}>
                         tin tức khuyến mại
                       </Link>
                     </li>
                     <li className={style.sub_item}>
-                      <Link to="/" className={style.sub_link}>
+                      <Link to="/Promotional_news" className={style.sub_link}>
                         câu chuyện thương hiệu
                       </Link>
                     </li>
                     <li className={style.sub_item}>
-                      <Link to="/" className={style.sub_link}>
+                      <Link to="/Sk_events" className={style.sub_link}>
                         sự kiện
                       </Link>
                     </li>
@@ -133,7 +133,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className={style.nav_element}>
-                <Link to="/" className={style.nav_link}>
+                <Link to="/Login" className={style.nav_link}>
                   Đăng nhập
                 </Link>
               </li>
