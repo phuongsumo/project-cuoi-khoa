@@ -111,7 +111,10 @@ html {
 
 body {
 	line-height: 1;
-  	font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  -webkit-user-select:none;
+    -moz-user-select:none;
+    user-select:none;
 	overflow-x: hidden;
     user-select: none;
 }

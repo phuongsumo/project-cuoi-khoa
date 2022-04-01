@@ -206,7 +206,7 @@ const Checkout:React.FC = () => {
           if ((coldcheckedRef.current as any).checked === true) {
             setCheckout(false)
             setPopupSuccessOrder(true)
-            user.orders = [...user.cart];
+            user.orders = [...user.orders, ...user.cart];
             user.orders.map((item: Cart) => {
               item.paid = true;
             })

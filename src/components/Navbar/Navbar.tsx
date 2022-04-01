@@ -49,77 +49,99 @@ const Navbar = () => {
 
 
     return (
-        <div ref={navbar} className={style.navbar}>
-            <Container>
-                <div className={style.nav_container}>
-                    <Link to="/"><img src={logo} alt="logo" className={style.logo} /></Link>
-                    <GiHamburgerMenu onClick={handleOpenMenu} className={style.nav_menu_icon} />
-                    <ul ref={navMenu} className={style.list_nav}>
-                        <span className={style.nav_close_icon}>
-                            <AiFillCloseCircle onClick={handleCloseMenu} />
-                        </span>
-                        <li className={`${style.nav_element} ${style.active}`}>
-                            <Link to='/' className={style.nav_link}>Trang chủ</Link>
-                        </li>
-                        <li className={style.nav_element}>
-                            <Link to='/' className={style.nav_link}>
-                                Giới thiệu<IoIosArrowDown className={style.nav_icons} />
-
-                                <ul ref={subNavIntro} className={style.sub_nav_list}>
-                                    <li className={style.sub_item}>
-                                        <Link to='/' className={style.sub_link}>
-                                            lịch sử và sứ mệnh
-                                        </Link>
-                                    </li>
-                                    <li className={style.sub_item}>
-                                        <Link to='/' className={style.sub_link}>
-                                            thành tựu đạt được
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </Link>
-                            <AiOutlinePlus className={style.nav_icon_more} onClick={() => handleMoreClick(subNavIntro, show1, setShow1)} />
-                        </li>
-                        <li className={style.nav_element}>
-                            <Link to='/' className={style.nav_link}>Sản phẩm</Link>
-                        </li>
-                        <li className={style.nav_element}>
-                            <Link to='/' className={style.nav_link}>
-                                Tin tức<IoIosArrowDown className={style.nav_icons} />
-                                <ul ref={subNavNew} className={style.sub_nav_list}>
-                                    <li className={style.sub_item}>
-                                        <Link to='/' className={style.sub_link}>
-                                            tin tức khuyến mại
-                                        </Link>
-                                    </li>
-                                    <li className={style.sub_item}>
-                                        <Link to='/' className={style.sub_link}>
-                                            câu chuyện thương hiệu
-                                        </Link>
-                                    </li>
-                                    <li className={style.sub_item}>
-                                        <Link to='/' className={style.sub_link}>
-                                            sự kiện
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </Link>
-                            <AiOutlinePlus className={style.nav_icon_more} onClick={() => handleMoreClick(subNavNew, show2, setShow2)} />
-                        </li>
-                        <li className={style.nav_element}>
-                            <Link to='/list-shop' className={style.nav_link}>Cửa hàng</Link>
-                        </li>
-                        <li className={style.nav_element}>
-                            <Link to='/recruit' className={style.nav_link}>Tuyển dụng</Link>
-                        </li>
-                        <li className={style.nav_element}>
-                            <Link to='/' className={style.nav_link}>Đăng nhập</Link>
-                        </li>
-                    </ul>
-                </div>
-            </Container>
-        </div>
-    )
+      <div ref={navbar} className={style.navbar}>
+        <Container>
+          <div className={style.nav_container}>
+            <Link to="/">
+              <img src={logo} alt="logo" className={style.logo} />
+            </Link>
+            <GiHamburgerMenu
+              onClick={handleOpenMenu}
+              className={style.nav_menu_icon}
+            />
+            <ul ref={navMenu} className={style.list_nav}>
+              <span className={style.nav_close_icon}>
+                <AiFillCloseCircle onClick={handleCloseMenu} />
+              </span>
+              <li className={`${style.nav_element} ${style.active}`}>
+                <Link to="/" className={style.nav_link}>
+                  Trang chủ
+                </Link>
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/" className={style.nav_link}>
+                  Giới thiệu
+                  <IoIosArrowDown className={style.nav_icons} />
+                  <ul ref={subNavIntro} className={style.sub_nav_list}>
+                    <li className={style.sub_item}>
+                      <Link to="/historyAndMission" className={style.sub_link}>
+                        lịch sử và sứ mệnh
+                      </Link>
+                    </li>
+                    <li className={style.sub_item}>
+                      <Link to="/achievement" className={style.sub_link}>
+                        thành tựu đạt được
+                      </Link>
+                    </li>
+                  </ul>
+                </Link>
+                <AiOutlinePlus
+                  className={style.nav_icon_more}
+                  onClick={() => handleMoreClick(subNavIntro, show1, setShow1)}
+                />
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/product" className={style.nav_link}>
+                  Sản phẩm
+                </Link>
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/" className={style.nav_link}>
+                  Tin tức
+                  <IoIosArrowDown className={style.nav_icons} />
+                  <ul ref={subNavNew} className={style.sub_nav_list}>
+                    <li className={style.sub_item}>
+                      <Link to="/" className={style.sub_link}>
+                        tin tức khuyến mại
+                      </Link>
+                    </li>
+                    <li className={style.sub_item}>
+                      <Link to="/" className={style.sub_link}>
+                        câu chuyện thương hiệu
+                      </Link>
+                    </li>
+                    <li className={style.sub_item}>
+                      <Link to="/" className={style.sub_link}>
+                        sự kiện
+                      </Link>
+                    </li>
+                  </ul>
+                </Link>
+                <AiOutlinePlus
+                  className={style.nav_icon_more}
+                  onClick={() => handleMoreClick(subNavNew, show2, setShow2)}
+                />
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/list-shop" className={style.nav_link}>
+                  Cửa hàng
+                </Link>
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/recruit" className={style.nav_link}>
+                  Tuyển dụng
+                </Link>
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/" className={style.nav_link}>
+                  Đăng nhập
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </Container>
+      </div>
+    );
 }
 
 export default Navbar
