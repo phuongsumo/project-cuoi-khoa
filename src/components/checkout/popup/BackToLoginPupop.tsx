@@ -13,7 +13,7 @@ const BackToLoginPupop = (props: any) => {
                         <div className={style.backTitle}>Bạn vui lòng đăng nhập để tiếp tục thanh toán!!!</div>
                         <div className={style.backButtons}>
                             <div onClick={() => setBackToLogin(false)} className={`${style.ok} ${style.button}`}><Link to="/">Đồng ý</Link></div>
-                            <div onClick={() => setBackToLogin(false)} className={`${style.cancel} ${style.button}`}><Link to="/">Hủy thanh toán</Link></div>
+                            <div onClick={() => setBackToLogin(false)} className={`${style.cancel} ${style.button}`}><Link to="/product">Hủy thanh toán</Link></div>
                         </div>
                     </div>
                 </div>

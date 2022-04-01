@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import style from './Paypal.module.css'
 
 const PaypalCheckoutButton = (props: any) => {
-    let { products, updateOrd} = props;
+    let { products, updateOrd, updateCart} = props;
     const [paidFor, setPaidFor] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const handleApprove = (orderID: any) => {
@@ -40,10 +40,10 @@ const PaypalCheckoutButton = (props: any) => {
                     purchase_units:
                         products.cart.map((item: Cart) => {
                             return ({
-                                reference_id: item.productId,
-                                description: item.description,
+                                reference_id: products.cart.indexOf(item),
+                                description: item.name,
                                 amount: {
-                                    value: Math.floor(item.price * item.quantity / 22000)
+                                    value: Math.floor(Number(item.price) * item.amount / 22000)
                                 },
                             })
                         })
@@ -53,14 +53,10 @@ const PaypalCheckoutButton = (props: any) => {
         onApprove={async (data: any, actions: any) => {
             const order = await actions.order.capture();
             products.orders = [...products.cart]
-            products.orders.map((product: Cart) => {
-                product.paid = true;
-            })
             console.log("product order: ",products.orders);
             console.log("order: ", order);
-            updateOrd(
-                products.orders          
-                )
+            updateOrd(products.orders)
+            updateCart([])
             handleApprove(data.orderID);
         }}
         onCancel={() => {

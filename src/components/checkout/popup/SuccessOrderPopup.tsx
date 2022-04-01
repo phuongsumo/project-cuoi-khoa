@@ -13,7 +13,7 @@ const SuccessOrderPopup = (props: any) => {
                     <div className={style.successMessagePopupContent}>
                         <div className={style.orderResult}>
                             <div className={style.orderResultTitle}>Đặt hàng thành công!</div>
-                            <div onClick={() => setPopupSuccessOrder(false)} className={style.resultOk}><Link to="/">Đồng ý</Link></div>
+                            <div onClick={() => setPopupSuccessOrder(false)} className={style.resultOk}><Link to="/product">Đồng ý</Link></div>
                             <div></div>
                         </div>
                     </div>

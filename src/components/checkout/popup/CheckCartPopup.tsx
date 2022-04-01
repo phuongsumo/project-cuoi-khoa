@@ -9,7 +9,7 @@ const CheckCartPopup = (props: any) => {
                     <div className={style.backToLoginContent}>
                         <div className={style.backTitle}>Giỏ hàng trống, vui lòng chọn sản phẩm muốn mua!</div>
                         <div className={style.backButtons}>
-                            <div onClick={() => setCheckCart(false)} className={`${style.ok} ${style.button}`}><Link to="/">Quay lại trang sản phẩm</Link></div>
+                            <div onClick={() => setCheckCart(false)} className={`${style.ok} ${style.button}`}><Link to="/product">Quay lại trang sản phẩm</Link></div>
                         </div>
                     </div>
                 </div>

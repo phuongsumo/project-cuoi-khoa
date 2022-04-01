@@ -1,26 +1,52 @@
 export interface Cart {
-    productId: string;
     name: string;
-    description: string;
-    quantity: number;
+    size:boolean;
+    ice:boolean;
+    sugar:boolean;
+    amount: number;
+    price: number|string;
+    total: number;
+    topping:string[];
     productImg: string,
-    price: number;
-    paid: boolean;
   };
-  // users modal
-  export interface User {
+  
+  // orders modals
+  export interface Order {
+    name: string;
+    size: boolean;
+    ice: boolean;
+    sugar: boolean;
+    amount: string;
+    price: string;
+    total: string;
+    topping: string[];
+}
+export interface Orders {
     username: string;
-    password: string;
-    email: string;
-    phone: number|string;
-    fullName: string;
-    age: number;
-    avatar: string;
+    phone: string;
     address: string;
-    cart: Cart[];
-    orders: Cart[];
+    orders: Order[];
+    paid: boolean;
+    status: string;
+    fullName: string;
+    time: string;
     id: string;
-  }
+    key: string;
+}
+// users modal
+export interface User {
+  username: string;
+  password: string;
+  email: string;
+  phone: number|string;
+  fullName: string;
+  age: number;
+  avatar: string;
+  address: string;
+  cart: Cart[];
+  orders: Cart[];
+  id: string;
+}
 //   product modals
 export interface Product {
     name: string;

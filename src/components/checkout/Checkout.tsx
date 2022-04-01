@@ -26,7 +26,7 @@ import imgButton from './mapData/checkmapimgs/mapbox-marker-icon-20px-orange.png
 import map from './mapData/Map'
 import listStores from './mapData/listStores'
 
-const Checkout:React.FC = () => {
+const Checkout: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(0)
   const [price, setPrice] = useState<number>(0)
   const [transFee, setTransFee] = useState<number>(18000);
@@ -75,10 +75,13 @@ const Checkout:React.FC = () => {
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
+  const ordersApi = axios.create({
+    baseURL: `https://6243085ab6734894c15a1d8e.mockapi.io/tea-shop/orders`
+  })
   const getUser = async () => {
     try {
-      let user = await api.get('/50')
-        // sau se thay 50 thanh user.id
+      let user = await api.get('/49')
+        // sau se thay 49 thanh user.id
         .then(({ data }) => data)
       setUser({ ...user })
     }
@@ -88,7 +91,12 @@ const Checkout:React.FC = () => {
   }
   const updateOrder = async (value: Cart[]) => {
     let updateUser = await api
-      .put(`/50`, [...user.orders,{ orders: value }])
+      .put(`/49`, { orders: value })
+      .catch(err => console.log(err))
+  }
+  const updateCart = async (value: Cart[]) => {
+    let updateCart = await api
+      .put(`/49`, { cart: value })
       .catch(err => console.log(err))
   }
   useEffect(() => {
@@ -101,8 +109,8 @@ const Checkout:React.FC = () => {
     if (user.username) {
       setLogin(true)
       user.cart.map((item) => {
-        s = s + item.quantity;
-        p += item.price * item.quantity;
+        s = s + item.amount;
+        p += Number(item.price) * item.amount;
       })
     } else {
       setLogin(false)
@@ -110,7 +118,7 @@ const Checkout:React.FC = () => {
     setQuantity(s)
     setPrice(p)
   }, [user])
-  
+
   useEffect(() => {
     (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
     (momocheckedRef.current as any).checked = true;
@@ -169,13 +177,13 @@ const Checkout:React.FC = () => {
     setSearchAddressStore("");
     setListStore([])
   }
-  const handleSearchStores = (e:any) => {
+  const handleSearchStores = (e: any) => {
     setSearchAddressStore(e.target.value);
     let arr: Feature[] = listStores.features;
     let b = [...arr];
     if (searchAddressStore) {
       let searchAddressStoreLow = searchAddressStore.toLowerCase();
-      let a = b.filter((item:any) => item.properties.address.toLowerCase().includes(searchAddressStoreLow));
+      let a = b.filter((item: any) => item.properties.address.toLowerCase().includes(searchAddressStoreLow));
       setListStore([...a]);
     }
   }
@@ -201,26 +209,27 @@ const Checkout:React.FC = () => {
       if (storedChoosed.name) {
         if (user.cart.length === 0) {
           setCheckCart(true)
-        } else 
-        {
+        } else {
           if ((coldcheckedRef.current as any).checked === true) {
             setCheckout(false)
             setPopupSuccessOrder(true)
             user.orders = [...user.orders, ...user.cart];
-            user.orders.map((item: Cart) => {
-              item.paid = true;
-            })
             updateOrder(
               user.orders
               // [{
-              //   productId: "p1",
               //   name: "tra sua tran chau den",
-              //   description: "den da khong duong",
-              //   quantity: 1,
-              //   productImg: "http://placeimg.com/640/480/people",
+              //   size: true,
+              //   ice:true,
+              //   sugar:true,
+              //   amount: 1,
               //   price: 23000,
-              //   paid: false,
+              //   total: 23000,
+              //   topping:["1", "2", "3"],
+              //   productImg: "http://placeimg.com/640/480/people"
               // }]
+            )
+            updateCart(
+              []
             )
             getUser()
           } else
@@ -355,20 +364,10 @@ const Checkout:React.FC = () => {
                         </div>
                         <input {...register("location")} value={searchAddress} onChange={(e) => { handleAddressChange(e) }} type="text" id={style['customerLocation']} placeholder="Địa chỉ người nhận" />
                         {checkSearchBox && <SearchBoxPopup
-                        setCheckSearchBox={(a: boolean)=>{ setCheckSearchBox(a) }} 
-                        searchAddress={searchAddress} 
-                        list={list} handleLocationOnClick={(a:any)=>{handleLocationOnClick(a)}}
+                          setCheckSearchBox={(a: boolean) => { setCheckSearchBox(a) }}
+                          searchAddress={searchAddress}
+                          list={list} handleLocationOnClick={(a: any) => { handleLocationOnClick(a) }}
                         />}
-                        {/* {checkSearchBox && <div className={style.searchBox}>
-                          <div onClick={() => { setCheckSearchBox(false) }} className={style.timePopUpBtn}><IoCloseCircle className={style.popUpIcon} /></div>
-                          {searchAddress && list.map((item) => {
-                            return (
-                              <div key={item.properties.id} onClick={() => { handleLocationOnClick(item) }} className={style.searchItem}>
-                                <div className={style.name}>{item.properties.name}</div>
-                                <div className={style.fullname}>{item.properties.fullname}</div>
-                              </div>)
-                          })} */}
-                        {/* </div> */}
                       </div>
                       <div ref={noteRef} className={`${style.wrapInput} ${style.wrapNote}`}>
                         <div className={style.wrapInputIcon} >
@@ -467,8 +466,12 @@ const Checkout:React.FC = () => {
                               <img src={cartItem.productImg} alt="product image" />
                               <div className={style.productCheckoutContent}>
                                 <div className={style.title}>{cartItem.name}</div>
-                                <div className={style.customizations}>{cartItem.description}</div>
-                                <div className={style.quantity}>{VND.format(cartItem.price)} x {cartItem.quantity}= {VND.format(cartItem.price * cartItem.quantity)}</div>
+                                <div className={style.customizations}>{cartItem.topping && cartItem.topping.map((item: string) => {
+                                  return item === "1" ? <span>Trân châu sương mai, </span>
+                                    : item === "2" ? <span>Hạt dẻ, </span>
+                                      : <span>Trân châu baby, </span>
+                                })}</div>
+                                <div className={style.quantity}>{VND.format(Number(cartItem.price))} x {cartItem.amount}= {VND.format(Number(cartItem.price) * cartItem.amount)}</div>
                               </div>
                             </div>
                           )
@@ -523,7 +526,10 @@ const Checkout:React.FC = () => {
         </Container>
         {checkout && <div className={style.paypalCheckoutMethod} onClick={() => { setCheckout((false)) }}>
           <div className={style.paypalCheckoutButton}>
-            <PaypalCheckoutButton updateOrd={(order: Cart[]) => updateOrder(order)} products={user} />
+            <PaypalCheckoutButton
+              updateOrd={(order: Cart[]) => updateOrder(order)}
+              updateCart={(cart: Cart[]) => updateOrder(cart)}
+              products={user} />
           </div>
         </div>}
       </div>
@@ -544,8 +550,8 @@ const Checkout:React.FC = () => {
       </div>
       {/* order success message */}
       {popupSuccessOrder && <SuccessOrderPopup setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
-      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }}/>}
-      {checkCart && <CheckCartPopup/>}
+      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
+      {checkCart && <CheckCartPopup />}
     </div >
   )
 }
