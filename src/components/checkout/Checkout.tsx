@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import PaypalCheckoutButton from './payment/PaypalCheckoutButton'
-import { User, Cart, Feature, Properties } from './models'
+import { User, Cart, Feature, Properties, Orders, Order } from './models'
 // popups
 import DeliveryTimePopup from './popup/DeliveryTimePopup'
 import PromotionCodePopup from './popup/PromotionCodePopup'
@@ -27,6 +27,7 @@ import map from './mapData/Map'
 import listStores from './mapData/listStores'
 
 const Checkout: React.FC = () => {
+  const today = new Date()
   const [quantity, setQuantity] = useState<number>(0)
   const [price, setPrice] = useState<number>(0)
   const [transFee, setTransFee] = useState<number>(18000);
@@ -72,6 +73,22 @@ const Checkout: React.FC = () => {
       "id": ""
     }
   );
+  const [orders, setOrders] = useState<Orders>(
+    // {
+    //   "username": "",
+    //   "phone": "",
+    //   "address": "",
+    //   "orders": [
+
+    //   ],
+    //   "paid": false,
+    //   "status": "1",
+    //   "fullName": "",
+    //   "time": "",
+    //   "key": "",
+    //   "id": ""
+    // }
+  );
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -86,7 +103,7 @@ const Checkout: React.FC = () => {
       setUser({ ...user })
     }
     catch (err) {
-      console.log(" error when get data: ", err)
+      console.log(" error when get user data: ", err)
     }
   }
   const updateOrder = async (value: Cart[]) => {
@@ -98,6 +115,29 @@ const Checkout: React.FC = () => {
     let updateCart = await api
       .put(`/49`, { cart: value })
       .catch(err => console.log(err))
+  }
+  const updateOrders = async (value: Orders) => {
+    let updateOrders = await ordersApi
+      .post(`/`, { ...value })
+      .catch(err => console.log(err))
+  }
+  const ConvertCartToOrders = (value: Cart[]) => {
+    let value1: any[] = [...value]
+    let value2: any[] = value1.map((value) => {
+      return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount,price:value.price, total: value.amount* value.price, topping: value.topping }
+    })
+    const orders: Orders = {
+      username: user.username,
+      phone: String(formData.phone)||String(user.phone),
+      address: user.address,
+      orders: value2,
+      paid: false,
+      status: "1",
+      fullName: formData.fullName||user.fullName,
+      time: `${today.getHours()}:${today.getMinutes() }  ${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`,
+      id: ""
+    }
+    return orders
   }
   useEffect(() => {
     getUser()
@@ -202,7 +242,6 @@ const Checkout: React.FC = () => {
   const {
     register, handleSubmit, formState: { errors }
   } = useForm();
-  const today = new Date()
   const OnSubmit = (data: any) => {
     if (user.username) {
       setLogin(true)
@@ -216,21 +255,24 @@ const Checkout: React.FC = () => {
             user.orders = [...user.orders, ...user.cart];
             updateOrder(
               user.orders
-              // [{
-              //   name: "tra sua tran chau den",
-              //   size: true,
-              //   ice:true,
-              //   sugar:true,
-              //   amount: 1,
-              //   price: 23000,
-              //   total: 23000,
-              //   topping:["1", "2", "3"],
-              //   productImg: "http://placeimg.com/640/480/people"
-              // }]
             )
             updateCart(
-              []
+                [
+                  {
+                name: "tra sua tran chau den",
+                size: true,
+                ice:true,
+                sugar:true,
+                amount: 3,
+                price: 23000,
+                total: 69000,
+                topping:["1", "2", "3"],
+                productImg: "http://placeimg.com/640/480/people"
+              }
+            ]
             )
+            const orders = ConvertCartToOrders(user.cart)
+            updateOrders(orders)
             getUser()
           } else
             if ((momocheckedRef.current as any).checked === true) {
@@ -238,14 +280,8 @@ const Checkout: React.FC = () => {
               setCheckout(true)
             }
         }
-        if (login) {
-          data.fullName = user.fullName
-          data.phone = user.phone
-          setFormData(data)
-        } else {
           setFormData(data);
-        }
-        console.log("formdata: ", formData);
+          console.log(data.fullName, data.phone);
       }
       else {
         handleSubmitOrder("Vui lòng nhập tên shop!");
@@ -282,13 +318,18 @@ const Checkout: React.FC = () => {
     setCheckSearchBox(true);
     let arr: any = map.features;
     let b = [...arr];
-    // console.log(searchAddress)
     if (searchAddress) {
       let searchAddressLow = searchAddress.toLowerCase();
       let a = b.filter((item) => item.properties.fullname.toLowerCase().includes(searchAddressLow));
       setList([...a]);
     }
     //can nhac dung use memo 
+  }
+  const getFullNameValue=(e: any)=>{
+    formData.fullName= e.target.value
+  }
+  const getPhoneValue=(e: any)=>{
+    formData.phone= e.target.value
   }
   const handleLocationOnClick = (item: any) => {
     setCheckSearchBox(false);
@@ -341,7 +382,7 @@ const Checkout: React.FC = () => {
                         <BsFillPersonFill />
                       </div>
                       {login
-                        ? <input {...register("name", { required: false })} defaultValue={user.fullName} type="text" id={style['customerName']} placeholder='Tên người nhận' />
+                        ? <input {...register("name", { required: false })} defaultValue={user.fullName} onChange={(e)=>{getFullNameValue(e)}} type="text" id={style['customerName']} placeholder='Tên người nhận' />
                         : <input {...register("name", { required: true, pattern: /[A-Za-z]+/ })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
                       {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>name is required</p>)}
                       {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>name is not correct</p>)}
@@ -351,7 +392,7 @@ const Checkout: React.FC = () => {
                         <AiFillPhone />
                       </div>
                       {login
-                        ? <input {...register("phone", { required: false })} defaultValue={user.phone} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
+                        ? <input {...register("phone", { required: false, pattern: /[0][1-9]?[0-9]{8}$/ })} defaultValue={user.phone} onChange={(e)=>{getPhoneValue(e)}} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
                         : <input {...register("phone", { required: true, pattern: /[0][1-9]?[0-9]{8}$/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
                       {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
                       {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
@@ -529,6 +570,8 @@ const Checkout: React.FC = () => {
             <PaypalCheckoutButton
               updateOrd={(order: Cart[]) => updateOrder(order)}
               updateCart={(cart: Cart[]) => updateOrder(cart)}
+              ConvertCartToOrders={(value:Cart[]) => ConvertCartToOrders(value)}
+              updateOrders={(orders: Orders) => updateOrders(orders)}
               products={user} />
           </div>
         </div>}
@@ -551,7 +594,7 @@ const Checkout: React.FC = () => {
       {/* order success message */}
       {popupSuccessOrder && <SuccessOrderPopup setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
       {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
-      {checkCart && <CheckCartPopup />}
+      {checkCart && <CheckCartPopup setCheckCart={(a: boolean) => { setCheckCart(a) }} />}
     </div >
   )
 }

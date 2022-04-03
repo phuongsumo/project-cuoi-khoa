@@ -31,7 +31,6 @@ export interface Orders {
     fullName: string;
     time: string;
     id: string;
-    key: string;
 }
 // users modal
 export interface User {

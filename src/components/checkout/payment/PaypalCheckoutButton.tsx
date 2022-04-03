@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { PayPalButtons } from '@paypal/react-paypal-js'
-import { Cart } from '../models'
+import { Cart, Order } from '../models'
 import { Link } from 'react-router-dom'
 import style from './Paypal.module.css'
 
 const PaypalCheckoutButton = (props: any) => {
-    let { products, updateOrd, updateCart} = props;
+    let { products, updateOrd, updateCart, updateOrders, ConvertCartToOrders} = props;
     const [paidFor, setPaidFor] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const handleApprove = (orderID: any) => {
@@ -52,10 +52,13 @@ const PaypalCheckoutButton = (props: any) => {
         }}
         onApprove={async (data: any, actions: any) => {
             const order = await actions.order.capture();
-            products.orders = [...products.cart]
+            products.orders = [...products.orders, ...products.cart]
             console.log("product order: ",products.orders);
             console.log("order: ", order);
             updateOrd(products.orders)
+            const orders= ConvertCartToOrders(products.cart)
+            orders.paid=true
+            updateOrders(orders)
             updateCart([])
             handleApprove(data.orderID);
         }}
