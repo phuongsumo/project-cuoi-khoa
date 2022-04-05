@@ -282,7 +282,7 @@ const Product: React.FC = memo(() => {
                         setProductCarts([]);
                       }}
                     >
-                      Xóa tất cả
+                      Xóa tất cả 
                     </div>
                   </div>
                   <hr />
