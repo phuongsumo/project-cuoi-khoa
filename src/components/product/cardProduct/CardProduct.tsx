@@ -1,6 +1,6 @@
 import { AddCircle } from "@mui/icons-material";
 import React from "react";
-import "./cartProduct.css";
+import "./cardProduct.css";
 
 export default function CardProduct({
   productImg,

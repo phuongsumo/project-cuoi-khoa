@@ -38,3 +38,11 @@
   font-size: 90%;
   color: #799dd9;
 }
+@media screen and (max-width: 750px) {
+  .card-title{
+    font-size: 90%;
+  }
+  .card-text{
+    font-size: 80% !important;
+  }
+}

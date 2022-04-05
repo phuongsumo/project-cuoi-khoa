@@ -26,8 +26,8 @@ export default function Cart({
   return (
     <>
       <div className="custom-cart-product row-3 row p-0 justify-content-center">
-        <div className="custom-cart-main col-7">
-          <div className="custom-cart-title">
+        <div className="custom-cart-main col-7 p-0">
+          <div className="custom-cart-title fw-bold">
             {cartName} ({cartSize.toUpperCase()})
           </div>
           <div className="custom-cart-detail">

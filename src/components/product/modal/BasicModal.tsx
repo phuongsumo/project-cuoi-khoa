@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./basicModal.css";
+import style from "./styleBox";
 
 var context = {
   username: "username 21",
@@ -17,18 +18,6 @@ var context = {
   cart: [],
   orders: [],
   id: "21",
-};
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "650px",
-  bgcolor: "#FBFBFB",
-  border: "none",
-  boxShadow: 2,
-  p: 2,
 };
 
 export default function BasicModal({
@@ -54,22 +43,6 @@ export default function BasicModal({
 
   const [total, setTotal] = useState<number>(0);
 
-  useEffect(() => {
-    setSeletedProduct({
-      ...seletedProduct,
-      price: total !== seletedProduct.price ? seletedProduct.price : total,
-      quantitySelect: quantity,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ total, productDetail.price, quantity]);
-
-  const handleClose = () => {
-    setOpen(false);
-    setQuantity(1);
-    setTotal(0);
-    setSeletedProduct(INIT_DATA);
-  };
-
   const putCart = async () => {
     const test: any[] = context.cart;
     await axios.put(
@@ -81,6 +54,21 @@ export default function BasicModal({
     );
   };
 
+  useEffect(() => {
+    setSeletedProduct({
+      ...seletedProduct,
+      price: total !== seletedProduct.price ? seletedProduct.price : total,
+      quantitySelect: quantity,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [total, productDetail.price, quantity]);
+
+  const handleClose = () => {
+    setOpen(false);
+    setQuantity(1);
+    setTotal(0);
+    setSeletedProduct(INIT_DATA);
+  };
   // tang so luong
   const increase = () => {
     setQuantity(quantity + 1);
@@ -141,13 +129,10 @@ export default function BasicModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} height="70%" className="custom-box-modal">
+        <Box sx={style} className="custom-box-modal ">
           <div className="modal-content-up container-fruid row">
             <div className="modal-img col-lg-4 col-6">
-              <img
-                src="https://tocotocotea.com/wp-content/uploads/2021/12/Hi%CC%80nh-a%CC%89nh-sp-website_1000x1000_choco-ngu%CC%83-co%CC%82%CC%81c-kem-cafe.png"
-                alt=""
-              />
+              <img src={productDetail.image} alt="" />
             </div>
             <div className="modal-info col-lg-7 col-6">
               <div className="modal-info-title">{productDetail.name}</div>
@@ -166,13 +151,17 @@ export default function BasicModal({
               </div>
               <div className="modal-info-description">Chưa có thông tin</div>
               <div className="modal-info-quantity-total row">
-                <div className="modal-info-quantity col-lg-6">
-                  <RemoveCircle className="custom-icon" onClick={decrease} />{" "}
-                  {quantity}{" "}
-                  <AddCircle className="custom-icon" onClick={increase} />
+                <div className="modal-info-quantity col-lg-6 row p-0 d-flex align-items-center justify-content-center">
+                  <div className="col-3 p-0">
+                    <RemoveCircle className="custom-icon " onClick={decrease} />
+                  </div>
+                  <div className="col-4 p-0">{quantity}</div>
+                  <div className="col-3 p-0">
+                    <AddCircle className="custom-icon" onClick={increase} />
+                  </div>
                 </div>
                 <div
-                  className="modal-info-total col-lg-6"
+                  className="modal-info-total col-lg-6 text-light w-auto"
                   onClick={() => {
                     handleClose();
                     productCarts.push(seletedProduct);
@@ -198,8 +187,8 @@ export default function BasicModal({
             onClick={handleClose}
           />
 
-          <div className="modal-content-down container">
-            <div className="modal-select row col-12">
+          <div className="modal-content-down container p-0">
+            <div className="modal-select row col-12 p-0">
               <p>Chọn Size</p>
               <div className="wrap-input row">
                 {productDetail.sizeM && (
@@ -263,7 +252,7 @@ export default function BasicModal({
             </div>
             <div className="modal-select row col-12">
               <p>Chọn đá</p>
-              <div className="wrap-input row">
+              <div className="wrap-input row col-12">
                 <div className="custom-modal-input col-5">
                   <input
                     type="radio"
@@ -290,44 +279,80 @@ export default function BasicModal({
                 </div>
               </div>
             </div>
-            <div className="modal-select row col-12">
+            <div className="modal-select row col-12 p-0 ">
               <p>Chọn topping</p>
-              <div className="wrap-input row">
-                <div className="custom-modal-checkbox col-7">
-                  <input
-                    type="checkbox"
-                    name="topping"
-                    className="custom-checkbox"
-                    id="ttsm"
-                    value="ttsm"
-                    onClick={(e) => plusTopping(e)}
-                    onChange={(e) => handleSelect(e)}
-                  />
-                  <label htmlFor="ttsm" style={{ margin: "0 1%" }}>
-                    Thêm trân châu sương mai
-                  </label>
+              <div className="custom-select-topping container p-0">
+                <div className="wrap-input row">
+                  <div className="custom-modal-checkbox row col-9 ">
+                    <div className="col-1 p-0  ">
+                      <input
+                        type="checkbox"
+                        name="topping"
+                        className="custom-checkbox"
+                        id="tranchausuongmai"
+                        value="1"
+                        onClick={(e) => plusTopping(e)}
+                        onChange={(e) => handleSelect(e)}
+                      />
+                    </div>
+                    <div className="col-11 p-0 ">
+                      <label
+                        htmlFor="tranchausuongmai"
+                        style={{ margin: "0 1%" }}
+                      >
+                        Thêm Trân Châu Sương Mai
+                      </label>
+                    </div>
+                  </div>
+                  <div className="custom-modal-checkbox-price col-3 p-0">
+                    + 9.000đ
+                  </div>
                 </div>
-                <div className="custom-modal-checkbox-price col-5">
-                  + 9.000đ
+                <div className="wrap-input row">
+                  <div className="custom-modal-checkbox row col-9 ">
+                    <div className="col-1 p-0  ">
+                      <input
+                        type="checkbox"
+                        name="topping"
+                        className="custom-checkbox"
+                        id="hatre"
+                        value="2"
+                        onClick={(e) => plusTopping(e)}
+                        onChange={(e) => handleSelect(e)}
+                      />
+                    </div>
+                    <div className="col-11 p-0 ">
+                      <label htmlFor="hatre" style={{ margin: "0 1%" }}>
+                        Thêm Hạt Rẻ
+                      </label>
+                    </div>
+                  </div>
+                  <div className="custom-modal-checkbox-price col-3 p-0">
+                    + 9.000đ
+                  </div>
                 </div>
-              </div>
-              <div className="wrap-input row">
-                <div className="custom-modal-checkbox col-7">
-                  <input
-                    type="checkbox"
-                    name="topping"
-                    className="custom-checkbox"
-                    id="hatre"
-                    value="hatre"
-                    onClick={(e) => plusTopping(e)}
-                    onChange={(e) => handleSelect(e)}
-                  />
-                  <label htmlFor="hatre" style={{ margin: "0 1%" }}>
-                    Thêm hạt rẻ
-                  </label>
-                </div>
-                <div className="custom-modal-checkbox-price col-5">
-                  + 9.000đ
+                <div className="wrap-input row">
+                  <div className="custom-modal-checkbox row col-9 ">
+                    <div className="col-1 p-0  ">
+                      <input
+                        type="checkbox"
+                        name="topping"
+                        className="custom-checkbox"
+                        id="tranchaubaby"
+                        value="3"
+                        onClick={(e) => plusTopping(e)}
+                        onChange={(e) => handleSelect(e)}
+                      />
+                    </div>
+                    <div className="col-11 p-0 ">
+                      <label htmlFor="tranchaubaby" style={{ margin: "0 1%" }}>
+                        Thêm Trân Châu Baby
+                      </label>
+                    </div>
+                  </div>
+                  <div className="custom-modal-checkbox-price col-3 p-0">
+                    + 9.000đ
+                  </div>
                 </div>
               </div>
             </div>

@@ -45,10 +45,7 @@
   text-align: right;
 }
 .custom-form-search {
-  margin-top: 2%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  margin: 2%;
 }
 .custom-form-search .custom-form-input {
   width: 50%;
@@ -66,9 +63,13 @@
 }
 
 .products p {
-  margin-top: 5px;
+  margin: 2% 0;
+  font-weight: bold;
+  font-size: 110%;
 }
-
+.custom-cart-up {
+  padding-left: 5%;
+}
 .custom-btn-pay {
   width: 90%;
   border-radius: 20px;
@@ -80,7 +81,7 @@
   margin-bottom: 5%;
 }
 .custom-card-quantity {
-  margin: 8% 0 8% 5%;
+  margin: 4% 0 8% 5%;
   align-items: center;
   font-weight: 600;
   color: #8a733f;
@@ -90,8 +91,85 @@
   width: 30px;
   height: 40px;
 }
+.custom-button-show-categories{
+  display: none;
+}
 @media screen and (max-width: 750px) {
   .custom-card {
     width: 45% !important;
+  }
+  .categories {
+    /* display: none !important; */
+    width: 80%;
+    position: fixed !important;
+    left: 2% !important;
+    bottom: 20%;
+    z-index: 4;
+    background-color: white !important;
+    box-shadow: rgba(100, 100, 111, 0.2) 15px 7px 29px 0px;
+  }
+  .category-quantity .quantity{
+    margin-top: -7%;
+  }
+  .cart {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 3;
+    background-color: white !important;
+    box-shadow: rgba(100, 100, 111, 0.2) 15px 7px 29px 0px;
+  }
+  .custom-card-quantity {
+    margin-top: 8%;
+  }
+  .custom-cart-up {
+    overflow: hidden;
+    visibility: visible;
+    padding-bottom: 16%;
+  }
+  .custom-cart-down {
+    align-items: center;
+    justify-content: space-between;
+    height: 90px !important;
+  }
+  .custom-button-show-categories{
+    display: flex;
+    color: white;
+    width: 40px;
+    height: 40px;
+    padding-left: 1.5%;
+    border-radius:50%;
+    text-align: center;
+    align-items: center;
+    background-color:red !important;
+    position:fixed;
+    z-index: 5;
+    bottom: 15% !important;
+    left: 2% !important;
+    box-shadow: rgba(227, 117, 97, 0.2) 15px 7px 29px 0px;
+  }
+  .custom-button-show-categories .custom-list-icon{
+    font-size: 30px !important;
+    
+    
+  }
+}
+@media screen and (max-width: 890px) and (min-width: 768px) {
+  .cart {
+    position: fixed !important;
+    bottom: 0 !important;
+    margin-left: -1.7%;
+    z-index: 3;
+    background-color: white !important;
+    box-shadow: rgba(100, 100, 111, 0.2) 15px 7px 29px 0px;
+  }
+  .custom-cart-up {
+    overflow: hidden;
+    visibility: visible;
+  }
+  .custom-cart-down {
+    align-items: center;
+    justify-content: space-between;
+    height: 90px !important;
   }
 }
