@@ -137,6 +137,11 @@ const Navbar = () => {
                   Đăng nhập
                 </Link>
               </li>
+              <li className={style.nav_element}>
+                <Link to="/checkout" className={style.nav_link}>
+                  checkout
+                </Link>
+              </li>
             </ul>
           </div>
         </Container>
