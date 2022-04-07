@@ -1,0 +1,11 @@
+.container {
+    background-color: rgb(76, 70, 70);
+    width: 500px;
+    height: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    color: white;
+    font-size: 1.8rem;
+}

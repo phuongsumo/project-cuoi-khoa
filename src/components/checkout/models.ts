@@ -4,7 +4,7 @@ export interface Cart {
     ice:boolean;
     sugar:boolean;
     amount: number;
-    price: number|string;
+    price: string;
     total: number;
     topping:string[];
     productImg: string,
@@ -37,7 +37,7 @@ export interface User {
   username: string;
   password: string;
   email: string;
-  phone: number|string;
+  phone:string;
   fullName: string;
   age: number;
   avatar: string;
