@@ -19,3 +19,17 @@ export interface IState {
 	topping?: string[] | any,
 	totalMoney?: number | null,
 }
+
+export interface IUser {
+	username?: string;
+	password?: string;
+	email?: string;
+	phone?: string;
+	fullName?: string;
+	age?: string;
+	avatar?: string;
+	address?: string;
+	cart?: any[];
+	orders?: any[];
+	id?: string;
+}
