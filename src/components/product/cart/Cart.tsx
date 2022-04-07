@@ -23,6 +23,7 @@ export default function Cart({
   handleIncrease: any;
   handleDecrease: any;
 }) {
+  const cartTotal = cartPrice + (cartTopping.length * 9000);
   return (
     <>
       <div className="custom-cart-product row-3 row p-0 justify-content-center">
@@ -40,10 +41,10 @@ export default function Cart({
           <div className="custom-cart-price">
             {cartQuantity} x{" "}
             <span>
-              {cartPrice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+              {cartTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
             </span>{" "}
             ={" "}
-            {(cartQuantity * cartPrice)
+            {(cartQuantity * cartTotal)
               ?.toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}{" "}
             đ

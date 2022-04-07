@@ -6,19 +6,7 @@ import React, { useEffect, useState } from "react";
 import "./basicModal.css";
 import style from "./styleBox";
 
-var context = {
-  username: "username 21",
-  password: "password 21",
-  email: "email 21",
-  phone: "phone 21",
-  fullName: "fullName 21",
-  age: "age 21",
-  avatar: "http://placeimg.com/640/480/people",
-  address: "address 21",
-  cart: [],
-  orders: [],
-  id: "21",
-};
+// var context: any = {};
 
 export default function BasicModal({
   open,
@@ -42,16 +30,9 @@ export default function BasicModal({
   const [quantity, setQuantity] = useState<number>(1);
 
   const [total, setTotal] = useState<number>(0);
-
-  const putCart = async () => {
-    const test: any[] = context.cart;
-    await axios.put(
-      "https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/21",
-      {
-        ...context,
-        cart: [...test, seletedProduct],
-      }
-    );
+  
+  const putCart = () => {
+    localStorage.setItem("cart", JSON.stringify(productCarts));
   };
 
   useEffect(() => {
@@ -177,6 +158,21 @@ export default function BasicModal({
                         ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
                 </div>
+              </div>
+              <div className="custom-modal-btn-pay">
+                <button
+                  type="button"
+                  className="btn btn-warning"
+                  onClick={() => {
+                    handleClose();
+                    productCarts.push(seletedProduct);
+                    setProductCarts([...productCarts]);
+
+                    putCart();
+                  }}
+                >
+                  Đặt hàng
+                </button>
               </div>
             </div>
           </div>

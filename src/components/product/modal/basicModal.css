@@ -1,5 +1,5 @@
 .custom-box-modal {
-  overflow-y: initial !important;
+  overflow-y: hidden !important;
   height: 75%;
 }
 .modal-content-up {
@@ -59,8 +59,8 @@
   -webkit-border-radius: 20px;
 }
 .modal-content-down {
-  margin-top: 5%;
-  height: 58%;
+  margin-top: 2%;
+  height: 55%;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -144,7 +144,7 @@
 @media screen and (max-width: 750px) {
   .custom-box-modal {
     width: 90% !important;
-    height: 93% !important;
+    height: 85% !important;
     margin-top: 7%;
   }
   .modal-content-up {
@@ -176,6 +176,9 @@
   }
   .modal-content-down {
     font-size: 100%;
+    margin-top: -10% !important;
+    height: 59% !important;
+    
   }
   .custom-modal-input {
     font-size: 82%;
