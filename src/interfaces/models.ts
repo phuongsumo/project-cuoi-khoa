@@ -10,6 +10,7 @@ export interface IProduct {
 }
 
 export interface IState {
+	id?: number,
 	name?: string,
 	price?: number,
 	quantitySelect?: number,

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import style from "./CreateAccount.module.css"
 import logo from '../login/img/logo.jpg'
+import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 interface UserData {
@@ -77,14 +77,12 @@ const CreateAccount = () => {
        let check;
        for(let i = 0; i<users.length ; i++){
            check=true;
-           
                if(name === users[i].toString() )
            {
                check=false;
                break;
            } 
-        
-    }  
+    }
     if(check){
         var dataPost = {
         username: name,

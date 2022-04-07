@@ -10,8 +10,9 @@ import ListIcon from "@mui/icons-material/List";
 import axios from "axios";
 
 const Product: React.FC = memo(() => {
-  window.scrollTo(0, 0);
+  
   const INIT_DATA: IState = {
+    id: 0,
     name: "",
     price: 0,
     quantitySelect: 1,
@@ -49,6 +50,7 @@ const Product: React.FC = memo(() => {
   const suachuadeoSection = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getData = async () => {
       const response = await getProduct();
       const data = await response.data;
@@ -75,6 +77,7 @@ const Product: React.FC = memo(() => {
     setProductDetail(item);
     setSeletedProduct({
       ...seletedProduct,
+      id : productCarts.length+1,
       name: item.name,
       price: item.price,
     });
@@ -104,6 +107,7 @@ const Product: React.FC = memo(() => {
     if (item.quantitySelect <= 0) {
       items.splice(i, 1);
       setProductCarts([...items]);
+      
     }
   };
 
@@ -332,9 +336,7 @@ const Product: React.FC = memo(() => {
                   {productCarts
                     .reduce(
                       (total, currentValue) =>
-                        (total =
-                          total +
-                          currentValue.quantitySelect! * currentValue.price!),
+                        (total =total + (currentValue.quantitySelect! * (currentValue.price! + (currentValue.topping.length * 9000)))),
                       0
                     )
                     .toString()
