@@ -12,7 +12,7 @@ const CreatePaymentUrl = () => {
       .then(res => res.json())
       .then(res => setMyIps(res.ip))
   }, [])
-  var ipAddr = '27.67.73.185';
+  var ipAddr = myIps;
   var tmnCode = VnPay.vnp_TmnCode
   var returnUrl = VnPay.vnp_ReturnUrl
   // var returnUrl = VnPay.vnp_ReturnUrl
@@ -51,22 +51,11 @@ const CreatePaymentUrl = () => {
   var amount = 50000;
   var currCode = 'VND';
   // trim cách chuyển thành chuỗi
-  var orderInfo = 'thanh'
+  var orderInfo = 'Thanh+toan+tra+sua:5'
   var orderType = 'other'
   var locale = "vn";
-  var txnRef=6;
-  // let i:number;
-  // useEffect(() => {
-  //   i=1
-  //   txnRef = 1;
-  //   if (txnRef === i) {
-  //     txnRef++;
-  //     i++;
-  //   }
-  // }, [])
-  // setInterval(() => {
-  //   i = 1;
-  // }, 30 * 3600)
+  var txnRef=createDate;
+  var decode= decodeURIComponent("+")
   
   const sortObj = (obj: any) => {
     return Object.keys(obj).sort().reduce((result: any, key: any) => {
@@ -107,48 +96,6 @@ const CreatePaymentUrl = () => {
     <div className={style.container}>
       <input style={{ width: '500px', overflow: 'scroll' }} value={`https://sandbox.vnpayment.vn/paymentv2/vpcpay.html${url}`} />
       <a href={`${VnPay.vnp_Url}${url}`} >Thanh toán Post</a>
-      {/* <form action="https://sandbox.vnpayment.vn/paymentv2/vpcpay.html" method='get'>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_Amount} type="text" name="amount" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_Command} type="text" name="command" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={String(paramss.vnp_CreateDate)} type="text" name="createDate" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_CurrCode} type="text" name="currenCode" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_IpAddr} type="text" name="ipAddr" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_Locale} type="text" name="locale" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_OrderInfo} type="text" name="orderInfo" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_OrderType} type="text" name="orderType" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_ReturnUrl} type="text" name="returnUrl" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_TmnCode} type="text" name="tmncode" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={String(paramss.vnp_TxnRef)} type="text" name="txnRef" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_Version} type="text" name="version" />
-        </label>
-        <label htmlFor="" className={style.containerRadio}>
-          <input defaultValue={paramss.vnp_SecureHash} type="text" name="version" />
-        </label>
-        <button type="submit"> thanh toan</button>
-      </form> */}
       {/* <form id="frmCreateOrder" action="https://sandbox.vnpayment.vn/button/websrc.html" method="POST" target="_top">
         <input defaultValue={paramss.} type="hidden" name="cmd" value="pay" />
         <input defaultValue={paramss.} type="hidden" name="hosted_button_id" value="ZQdforZdTD" />
