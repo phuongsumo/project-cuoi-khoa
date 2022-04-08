@@ -19,7 +19,7 @@ const  Promotional_news = () => {
                         </div>
                         <div className={styles.category_menu_content}>
                             <div className={styles.menu_category_menu}>
-                                <ul id="menu_category_menu" className={styles.menu}>
+                                <ul id="menu_category_menu" className={`${styles.menu} ${styles.ulist}`}>
                                     <li id="menu_item_4480" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category}  ${styles.menu_item_4480}`}>
                                     <Link to='/Commercial_story' target='_parent' >Câu chuyện thương hiệu</Link>
                                     </li>
@@ -34,10 +34,10 @@ const  Promotional_news = () => {
                         </div>
                     </div>
                     <div className={styles.category_banner_promotion}>
-                        <a href="https://tocotocotea.com/">
+                        <a href="https://tocotocotea.com/"  className={styles.alink}>
                             <img className={styles.banner_item} src="https://tocotocotea.com/wp-content/uploads/2021/10/ft2_2_img.webp" alt="" />
                         </a>
-                        <a href="">
+                        <a href=""  className={styles.alink}>
                             <img className={styles.banner_item} src="https://tocotocotea.com/wp-content/uploads/2021/10/ft2_1_img.webp" alt="" />
                         </a>
                     </div>
@@ -47,27 +47,27 @@ const  Promotional_news = () => {
                                 <span className={styles.span_text}>Từ khóa</span>
                             </span>
                         </div>
-                        <a className={styles.post_tag} href="https://tocotocotea.com/topic/covid-19/">
+                        <a className={`${styles.post_tag} ${styles.alink}`} href="https://tocotocotea.com/topic/covid-19/">
                             <span className={styles.span_text}>
                                 <span className={styles.span_text}>covid-19 </span>
                             </span>
                         </a>
-                        <a className={styles.post_tag} href="https://tocotocotea.com/topic/danh-sach-cua-hang-tocotoco-ap-dung-ctkm/">
+                        <a className={`${styles.post_tag} ${styles.alink}`} href="https://tocotocotea.com/topic/danh-sach-cua-hang-tocotoco-ap-dung-ctkm/">
                             <span className={styles.span_text}>
                                 <span className={styles.span_text}> danh-sach-cua-hang-tocotoco-ap-dung-ctkm </span>
                             </span>
                         </a>
-                        <a className={styles.post_tag} href="https://tocotocotea.com/topic/tocotoco/">
+                        <a className={`${styles.post_tag} ${styles.alink}`} href="https://tocotocotea.com/topic/tocotoco/">
                             <span className={styles.span_text}>
                                 <span className={styles.span_text}>tocotoco </span>
                             </span>
                         </a>
-                        <a className={styles.post_tag} href="https://tocotocotea.com/topic/tra-sua-25k/">
+                        <a className={`${styles.post_tag} ${styles.alink}`} href="https://tocotocotea.com/topic/tra-sua-25k/">
                             <span className={styles.span_text}>
                                 <span className={styles.span_text}>  trà sữa 25k </span>
                             </span>
                         </a>
-                        <a className={styles.post_tag} href="https://tocotocotea.com/topic/tron-vi-hanh-phuc/">
+                        <a className={`${styles.post_tag} ${styles.alink}`} href="https://tocotocotea.com/topic/tron-vi-hanh-phuc/">
                             <span className={styles.span_text}>
                                 <span className={styles.span_text}>trọn vị hạnh phúc </span>
                             </span>
@@ -81,8 +81,8 @@ const  Promotional_news = () => {
                         </span>
                     </div>
                     <div className={styles.category_main_content}>
-                        <a className={styles.post_card} href="https://tocotocotea.com/blogs/tocotoco-nhan-doi-su-ngot-ngao-mua-le-hoi/">
-                            <img className={styles.feature_img} src="https://tocotocotea.com/wp-content/uploads/2022/03/03162022_TCTC-X-MRT-banner_zalo-1.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/blogs/tocotoco-nhan-doi-su-ngot-ngao-mua-le-hoi/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2022/03/03162022_TCTC-X-MRT-banner_zalo-1.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -101,8 +101,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/blogs/tocotoco-nang-tam-gia-tri-nong-san-viet/">
-                            <img className={styles.feature_img} src="https://tocotocotea.com/wp-content/uploads/2022/03/03162022_TCTC-X-MRT-banner_zalo-1.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/blogs/tocotoco-nang-tam-gia-tri-nong-san-viet/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2022/03/03162022_TCTC-X-MRT-banner_zalo-1.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -121,8 +121,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/blogs/choco-ngu-coc-kem-cafe-hong-tra-ngu-coc-kem-cafe/">
-                            <img className={styles.feature_img} src="https://tocotocotea.com/wp-content/uploads/2022/01/04012022_remind-combo-spm_zalo-1.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/blogs/choco-ngu-coc-kem-cafe-hong-tra-ngu-coc-kem-cafe/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2022/01/04012022_remind-combo-spm_zalo-1.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -141,8 +141,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/blogs/khang-hang-thi-truong-my_ua-thich-tocotoco/">
-                            <img className={styles.feature_img} src="https://tocotocotea.com/wp-content/uploads/2021/03/image-54.webp" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/blogs/khang-hang-thi-truong-my_ua-thich-tocotoco/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2021/03/image-54.webp" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -161,8 +161,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/tin-tuc-hien-trang-chu/hanh-trinh-8-nam-chinh-phuc-khach-hang-cua-tocotoco/">
-                            <img className={styles.feature_img} src="https://tocotocotea.com/wp-content/uploads/2021/12/SPM_CHOCO_zalo.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/tin-tuc-hien-trang-chu/hanh-trinh-8-nam-chinh-phuc-khach-hang-cua-tocotoco/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2021/12/SPM_CHOCO_zalo.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -181,8 +181,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/blogs/tocotoco-tra-sua-tien-phong-su-dung-nong-san-viet/">
-                            <img className={styles.feature_img} src="	https://tocotocotea.com/wp-content/uploads/2021/12/GO-88-CU%CC%9B%CC%89A-BA%CC%86%CC%81C_zalo-1.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/blogs/tocotoco-tra-sua-tien-phong-su-dung-nong-san-viet/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="	https://tocotocotea.com/wp-content/uploads/2021/12/GO-88-CU%CC%9B%CC%89A-BA%CC%86%CC%81C_zalo-1.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -201,8 +201,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/tin-tuc-hien-trang-chu/8-nam-phat-trien-vung-manh/">
-                            <img className={styles.feature_img} src="https://tocotocotea.com/wp-content/uploads/2021/11/tocotoco-sinh-nhat.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/tin-tuc-hien-trang-chu/8-nam-phat-trien-vung-manh/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2021/11/tocotoco-sinh-nhat.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -221,8 +221,8 @@ const  Promotional_news = () => {
                                 </div>
                             </div>
                         </a>
-                        <a className={styles.post_card} href="https://tocotocotea.com/blogs/tocotoco-bat-mi-cach-san-iphone-13-pro-max/">
-                            <img className={styles.feature_img} src="	https://tocotocotea.com/wp-content/uploads/2021/12/tocotoco-8-nam-gan-ket-trieu-trai-tim-1.png" alt="" />
+                        <a className={`${styles.post_card} ${styles.alink}`} href="https://tocotocotea.com/blogs/tocotoco-bat-mi-cach-san-iphone-13-pro-max/">
+                            <img className={`${styles.feature_img} ${styles.image}`} src="	https://tocotocotea.com/wp-content/uploads/2021/12/tocotoco-8-nam-gan-ket-trieu-trai-tim-1.png" alt="" />
                             <div className={styles.post_card_content}>
                                 <div className={styles.post_card_title}>
                                     <span className={styles.span_text}>
@@ -243,8 +243,8 @@ const  Promotional_news = () => {
                         </a>
                     </div>
 
-                    <nav className={`${styles.navigation} ${styles.pagination}`} role="navigation" aria-label="Bài viết">
-                        <h2 className={styles.screen_reader_text}>
+                    <nav className={`${styles.navigation} ${styles.pagination} `} role="navigation" aria-label="Bài viết">
+                        <h2 className={`${styles.screen_reader_text} ${styles.h2_title}`}>
                             <span className={styles.span_text}>
                                 <span className={styles.span_text}>Điều hướng bài viết</span>
                             </span>
@@ -255,7 +255,7 @@ const  Promotional_news = () => {
                                     <span className={styles.span_text}>1</span>
                                 </span>
                             </span>
-                            <a className={styles.page_numbers} href="https://tocotocotea.com/category/blogs/cau-chuyen-thuong-hieu/page/2/">
+                            <a className={`${styles.page_numbers} ${styles.alink}`} href="https://tocotocotea.com/category/blogs/cau-chuyen-thuong-hieu/page/2/">
                                 <span className={styles.span_text}>
                                     <span className={styles.span_text}>2</span>
                                 </span>
@@ -265,12 +265,12 @@ const  Promotional_news = () => {
                                     <span className={styles.span_text}>…</span>
                                 </span>
                             </span>
-                            <a className={styles.page_numbers} href="https://tocotocotea.com/category/blogs/cau-chuyen-thuong-hieu/page/11/">
+                            <a className={`${styles.page_numbers} ${styles.alink}`} href="https://tocotocotea.com/category/blogs/cau-chuyen-thuong-hieu/page/11/">
                                 <span className={styles.span_text}>
                                     <span className={styles.span_text}>11</span>
                                 </span>
                             </a>
-                            <a className={`${styles.next} ${styles.page_numbers}`} href="https://tocotocotea.com/category/blogs/cau-chuyen-thuong-hieu/page/2/">
+                            <a className={`${styles.next} ${styles.page_numbers} ${styles.alink}`} href="https://tocotocotea.com/category/blogs/cau-chuyen-thuong-hieu/page/2/">
                                 <span className={styles.span_text}>
                                     <span className={styles.span_text}>»</span>
                                 </span>
