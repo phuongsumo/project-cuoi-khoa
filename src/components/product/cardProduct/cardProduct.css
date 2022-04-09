@@ -27,8 +27,9 @@
 .products .card-title {
   width: 144% !important;
   height: 40%;
-  font-size: 17px;
-  margin-top: 2%;
+  font-size: 98%;
+  font-weight: 450;
+  margin-top: 3%;
   margin-left: -22%;
 }
 .custom-card .card-text {
