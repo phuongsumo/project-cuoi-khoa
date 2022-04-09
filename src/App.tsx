@@ -13,7 +13,6 @@ import {
 } from './components/index';
 // import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import './App.css';
-
 function App(): JSX.Element {
   return (
     // <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>

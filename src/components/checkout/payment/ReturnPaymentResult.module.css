@@ -1,13 +1,14 @@
-.table {
+.container {
     margin: 0 auto;
     margin-top: 70px;
+    max-width: 600px;
+}
+
+.table {
     box-shadow: 0 0 8px -4px;
     border-collapse: collapse;
     width: 400px;
-}
-
-.table tr:not(.row):hover {
-    background-color: #ccc;
+    margin: 0 auto;
 }
 
 .column {
@@ -22,17 +23,11 @@
     background-color: #ccc;
 }
 
-.column {
-    min-width: 150px;
-}
-
-.row {
-    text-align: center;
-    height: auto;
-}
-
-.row td {
-    width: 50%;
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
 }
 
 .returnButton {
@@ -44,8 +39,9 @@
     box-shadow: 0 0 8px 0px;
     border: 1px solid #d2a451;
     transition: 0.3s ease;
-    margin: auto;
     display: block;
+    min-width: 180px;
+    margin: 0 12px;
 }
 
 .returnButton:hover {

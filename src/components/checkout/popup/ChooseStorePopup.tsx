@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import style from './Popup.module.css'
 import { IoCloseCircle } from 'react-icons/io5'
 import { FaSearchLocation } from 'react-icons/fa'
 const ChooseStorePopup = (props: any) => {
-    let { setPopupChooseStore, handleSearchStores, listStore, handleDisplayStoreChoosed, fillStoreChoose, searchAddressStore } = props
+    let {chooseStoreRef, setPopupChooseStore, handleSearchStores, listStore, handleDisplayStoreChoosed, fillStoreChoose, searchAddressStore } = props
     return (
         <div>
             <div className={style.container}>
@@ -11,7 +11,7 @@ const ChooseStorePopup = (props: any) => {
                     <div onClick={() => { setPopupChooseStore(false) }} className={style.popUpBtn}><IoCloseCircle className={style.popUpIcon} /></div>
                     <div ref={fillStoreChoose} className={style.popupSearchBox}>
                         <div className={style.iconSearch} ><FaSearchLocation /></div>
-                        <input value={searchAddressStore} onChange={(e) => { handleSearchStores(e) }} className={style.ipSearch} placeholder="Tìm cửa hàng..." type="text" />
+                        <input ref={chooseStoreRef} value={searchAddressStore} onChange={(e) => { handleSearchStores(e) }} className={style.ipSearch} placeholder="Tìm cửa hàng..." type="text" />
                     </div>
                     {/* modal an */}
                     <div className={style.listStore}>
