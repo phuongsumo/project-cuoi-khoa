@@ -1,18 +1,3 @@
-* {
-    /* box-sizing: border-box; */
-}
-
-body {
-    /* margin: 0; */
-    /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
-    /* font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    text-align: left;
-    background-color: #fff; */
-}
-
 .wrap_popup_login_content {
     display: flex;
     width: 100%;
@@ -59,10 +44,6 @@ body {
     border-style: none;
 }
 
-img {
-    vertical-align: middle;
-    border-style: none;
-}
 
 .register_description {
     text-align: center;
@@ -93,24 +74,6 @@ img {
     outline: 0 !important;
     box-shadow: none;
 }
-
-
-/* input{
-    margin-left: 500px;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-
-button,
-select,
-optgroup,
-textarea {
-    margin-left: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-} */
 
 .input_err {
     color: red;
@@ -146,27 +109,6 @@ textarea {
     border: none;
 }
 
-
-/* .btn{
-   
-    margin-top: 10px;
-    font-size: 14px;
-    overflow: visible;
-    min-height: 42px;
-    height: auto;
-    display: flex;
-    line-height: normal;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 10px 5px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-} */
-
 .sugget_text {
     display: flex;
     justify-content: center;
@@ -179,14 +121,6 @@ textarea {
     margin-left: 8px;
     cursor: pointer;
 }
-
-
-/* a {
-    color: #007bff;
-    text-decoration: none;
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-} */
 
 .span_text {
     vertical-align: inherit;

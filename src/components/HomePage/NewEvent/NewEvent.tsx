@@ -25,7 +25,7 @@ const NewEvent = () => {
                     <Col md={6}>
                         <Row>
                             <Col md={12} className={styles.event_col}>
-                                <Link to="/" className={styles.event_link}>
+                                <Link to="/sk_events" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
                                             <Card.Img variant="top" src={noelImg} className={styles.event_img_card} />
@@ -42,7 +42,7 @@ const NewEvent = () => {
                                 </Link>
                             </Col>
                             <Col xs={6} className={styles.event_col}>
-                                <Link to="/" className={styles.event_link}>
+                                <Link to="/sk_events" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
                                             <Card.Img variant="top" src={noelImg} className={styles.event_img_card} />
@@ -56,7 +56,7 @@ const NewEvent = () => {
                                 </Link>
                             </Col>
                             <Col xs={6} className={styles.event_col}>
-                                <Link to="/" className={styles.event_link}>
+                                <Link to="/sk_events" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
                                             <Card.Img variant="top" src={noelImg} className={styles.event_img_card} />
@@ -70,7 +70,7 @@ const NewEvent = () => {
                                 </Link>
                             </Col>
                             <Col xs={6} className={styles.event_col}>
-                                <Link to="/" className={styles.event_link}>
+                                <Link to="/sk_events" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
                                             <Card.Img variant="top" src={usaImg} className={styles.event_img_card} />
@@ -84,7 +84,7 @@ const NewEvent = () => {
                                 </Link>
                             </Col>
                             <Col xs={6} className={styles.event_col}>
-                                <Link to="/" className={styles.event_link}>
+                                <Link to="/sk_events" className={styles.event_link}>
                                     <Card>
                                         <div className={styles.event_img_wrap}>
                                             <Card.Img variant="top" src={year} className={styles.event_img_card} />

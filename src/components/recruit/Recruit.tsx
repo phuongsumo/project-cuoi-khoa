@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import style from "./Recruit.module.css";
 import RecruitCarousel from "./recruitCarousel/RecruitCarousel";
@@ -15,6 +15,11 @@ import { FaGraduationCap, FaMoneyBillAlt } from "react-icons/fa";
 import { GiTrophyCup } from "react-icons/gi";
 
 const Recruit = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
   return (
     <div className={style.containerr}>
       <RecruitCarousel idH3={style['titleH3']} />

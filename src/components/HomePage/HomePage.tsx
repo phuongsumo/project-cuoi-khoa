@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './HomePage.module.css';
 import { Container, Row } from 'react-bootstrap';
 import HomeCarousel from './Carousel/HomeCarousel';
@@ -9,6 +9,11 @@ import aboutBgImg from './banner_about_us.png';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
     return (
         <div className={style.home}>
             <HomeCarousel />

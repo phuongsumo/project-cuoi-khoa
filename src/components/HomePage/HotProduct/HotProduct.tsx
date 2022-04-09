@@ -47,18 +47,18 @@ const HotProduct = () => {
                     {datas.map(data => {
                         return (
                             <Col md={3} xs={6} key={data.id}>
-                                <Link to='/' className={styles.product_card}>
+                                <Link to='/product' className={styles.product_card}>
                                     <div className={styles.product_img_wrap}>
                                         <img src={data.image} alt="any" className={styles.product_img} />
                                     </div>
                                     <div className={styles.product_info_wrap}>
                                         <h2 className={styles.products_name}>{data.name}</h2>
                                         <p className={styles.products_price}>
-                                            {data.salePrice && <span className={styles.products_price_sale}>{data.salePrice}</span>}
+                                            {data.salePrice && <span className={styles.products_price_sale}>{Number(data.salePrice).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>}
                                             {(data.salePrice &&
-                                                <span className={`${styles.products_price_origin} ${styles.disabled}`}>{data.price}</span>)
+                                                <span className={`${styles.products_price_origin} ${styles.disabled}`}>{Number(data.price).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>)
                                                 ||
-                                                <span className={styles.products_price_origin}>{data.price}</span>
+                                                <span className={styles.products_price_origin}>{Number(data.price).toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
                                             }
                                         </p>
                                         <button className={styles.products_order}>đặt hàng</button>
@@ -70,7 +70,7 @@ const HotProduct = () => {
                 </Row>
                 <Row >
                     <div className={styles.all_products}>
-                        <Link to='/' className={styles.all_products_link}>xem tất cả</Link>
+                        <Link to='/product' className={styles.all_products_link}>xem tất cả</Link>
                     </div>
                 </Row>
             </Container>

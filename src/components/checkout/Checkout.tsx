@@ -90,6 +90,11 @@ const Checkout: React.FC = () => {
     //   "id": ""
     // }
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -577,7 +582,7 @@ const Checkout: React.FC = () => {
           </div>
         </div>} */}
         {
-           checkout &&<CreatePaymentUrl />
+          checkout && <CreatePaymentUrl />
         }
       </div>
       {/* popup */}

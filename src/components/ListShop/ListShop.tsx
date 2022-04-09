@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import styles from './ListShop.module.css';
 import banner from './banner.png';
@@ -8,6 +8,10 @@ const northApi = 'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/north-sho
 const southApi = 'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/south-shop';
 
 const ListShop = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
     return (
         <section className={styles.shop}>
             <div className={styles.banner}>
