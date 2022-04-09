@@ -1,14 +1,14 @@
 export interface IProduct {
 	name: string;
-	price: number;
-	salePrice: number;
+	price: string;
+	salePrice: string;
 	image: string;
 	category: string;
 	sizeM: boolean;
 	sizeL: boolean;
+	hot: boolean;
 	id: string;
 }
-
 export interface IState {
 	id?: number,
 	name?: string,

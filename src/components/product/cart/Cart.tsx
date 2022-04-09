@@ -23,7 +23,8 @@ export default function Cart({
   handleIncrease: any;
   handleDecrease: any;
 }) {
-  const cartTotal = cartPrice + (cartTopping.length * 9000);
+  const cartTotal = +cartPrice + (cartTopping.length * 9000);
+
   return (
     <>
       <div className="custom-cart-product row-3 row p-0 justify-content-center">

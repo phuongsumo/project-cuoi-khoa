@@ -2,15 +2,26 @@
   width: 29%;
   margin: 5px 5px;
   cursor: pointer;
+  padding-top: 2%;
 }
 .products .custom-card {
   height: 240px;
 }
+.custom-card-img-top {
+  background: gray;
+  height: 65%;
+  overflow: hidden;
+}
 .products .custom-card img {
-  height: 60%;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+.products .custom-card:hover img {
+  transform: scale(1.5);
 }
 .custom-card .card-body {
   width: 99%;
+  height: 34%;
   padding: 1% 15%;
 }
 .products .card-title {
@@ -39,10 +50,10 @@
   color: #799dd9;
 }
 @media screen and (max-width: 750px) {
-  .card-title{
+  .card-title {
     font-size: 90%;
   }
-  .card-text{
+  .card-text {
     font-size: 80% !important;
   }
 }

@@ -10,7 +10,6 @@ import ListIcon from "@mui/icons-material/List";
 import axios from "axios";
 
 const Product: React.FC = memo(() => {
-  
   const INIT_DATA: IState = {
     id: 0,
     name: "",
@@ -47,6 +46,7 @@ const Product: React.FC = memo(() => {
   const monnoibatSection = useRef<HTMLDivElement | null>(null);
   const trasuaSection = useRef<HTMLDivElement | null>(null);
   const freshteaSection = useRef<HTMLDivElement | null>(null);
+  const MacchiatoCreamCheeseSection = useRef<HTMLDivElement | null>(null);
   const suachuadeoSection = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -67,6 +67,15 @@ const Product: React.FC = memo(() => {
     }
   }, [productCarts.length]);
 
+  //kiem tra cart local storage
+  useEffect(() => {
+    const getCartLocalS = localStorage.getItem("cart");
+    if (getCartLocalS) {
+      const parseDataCart = JSON.parse(getCartLocalS!);
+      setProductCarts([...parseDataCart]);
+    }
+  }, []);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -77,14 +86,16 @@ const Product: React.FC = memo(() => {
     setProductDetail(item);
     setSeletedProduct({
       ...seletedProduct,
-      id : productCarts.length+1,
+      id: productCarts.length + 1,
       name: item.name,
       price: item.price,
     });
   };
-  const soLuongSanPham = (type: string) => {
+  const soLuongSanPham = (type: string | boolean) => {
     if (datas !== null) {
-      const sl = datas?.filter((a) => a.category === type);
+      const sl = datas?.filter((a) =>
+        typeof type === "boolean" ? a.hot === type : a.category === type
+      );
       return sl!.length;
     }
   };
@@ -96,6 +107,9 @@ const Product: React.FC = memo(() => {
     item.quantitySelect = item.quantitySelect! + 1;
     items[i] = item;
     setProductCarts([...items]);
+    //cap nhat lai local storage
+
+    localStorage.setItem("cart", JSON.stringify([...items]));
   };
   // giam so luong
   const decrease = (i: any) => {
@@ -107,8 +121,9 @@ const Product: React.FC = memo(() => {
     if (item.quantitySelect <= 0) {
       items.splice(i, 1);
       setProductCarts([...items]);
-      
     }
+    // cap nhat lai local storage
+    localStorage.setItem("cart", JSON.stringify([...items]));
   };
 
   const [queried, setQueried] = useState<boolean>(false);
@@ -119,7 +134,7 @@ const Product: React.FC = memo(() => {
     }
     const getData = async () => {
       const response = await axios.get(
-        `https://612b8df922bb490017893b92.mockapi.io/products?name=${searchValue}`
+        `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/product?name=${searchValue}`
       );
       const data = await response.data;
       setData(data);
@@ -131,6 +146,7 @@ const Product: React.FC = memo(() => {
     e.preventDefault();
     setQueried(true);
   };
+
   return (
     <div>
       <nav className="navbar navbar-light bg-light justify-content-between custom-navbar"></nav>
@@ -152,7 +168,7 @@ const Product: React.FC = memo(() => {
                     Món nổi bật
                   </div>
                   <div className="quantity col-sm-6">
-                    {soLuongSanPham("hot")}
+                    {soLuongSanPham(true)}
                   </div>
                 </div>
                 <hr />
@@ -163,9 +179,7 @@ const Product: React.FC = memo(() => {
                   }}
                 >
                   <div className="category col-sm-6">Trà sữa</div>
-                  <div className="quantity col-sm-6">
-                    {soLuongSanPham("category 1")}
-                  </div>
+                  <div className="quantity col-sm-6">{soLuongSanPham("1")}</div>
                 </div>
                 <hr />
                 <div
@@ -175,9 +189,19 @@ const Product: React.FC = memo(() => {
                   }}
                 >
                   <div className="category col-sm-6">Fresh Fruit Tea</div>
-                  <div className="quantity col-sm-6">
-                    {soLuongSanPham("category 2")}
+                  <div className="quantity col-sm-6">{soLuongSanPham("2")}</div>
+                </div>
+                <hr />
+                <div
+                  className="category-quantity row"
+                  onClick={() => {
+                    handleGoToSection(MacchiatoCreamCheeseSection);
+                  }}
+                >
+                  <div className="category col-sm-6">
+                    Macchiato Cream Cheese
                   </div>
+                  <div className="quantity col-sm-6">{soLuongSanPham("3")}</div>
                 </div>
                 <hr />
                 <div
@@ -187,9 +211,7 @@ const Product: React.FC = memo(() => {
                   }}
                 >
                   <div className="category col-sm-6">Sữa chua dẻo</div>
-                  <div className="quantity col-sm-6">
-                    {soLuongSanPham("category 3")}
-                  </div>
+                  <div className="quantity col-sm-6">{soLuongSanPham("4")}</div>
                 </div>
                 <br />
               </div>
@@ -209,7 +231,7 @@ const Product: React.FC = memo(() => {
             <div className="products row">
               <p ref={monnoibatSection}>Món nổi bật</p>
               {datas!
-                .filter((data) => data.category === "hot")
+                .filter((data) => data.hot === true)
                 .map((item) => (
                   <CardProduct
                     key={item.id}
@@ -225,7 +247,7 @@ const Product: React.FC = memo(() => {
               <hr style={{ marginTop: "3%", marginBottom: "0" }} />
               <p ref={trasuaSection}>Trà sữa</p>
               {datas!
-                .filter((data) => data.category === "category 1")
+                .filter((data) => data.category === "1")
                 .map((item) => (
                   <CardProduct
                     key={item.id}
@@ -241,7 +263,25 @@ const Product: React.FC = memo(() => {
               <hr style={{ marginTop: "3%", marginBottom: "0" }} />
               <p ref={freshteaSection}>Fresh Fruit Tea</p>
               {datas!
-                .filter((data) => data.category === "category 2")
+                .filter((data) => data.category === "2")
+                .map((item) => (
+                  <CardProduct
+                    key={item.id}
+                    productImg={item.image}
+                    productName={item.name}
+                    price={item.price}
+                    salePrice={item.salePrice}
+                    item={item}
+                    handleOpen={() => handleOpen()}
+                    handleShowDetail={() => handleShowDetail(item)}
+                  />
+                ))}
+              <hr style={{ marginTop: "3%", marginBottom: "0" }} />
+              <p className="products-scd" ref={MacchiatoCreamCheeseSection}>
+                Macchiato Cream Cheese
+              </p>
+              {datas!
+                .filter((data) => data.category === "3")
                 .map((item) => (
                   <CardProduct
                     key={item.id}
@@ -259,7 +299,7 @@ const Product: React.FC = memo(() => {
                 Sữa chua dẻo
               </p>
               {datas!
-                .filter((data) => data.category === "category 3")
+                .filter((data) => data.category === "4")
                 .map((item) => (
                   <CardProduct
                     key={item.id}
@@ -284,9 +324,10 @@ const Product: React.FC = memo(() => {
                       className="col-5 p-0"
                       onClick={() => {
                         setProductCarts([]);
+                        localStorage.setItem("cart", JSON.stringify([]));
                       }}
                     >
-                      Xóa tất cả 
+                      Xóa tất cả
                     </div>
                   </div>
                   <hr />
@@ -295,7 +336,7 @@ const Product: React.FC = memo(() => {
                     ? productCarts?.map((item, index) => {
                         return (
                           <Cart
-                            key={index}
+                            key={item.id}
                             cartName={item.name}
                             cartPrice={item.price}
                             cartSize={item.size}
@@ -336,7 +377,11 @@ const Product: React.FC = memo(() => {
                   {productCarts
                     .reduce(
                       (total, currentValue) =>
-                        (total =total + (currentValue.quantitySelect! * (currentValue.price! + (currentValue.topping.length * 9000)))),
+                        (total =
+                          total +
+                          currentValue.quantitySelect! *
+                            (+currentValue.price! +
+                              currentValue.topping.length * 9000)),
                       0
                     )
                     .toString()
@@ -359,7 +404,7 @@ const Product: React.FC = memo(() => {
       >
         <ListIcon className="custom-list-icon" />
       </div>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <BasicModal
         setOpen={setOpen}
         open={open}
