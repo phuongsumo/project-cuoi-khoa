@@ -67,19 +67,19 @@
   scrollbar-width: none !important;
 }
 /* style horizontal scrollbar by CSS? */
-::-webkit-scrollbar {
+.custom-box-modal ::-webkit-scrollbar {
   height: 4px !important;
   width: 4px;
   background: gray;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+.custom-box-modal ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+.custom-box-modal ::-webkit-scrollbar-thumb {
   background: #d8b979;
 }
 

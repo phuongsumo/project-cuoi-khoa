@@ -1,7 +1,6 @@
 import { AddCircle, Close, RemoveCircle } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./basicModal.css";
 import style from "./styleBox";
@@ -31,9 +30,7 @@ export default function BasicModal({
 
   const [total, setTotal] = useState<number>(0);
   
-  const putCart = () => {
-    localStorage.setItem("cart", JSON.stringify(productCarts));
-  };
+
 
   useEffect(() => {
     setSeletedProduct({
@@ -42,7 +39,7 @@ export default function BasicModal({
       quantitySelect: quantity,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [total, productDetail.price, quantity]);
+  }, [total, +productDetail.price, quantity]);
 
   const handleClose = () => {
     setOpen(false);
@@ -54,19 +51,21 @@ export default function BasicModal({
   const increase = () => {
     setQuantity(quantity + 1);
     if (quantity === 1 && total === 0) {
-      setTotal(2 * productDetail.price);
+      setTotal(2 * +productDetail.price);
     } else {
-      setTotal(total + productDetail.price);
+      setTotal(total + +productDetail.price);
     }
+    console.log("total", total);
+    
   };
   // giam so luong
   const decrease = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
       if (quantity === 1 && total === 0) {
-        setTotal(productDetail.price);
+        setTotal(+productDetail.price);
       } else {
-        setTotal(total - productDetail.price);
+        setTotal(total - +productDetail.price);
       }
     }
   };
@@ -79,7 +78,7 @@ export default function BasicModal({
       if (total !== 0) {
         setTotal(total + 9000);
       } else if (total === 0) {
-        setTotal(productDetail.price + 9000);
+        setTotal(+productDetail.price + 9000);
       }
     } else {
       setTotal(total - 9000);
@@ -101,7 +100,10 @@ export default function BasicModal({
       });
     }
   };
-
+  //Đẩy cart vào local storage
+  const putCart = () => {
+    localStorage.setItem("cart", JSON.stringify(productCarts));
+  };
   return (
     <div>
       <Modal

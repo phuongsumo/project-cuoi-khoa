@@ -6,9 +6,5 @@ const News = () => {
         <BodyNews />
         </>
     )
-        
-
-
-   
 }
 export default News
