@@ -41,7 +41,7 @@ const Navbar = () => {
     const handleScroll = () => {
         let st = window.pageYOffset || document.documentElement.scrollTop;
         if (st > 0) {
-            navbar.current.style.backgroundColor = "#000";
+            navbar.current.style.backgroundColor = "#282828";
         } else {
             navbar.current.style.backgroundColor = "unset";
         }
@@ -135,6 +135,11 @@ const Navbar = () => {
               <li className={style.nav_element}>
                 <Link to="/Login" className={style.nav_link}>
                   Đăng nhập
+                </Link>
+              </li>
+              <li className={style.nav_element}>
+                <Link to="/checkout" className={style.nav_link}>
+                  checkout
                 </Link>
               </li>
             </ul>
