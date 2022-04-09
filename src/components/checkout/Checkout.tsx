@@ -4,11 +4,8 @@ import axios from 'axios'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
-import { OnlinePaymentSuccess } from '../../atoms'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import CreatePaymentUrl from './payment/CreatePaymentUrl'
-import OnlinePaymentSuccessPopup from './popup/OnlinePaymentSuccessPopup'
 import { User, Cart, Feature, Properties, Orders, Order } from './models'
 // popups
 import DeliveryTimePopup from './popup/DeliveryTimePopup'
@@ -39,7 +36,6 @@ const Checkout: React.FC = () => {
   const [checkSearchBox, setCheckSearchBox] = useState<boolean>(false)
   const [popupChooseStore, setPopupChooseStore] = useState<boolean>(false)
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
-  const [onlSuccessPayment, setOnlSuccessPayment] = useRecoilState(OnlinePaymentSuccess)
   const [checkout, setCheckout] = useState<boolean>(false)
   const [hour, setHour] = useState<string>('')
   const [minute, setMinute] = useState<string>('')
@@ -93,22 +89,22 @@ const Checkout: React.FC = () => {
       }
     ]
   )
-  const [orders, setOrders] = useState<Orders>(
-    // {
-    //   "username": "",
-    //   "phone": "",
-    //   "address": "",
-    //   "orders": [
+  // const [orders, setOrders] = useState<Orders>(
+  //   // {
+  //   //   "username": "",
+  //   //   "phone": "",
+  //   //   "address": "",
+  //   //   "orders": [
 
-    //   ],
-    //   "paid": false,
-    //   "status": "1",
-    //   "fullName": "",
-    //   "time": "",
-    //   "key": "",
-    //   "id": ""
-    // }
-  );
+  //   //   ],
+  //   //   "paid": false,
+  //   //   "status": "1",
+  //   //   "fullName": "",
+  //   //   "time": "",
+  //   //   "key": "",
+  //   //   "id": ""
+  //   // }
+  // );
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -255,9 +251,8 @@ const Checkout: React.FC = () => {
   const OnSubmit = (data: any) => {
     if (storedChoosed.name) {
       console.log('data:', data)
+      localStorage.setItem("OnlSuccessPaymentData",JSON.stringify({phone:data.phone, location:searchAddress, name:data.name}))
       setFormData({ ...data, location: searchAddress })
-      setOnlSuccessPayment({phone:data.phone, location:data.location, name:data.name})
-      console.log('formdata:', formData)
       if (locStorageCart.length === 0) {
         setCheckCart(true)
       }
@@ -615,17 +610,10 @@ const Checkout: React.FC = () => {
         </Container>
         {
           checkout && <CreatePaymentUrl
-            products={user}
+            products={locStorageCart}
             setCheckout={(a: boolean) => setCheckout(a)} />
         }
       </div>
-      {/* <ReturnPaymentResult
-        products={user}
-        updateOrd={(a: Cart[]) => { updateOrder(a) }}
-        ConvertCartToOrders={(a: Cart[]) => { ConvertCartToOrders(a) }}
-        updateOrders={() => { }}
-        updateCart={() => { }}
-      /> */}
       {/* popup */}
       {show && <DeliveryTimePopup setShow={(a: boolean) => { setShow(a) }} setHour={(a: string) => { setHour(a) }} setMinute={(a: string) => { setMinute(a) }} handleSetTimeSelected={() => { handleSetTimeSelected() }} />}
       {promotionShow && <PromotionCodePopup setPromotionShow={(a: boolean) => { setPromotionShow(a) }} />}

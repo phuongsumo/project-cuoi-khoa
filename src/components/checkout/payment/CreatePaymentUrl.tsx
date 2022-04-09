@@ -48,8 +48,8 @@ const CreatePaymentUrl = (props:any) => {
     second = `${time.getSeconds()}`
   }
   var createDate:number = Number(`${time.getFullYear()}${month}${date}${hour}${minute}${second}`);
-  let total:number=0;
-  products.cart.map((item:any)=>{
+  let total:number=18000;
+  products.map((item:any)=>{
     return total+= item.amount* item.price;
   })
   var amount:number= total;

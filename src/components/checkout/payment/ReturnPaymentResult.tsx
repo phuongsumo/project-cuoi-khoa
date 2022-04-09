@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import style from './ReturnPaymentResult.module.css'
 import axios from 'axios'
-import { OnlinePaymentSuccess } from '../../../atoms'
-import { useRecoilValue } from 'recoil'
 import { User, Cart, Orders, Order } from '../../checkout/models'
-const ReturnPaymentResult = (props: any) => {
-  const formData = useRecoilValue(OnlinePaymentSuccess)
+import OnlinePaymentSuccessPopup from '../popup/OnlinePaymentSuccessPopup'
+import OnlinePaymentFailPopup from '../popup/OnlinePaymentFailPopup'
+const ReturnPaymentResult = () => {
+  let formData:any =JSON.parse(localStorage.getItem('OnlSuccessPaymentData')as any)
+  console.log(formData)
   const url_string = window.location.href;
   const urll = new URL(url_string);
   const value = urll.searchParams;
@@ -76,14 +77,16 @@ const ReturnPaymentResult = (props: any) => {
       .post(`/`, { ...value })
       .catch(err => console.log(err))
   }
+  const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
+  const [popupFailOrder, setPopupFailOrder] = useState<boolean>(false)
   const today= new Date();
   useEffect(() => {
     getUser()
   }, [])
   useEffect(() => {
-    
     if (value.get('vnp_ResponseCode') === '00') {
-      // successOrder()
+      setPopupSuccessOrder(true)
+      setPopupFailOrder(false)
       if (user.username!=="") {
           user.orders = [...user.orders, ...user.cart];
           updateOrder(user.orders)
@@ -104,14 +107,14 @@ const ReturnPaymentResult = (props: any) => {
           )
           let value1: any[] = [...user.cart]
           let value2: any[] = value1.map((value) => {
-            return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+            return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price+18000, topping: value.topping }
           })
           const orders: Orders = {
             username: user.fullName || 'user is not register account',
             phone: user.phone === "" ? formData.phone : user.phone,
             address: formData.location,
             orders: value2,
-            paid: false,
+            paid: true,
             status: "1",
             fullName: user.fullName === "" ? formData.name : user.fullName,
             time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
@@ -122,32 +125,34 @@ const ReturnPaymentResult = (props: any) => {
       else {
         let value1: any[] = [...locStorageCart]
         let value2: any[] = value1.map((value) => {
-          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price+18000, topping: value.topping }
         })
         const ordersnotlogin: Orders = {
           username: user.fullName || 'user is not register account',
-          phone: user.phone === "" ? formData.phone : user.phone,
+          phone:formData.phone,
           address: formData.location,
           orders: value2,
-          paid: false,
+          paid: true,
           status: "1",
-          fullName: user.fullName === "" ? formData.name : user.fullName,
+          fullName: formData.name,
           time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
           id: ""
         }
         updateOrders(ordersnotlogin);
         setLocStorageCart([])
-        console.log('localcart: ', locStorageCart)
       }
       getUser()
     }
     else {
-      // failOrder()
+      setPopupSuccessOrder(false)
+      setPopupFailOrder(true)
       console.log('fail')
     }
   }, [value.get('vnp_ResponseCode')])
   return (
     <div className={style.container}>
+      {popupSuccessOrder && <OnlinePaymentSuccessPopup setPopupSuccessOrder={(a:boolean) =>{setPopupSuccessOrder(a)}}/>}
+      {popupFailOrder && <OnlinePaymentFailPopup setPopupFailOrder={(a:boolean) =>{setPopupFailOrder(a)}}/>}
       <table className={style.table}>
         <thead>
           <tr>

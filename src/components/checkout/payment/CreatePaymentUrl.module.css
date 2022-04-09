@@ -16,8 +16,11 @@
 
 .payButton .button {
     position: absolute;
+    text-decoration: none;
     top: 30%;
     left: 50%;
+    min-width: 250px;
+    text-align: center;
     transform: translate(-50%, -30%);
     z-index: inherit;
     padding: 8px 24px;
