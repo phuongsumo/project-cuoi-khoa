@@ -12,6 +12,23 @@
     z-index: 100;
 }
 
+@keyframes jump {
+    0% {
+        top: 40%;
+        opacity: 0;
+    }
+    50% {
+        top: 50%;
+        opacity: 1;
+    }
+    80% {
+        top: 48.5%;
+    }
+    100% {
+        top: 50%;
+    }
+}
+
 .container {
     position: fixed;
     top: 50%;
@@ -22,6 +39,7 @@
     background-color: #fff;
     z-index: 101;
     padding: 24px;
+    animation: jump 0.4s;
 }
 
 .popUpBtn {
@@ -123,6 +141,7 @@
     background-color: #fff;
     box-shadow: 0 0 10px 0px;
     scroll-behavior: auto;
+    border-radius: 3px;
 }
 
 .promotionPopupTitle {
@@ -151,7 +170,7 @@
 .wrapPromotionPopup input {
     font-size: 0.8em;
     outline: none;
-    padding: 8px 4px;
+    padding: 10px 4px;
     flex-grow: 1;
     border-radius: 3px;
     border: 1px solid #c99e65;

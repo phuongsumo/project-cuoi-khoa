@@ -4,7 +4,7 @@ import { IoCloseCircle } from 'react-icons/io5'
 const PromotionCodePopup = (props: any) => {
     let { setPromotionShow } = props
     return (
-        <>
+        <div>
             <div className={style.container}>
                 <div className={style.promotionPopup}>
                     <div className={style.promotionPopupTitle}>Khuyến mãi</div>
@@ -23,7 +23,7 @@ const PromotionCodePopup = (props: any) => {
                 </div>
             </div>
             <div onClick={() => { setPromotionShow(false) }} className={style.overlay}></div>
-        </>
+        </div>
     )
 }
 

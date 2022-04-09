@@ -4,16 +4,17 @@ import axios from 'axios'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { useRecoilState } from 'recoil'
+import { OnlinePaymentSuccess } from '../../atoms'
 import ReactMapGL, { Marker } from 'react-map-gl'
-import PaypalCheckoutButton from './payment/PaypalCheckoutButton'
 import CreatePaymentUrl from './payment/CreatePaymentUrl'
+import OnlinePaymentSuccessPopup from './popup/OnlinePaymentSuccessPopup'
 import { User, Cart, Feature, Properties, Orders, Order } from './models'
 // popups
 import DeliveryTimePopup from './popup/DeliveryTimePopup'
 import PromotionCodePopup from './popup/PromotionCodePopup'
 import ChooseStorePopup from './popup/ChooseStorePopup'
 import SuccessOrderPopup from './popup/SuccessOrderPopup'
-import BackToLoginPupop from './popup/BackToLoginPupop'
 import CheckCartPopup from './popup/CheckCartPopup'
 import SearchBoxPopup from './popup/SearchBoxPopup'
 // import icons
@@ -21,7 +22,7 @@ import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AiFillPhone } from 'react-icons/ai'
 import { FaStickyNote, FaStore } from 'react-icons/fa'
-import { IoCloseCircle, IoClose } from 'react-icons/io5'
+import { IoClose } from 'react-icons/io5'
 import imgButton from './mapData/checkmapimgs/mapbox-marker-icon-20px-orange.png';
 // 
 import map from './mapData/Map'
@@ -38,14 +39,17 @@ const Checkout: React.FC = () => {
   const [checkSearchBox, setCheckSearchBox] = useState<boolean>(false)
   const [popupChooseStore, setPopupChooseStore] = useState<boolean>(false)
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
+  const [onlSuccessPayment, setOnlSuccessPayment] = useRecoilState(OnlinePaymentSuccess)
   const [checkout, setCheckout] = useState<boolean>(false)
   const [hour, setHour] = useState<string>('')
   const [minute, setMinute] = useState<string>('')
   const [error, setError] = useState<string>("")
   const [login, setLogin] = useState<boolean>(false)
-  const [backToLogin, setBackToLogin] = useState<boolean>(false)
   const [checkCart, setCheckCart] = useState<boolean>(false)
   // 
+  const onlButtonRef = useRef(null)
+  const offButtonRef = useRef(null)
+  const chooseStoreRef=useRef(null)
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const coldcheckedRef = useRef(null);
@@ -74,6 +78,21 @@ const Checkout: React.FC = () => {
       "id": ""
     }
   );
+  const [locStorageCart, setLocStorageCart] = useState<Cart[]>(
+    [
+      {
+        name: "tra sua tran chau den",
+        size: true,
+        ice: true,
+        sugar: true,
+        amount: 3,
+        price: "23000",
+        total: 69000,
+        topping: ["1", "2", "3"],
+        productImg: "http://placeimg.com/640/480/people"
+      }
+    ]
+  )
   const [orders, setOrders] = useState<Orders>(
     // {
     //   "username": "",
@@ -122,57 +141,47 @@ const Checkout: React.FC = () => {
       .post(`/`, { ...value })
       .catch(err => console.log(err))
   }
-  const ConvertCartToOrders = (value: Cart[]) => {
-    let value1: any[] = [...value]
-    let value2: any[] = value1.map((value) => {
-      return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
-    })
-    const orders: Orders = {
-      username: user.username,
-      phone: String(formData.phone) || String(user.phone),
-      address: user.address,
-      orders: value2,
-      paid: false,
-      status: "1",
-      fullName: formData.fullName || user.fullName,
-      time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-      id: ""
-    }
-    return orders
-  }
   useEffect(() => {
-    getUser()
+    getUser();
+    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (momocheckedRef.current as any).checked = true;
   }, [])
 
   useEffect(() => {
+    if(user.username!==""){
+      setLogin(true)
+    }
+    else{
+      setLogin(false)
+    }
     let s = 0;
     let p = 0;
-    if (user.username) {
-      setLogin(true)
-      user.cart.map((item) => {
+    if (locStorageCart) {
+      setCheckCart(false)
+      locStorageCart.map((item) => {
         s = s + item.amount;
         p += Number(item.price) * item.amount;
       })
     } else {
-      setLogin(false)
+      setCheckCart(true)
     }
     setQuantity(s)
     setPrice(p)
   }, [user])
 
-  useEffect(() => {
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
-    (momocheckedRef.current as any).checked = true;
-  }, [])
   // show/hide map and note field
   const handleOnlButton = () => {
     (noteRef.current as any).classList.remove(`${style.hide}`);
     (mapCheckoutRef.current as any).classList.remove(`${style.hide}`);
+    (offButtonRef.current as any).classList.remove(`${style.active}`);
+    (onlButtonRef.current as any).classList.add(`${style.active}`);
     setTransFee(18000);
   }
   const handleOffButton = () => {
     (noteRef.current as any).classList.toggle(`${style.hide}`);
     (mapCheckoutRef.current as any).classList.toggle(`${style.hide}`);
+    (onlButtonRef.current as any).classList.remove(`${style.active}`);
+    (offButtonRef.current as any).classList.add(`${style.active}`);
     setTransFee(0);
   }
   // 
@@ -244,20 +253,24 @@ const Checkout: React.FC = () => {
     register, handleSubmit, formState: { errors }
   } = useForm();
   const OnSubmit = (data: any) => {
-    if (user.username) {
-      setLogin(true)
-      if (storedChoosed.name) {
-        // if (user.cart.length === 0) {
-        //   setCheckCart(true)
-        // } else 
-        {
-          if ((coldcheckedRef.current as any).checked === true) {
-            setCheckout(false)
-            setPopupSuccessOrder(true)
-            // user.orders = [...user.orders, ...user.cart];
-            // updateOrder(
-            //   user.orders
-            // )
+    if (storedChoosed.name) {
+      console.log('data:', data)
+      setFormData({ ...data, location: searchAddress })
+      setOnlSuccessPayment({phone:data.phone, location:data.location, name:data.name})
+      console.log('formdata:', formData)
+      if (locStorageCart.length === 0) {
+        setCheckCart(true)
+      }
+      else {
+        setCheckCart(false)
+        if ((coldcheckedRef.current as any).checked === true) {
+          setCheckout(false)
+          if (user.username!=="") {
+            setLogin(true)
+            user.orders = [...user.orders, ...user.cart];
+            updateOrder(
+              user.orders
+            )
             updateCart(
               [
                 {
@@ -273,25 +286,55 @@ const Checkout: React.FC = () => {
                 }
               ]
             )
-            // const orders = ConvertCartToOrders(user.cart)
-            // updateOrders(orders)
-            getUser()
-          } else
-            if ((momocheckedRef.current as any).checked === true) {
-              setPopupSuccessOrder(false)
-              setCheckout(true)
+            let value1: any[] = [...user.cart]
+            let value2: any[] = value1.map((value) => {
+              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+            })
+            const orders: Orders = {
+              username: user.fullName || 'user is not register account',
+              phone: user.phone === "" ? data.phone : user.phone,
+              address: searchAddress,
+              orders: value2,
+              paid: false,
+              status: "1",
+              fullName: user.fullName === "" ? data.name : user.fullName,
+              time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+              id: ""
             }
-        }
-        setFormData(data);
-        console.log(data.fullName, data.phone);
-      }
-      else {
-        handleSubmitOrder("Vui lòng nhập tên shop!");
+            updateOrders(orders)
+          }
+          else {
+            setLogin(false)
+            let value1: any[] = [...locStorageCart]
+            let value2: any[] = value1.map((value) => {
+              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+            })
+            const ordersnotlogin: Orders = {
+              username: user.fullName || 'user is not register account',
+              phone: user.phone === "" ? data.phone : user.phone,
+              address: searchAddress,
+              orders: value2,
+              paid: false,
+              status: "1",
+              fullName: user.fullName === "" ? data.name : user.fullName,
+              time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+              id: ""
+            }
+            updateOrders(ordersnotlogin);
+            setLocStorageCart([])
+            console.log('localcart: ', locStorageCart)
+          }
+          setPopupSuccessOrder(true)
+        } else
+          if ((momocheckedRef.current as any).checked === true) {
+            setPopupSuccessOrder(false)
+            setCheckout(true)
+          }
+        getUser()
       }
     }
     else {
-      setLogin(false)
-      setBackToLogin(true);
+      handleSubmitOrder("Vui lòng nhập tên shop!");
     }
   }
 
@@ -310,13 +353,12 @@ const Checkout: React.FC = () => {
   const [searchAddressStore, setSearchAddressStore] = useState<string>("")
   const [listStore, setListStore] = useState<Array<any>>([])
   const handleAddressChange = (e: any) => {
-    setViewport({
-      ...viewport,
-      width: '100%',
-      zoom: 10
-    })
+    // setViewport({
+    //   ...viewport,
+    //   width: '100%',
+    //   zoom: 10
+    // })
     //checksearchbox nen de mot lan
-    setSearchAddress(e.target.value);
     setCheckSearchBox(true);
     let arr: any = map.features;
     let b = [...arr];
@@ -325,13 +367,14 @@ const Checkout: React.FC = () => {
       let a = b.filter((item) => item.properties.fullname.toLowerCase().includes(searchAddressLow));
       setList([...a]);
     }
+    setSearchAddress(e.target.value);
     //can nhac dung use memo 
   }
   const getFullNameValue = (e: any) => {
-    formData.fullName = e.target.value
+    // formData.fullName = e.target.value
   }
   const getPhoneValue = (e: any) => {
-    formData.phone = e.target.value
+    // formData.phone = e.target.value
   }
   const handleLocationOnClick = (item: any) => {
     setCheckSearchBox(false);
@@ -347,7 +390,10 @@ const Checkout: React.FC = () => {
   }
   const handlePopupChooseStore = () => {
     if (searchAddressOnClick) {
-      setPopupChooseStore(true)
+      // if(chooseStoreRef){
+        //   (chooseStoreRef as any).focus()
+        // }
+        setPopupChooseStore(true);
     }
     else {
       setPopupChooseStore(false)
@@ -365,8 +411,8 @@ const Checkout: React.FC = () => {
         <Container className={style.container}>
           <form onSubmit={handleSubmit(OnSubmit)}>
             <div className={style.doubleButton}>
-              <button type="button" onClick={() => { handleOnlButton() }} className={`${style.singleButton} ${style.active}`}>Giao hàng tận nơi</button>
-              <button type="button" onClick={() => { handleOffButton() }} className={style.singleButton}>Nhận tại cửa hàng</button>
+              <button ref={onlButtonRef} type="button" onClick={() => { handleOnlButton() }} className={`${style.singleButton} ${style.active}`}>Giao hàng tận nơi</button>
+              <button ref={offButtonRef} type="button" onClick={() => { handleOffButton() }} className={style.singleButton}>Nhận tại cửa hàng</button>
             </div>
             <Row className={style.checkoutDetail}>
               <Col lg={7} className={style.checkoutDetailLeft}>
@@ -384,7 +430,7 @@ const Checkout: React.FC = () => {
                         <BsFillPersonFill />
                       </div>
                       {login
-                        ? <input {...register("name", { required: false })} defaultValue={user.fullName} onChange={(e) => { getFullNameValue(e) }} type="text" id={style['customerName']} placeholder='Tên người nhận' />
+                        ? <input {...register("name", { required: false })} defaultValue={user.fullName} type="text" id={style['customerName']} placeholder='Tên người nhận' />
                         : <input {...register("name", { required: true, pattern: /[A-Za-z]+/ })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
                       {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>name is required</p>)}
                       {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>name is not correct</p>)}
@@ -394,7 +440,7 @@ const Checkout: React.FC = () => {
                         <AiFillPhone />
                       </div>
                       {login
-                        ? <input {...register("phone", { required: false, pattern: /[0][1-9]?[0-9]{8}$/ })} defaultValue={user.phone} onChange={(e) => { getPhoneValue(e) }} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
+                        ? <input {...register("phone", { required: false, pattern: /[0][1-9]?[0-9]{8}$/ })} defaultValue={user.phone} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
                         : <input {...register("phone", { required: true, pattern: /[0][1-9]?[0-9]{8}$/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
                       {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
                       {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
@@ -409,7 +455,8 @@ const Checkout: React.FC = () => {
                         {checkSearchBox && <SearchBoxPopup
                           setCheckSearchBox={(a: boolean) => { setCheckSearchBox(a) }}
                           searchAddress={searchAddress}
-                          list={list} handleLocationOnClick={(a: any) => { handleLocationOnClick(a) }}
+                          list={list}
+                          handleLocationOnClick={(a: any) => { handleLocationOnClick(a) }}
                         />}
                       </div>
                       <div ref={noteRef} className={`${style.wrapInput} ${style.wrapNote}`}>
@@ -566,20 +613,19 @@ const Checkout: React.FC = () => {
             </Row>
           </form>
         </Container>
-        {/* {checkout && <div className={style.paypalCheckoutMethod} onClick={() => { setCheckout((false)) }}>
-          <div className={style.paypalCheckoutButton}>
-            <PaypalCheckoutButton
-              updateOrd={(order: Cart[]) => updateOrder(order)}
-              updateCart={(cart: Cart[]) => updateOrder(cart)}
-              ConvertCartToOrders={(value:Cart[]) => ConvertCartToOrders(value)}
-              updateOrders={(orders: Orders) => updateOrders(orders)}
-              products={user} />
-          </div>
-        </div>} */}
         {
-           checkout &&<CreatePaymentUrl />
+          checkout && <CreatePaymentUrl
+            products={user}
+            setCheckout={(a: boolean) => setCheckout(a)} />
         }
       </div>
+      {/* <ReturnPaymentResult
+        products={user}
+        updateOrd={(a: Cart[]) => { updateOrder(a) }}
+        ConvertCartToOrders={(a: Cart[]) => { ConvertCartToOrders(a) }}
+        updateOrders={() => { }}
+        updateCart={() => { }}
+      /> */}
       {/* popup */}
       {show && <DeliveryTimePopup setShow={(a: boolean) => { setShow(a) }} setHour={(a: string) => { setHour(a) }} setMinute={(a: string) => { setMinute(a) }} handleSetTimeSelected={() => { handleSetTimeSelected() }} />}
       {promotionShow && <PromotionCodePopup setPromotionShow={(a: boolean) => { setPromotionShow(a) }} />}
@@ -589,7 +635,9 @@ const Checkout: React.FC = () => {
         listStore={listStore}
         handleDisplayStoreChoosed={(item: any) => { handleDisplayStoreChoosed(item) }}
         fillStoreChoose={fillStoreChoose}
-        searchAddressStore={searchAddressStore} />}
+        searchAddressStore={searchAddressStore} 
+        chooseStoreRef= {chooseStoreRef}
+        />}
       {/* error modals */}
       <div ref={errorModals} className={style.errorModal}>
         <div className={style.errorMessage}>{error}</div>
@@ -597,7 +645,6 @@ const Checkout: React.FC = () => {
       </div>
       {/* order success message */}
       {popupSuccessOrder && <SuccessOrderPopup setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
-      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
       {checkCart && <CheckCartPopup setCheckCart={(a: boolean) => { setCheckCart(a) }} />}
     </div >
   )

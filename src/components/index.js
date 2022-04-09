@@ -8,6 +8,8 @@ export { default as Recruit }
 from "./recruit/Recruit";
 export { default as Checkout }
 from "./checkout/Checkout";
+export { default as ReturnPaymentResult }
+from "./checkout/payment/ReturnPaymentResult";
 export { default as Footer }
 from "./footer/Footer";
 export { default as Product }
