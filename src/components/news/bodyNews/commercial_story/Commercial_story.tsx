@@ -1,12 +1,15 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styles from './Commercial_story.module.css'
 import { Link } from "react-router-dom"
 const Commercial_story = () => {
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return (
         <>
 
             <div className={styles.category_top_banner} >
-                Tin tức khuyến mãi
+                câu chuyện thương hiệu
             </div>
 
             <div className={`${styles.category_content} ${styles.container}`}>
@@ -20,14 +23,14 @@ const Commercial_story = () => {
                         <div className={styles.category_menu_content}>
                             <div className={styles.menu_category_menu}>
                                 <ul id="menu_category_menu" className={`${styles.menu} ${styles.ulist}`}>
-                                    <li id="menu_item_4480" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category} ${styles.current_menu_item} ${styles.menu_item_4480}`}>                                       
-                                    <Link to='/Commercial_story' target='_parent' className={styles.alink}>Câu chuyện thương hiệu</Link> 
+                                    <li id="menu_item_4480" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category} ${styles.current_menu_item} ${styles.menu_item_4480}`}>
+                                        <Link to='/Commercial_story' target='_parent' className={styles.alink}>Câu chuyện thương hiệu</Link>
                                     </li>
                                     <li id="menu_item_4481" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category} ${styles.menu_item_4481}`}>
-                                    <Link to="/Promotional_news" target='_parent' className={styles.alink}>Tin tức khuyến mại</Link>
+                                        <Link to="/Promotional_news" target='_parent' className={styles.alink}>Tin tức khuyến mại</Link>
                                     </li>
                                     <li id="menu_item_4482" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category} ${styles.menu_item_4482}`}>
-                                    <Link to="/Sk_events" target='_parent' className={styles.alink}> Sự kiện </Link>
+                                        <Link to="/Sk_events" target='_parent' className={styles.alink}> Sự kiện </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -37,7 +40,7 @@ const Commercial_story = () => {
                         <a href="https://tocotocotea.com/" className={styles.alink}>
                             <img className={`${styles.banner_item} ${styles.image}`} src="https://tocotocotea.com/wp-content/uploads/2021/10/ft2_2_img.webp" alt="" />
                         </a>
-                        <a href=""  className={styles.alink}>
+                        <a href="" className={styles.alink}>
                             <img className={`${styles.banner_item} ${styles.image} `} src="https://tocotocotea.com/wp-content/uploads/2021/10/ft2_1_img.webp" alt="" />
                         </a>
                     </div>

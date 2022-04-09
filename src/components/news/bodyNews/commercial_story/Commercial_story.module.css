@@ -1,52 +1,65 @@
-@media  only screen and  (min-width: 1200px){
+@media only screen and (min-width: 1200px) {
     .container {
         max-width: 1140px;
-    }}
-    @media only screen and (max-width: 768px){
-        .category_content {
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .category_content {
         flex-direction: column;
         align-items: center;
     }
-        .category_side_bar {
+
+    .category_side_bar {
         width: 100%;
     }
-        .category_side_bar .category_menu {
+
+    .category_side_bar .category_menu {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-        .category_menu_title {
+
+    .category_menu_title {
         text-align: center;
         width: 500px;
     }
-        .category_menu_content ul.ulist.menu {
+
+    .category_menu_content ul.ulist.menu {
         text-align: center;
         width: 1500px;
     }
-        .category_banner_promotion {
+
+    .category_banner_promotion {
         display: none;
         margin-top: -40px;
     }
-        .list_tags {
+
+    .list_tags {
         display: none;
     }
-        .category_main {
+
+    .category_main {
         width: 100%;
         padding: 0;
     }
+
     .category_main_title {
         text-align: center;
         margin-top: 32px;
     }
+
     a.post_card {
         width: 100%;
         margin-right: 0 !important;
         margin-left: 0 !important;
-    }}
-    
-.span_text{
+    }
+}
+
+.span_text {
     vertical-align: inherit;
 }
+
 .category_top_banner {
     height: 300px;
     text-transform: uppercase;
@@ -61,24 +74,30 @@
     align-items: flex-end;
     padding-bottom: 30px;
 }
+
 .category_content {
     display: flex;
     padding-top: 50px !important;
     padding-bottom: 50px !important;
 }
+
 .container {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    margin-top: 30px;
     margin-right: auto;
     margin-left: auto;
 }
+
 .container {
     padding: 0 !important;
 }
+
 .category_side_bar {
     width: 30%;
 }
+
 .category_menu_title {
     font-size: 28px;
     letter-spacing: 1.4px;
@@ -87,25 +106,31 @@
     font-family: BalooExtra;
     margin-bottom: 32px;
 }
+
 .category_menu_content ul.ulist.menu {
     list-style-type: none !important;
     padding: 0 !important;
 }
+
 ul.ulist {
     margin: 0 0 15px 20px;
     margin-top: 0;
     margin-bottom: 1rem;
     margin: 0;
 }
+
 .category_menu_content .current_menu_item {
     border-bottom: 2px solid #282828;
     display: inline-block;
 }
+
 .category_menu_content .menu_item {
     height: 36px;
     margin-bottom: 8px;
 }
-.category_menu_content a.alink, .category_menu_content a.alink:hover {
+
+.category_menu_content a.alink,
+.category_menu_content a.alink:hover {
     color: #282828;
     text-decoration: none;
     font-size: 16px;
@@ -116,23 +141,27 @@ ul.ulist {
     text-transform: uppercase;
 }
 
-.current_menu_item > a {
+.current_menu_item>a {
     padding-bottom: 2px;
     border-bottom: 2px solid white;
 }
+
 .category_banner_promotion {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
 }
+
 .category_banner_promotion .banner_item {
     width: 100%;
     padding: 16px 0;
 }
+
 img.image {
     vertical-align: middle;
     border-style: none;
 }
+
 .list-tags_title {
     font-size: 28px;
     letter-spacing: 1.4px;
@@ -142,7 +171,9 @@ img.image {
     margin-bottom: 32px;
     margin-top: 50px;
 }
-.post_tag, .post_tag:hover {
+
+.post_tag,
+.post_tag:hover {
     display: inline-block;
     margin: 0px 18px 20px 0px;
     padding: 5px 25px;
@@ -151,10 +182,12 @@ img.image {
     background: #fbeed1;
     text-decoration: none;
 }
+
 .category_main {
     width: 70%;
     padding-left: 30px;
 }
+
 .category_main_title {
     font-size: 28px;
     letter-spacing: 1.4px;
@@ -163,7 +196,8 @@ img.image {
     text-transform: uppercase;
     font-family: BalooExtra;
 }
-.main_title{
+
+.main_title {
     font-size: 28px;
     letter-spacing: 1.4px;
     color: #282828;
@@ -172,16 +206,20 @@ img.image {
     text-align: center;
     font-weight: 1000;
 }
+
 .category_main_content {
     display: flex;
     flex-wrap: wrap;
 }
+
 .post_card:nth-child(2n + 1) {
     margin-right: 8px;
 }
+
 .post_card:nth-child(2n) {
     margin-left: 8px;
 }
+
 .post_card {
     width: calc(50% - 8px);
     background-color: #f5f5f5;
@@ -192,16 +230,20 @@ img.image {
     flex-direction: column;
     text-decoration: none !important;
 }
+
 .post_card .feature_img {
     width: 100%;
 }
+
 .post_card img {
     vertical-align: middle;
     border-style: none;
 }
+
 .post_card_content {
     padding: 15px 15px 23px;
 }
+
 .post_card_title {
     color: #333333;
     font-size: 14px;
@@ -212,6 +254,7 @@ img.image {
     font-weight: 700;
     line-height: 24px;
 }
+
 .post_card_excerpt {
     font-family: Muli;
     font-weight: 300;
@@ -219,11 +262,13 @@ img.image {
     /* margin-bottom: 10px;
     margin-top: 10px; */
 }
+
 .post_card .button_type_one {
     font-size: 16px;
     text-transform: none;
     padding: 2px 16px;
 }
+
 .button_type_one {
     border: 1px solid #d3b673;
     color: #fff;
@@ -237,6 +282,7 @@ img.image {
     font-family: Muli;
     display: inline-block;
 }
+
 .pagination {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -245,28 +291,32 @@ img.image {
     list-style: none;
     border-radius: 0.25rem;
 }
+
 nav.navigation {
     display: block;
 }
+
 .screen_reader_text {
-    clip: rect(1px,1px,1px,1px);
+    clip: rect(1px, 1px, 1px, 1px);
     height: 1px;
     overflow: hidden;
-    position: absolute!important;
+    position: absolute !important;
     width: 1px;
-    word-wrap: normal!important;
+    word-wrap: normal !important;
 }
+
 .screen_reader_text {
     border: 0;
     height: 1px;
     margin: -1px;
     overflow: hidden;
-    overflow-wrap: normal!important;
-    word-wrap: normal!important;
+    overflow-wrap: normal !important;
+    word-wrap: normal !important;
     padding: 0;
-    position: absolute!important;
+    position: absolute !important;
     width: 1px;
 }
+
 h2.h2_title {
     display: block;
     font-family: "Baloo", Helvetica, Arial, sans-serif;
@@ -275,16 +325,18 @@ h2.h2_title {
     line-height: 1.2;
     color: inherit;
 }
+
 .page_numbers.current {
     background: #d3b673;
     color: white;
 }
-.page_numbers {
-    padding: 4px 8px;
-    font-size: 18px;
-}
+
 .page_numbers {
     padding: 4px 8px;
     font-size: 18px;
 }
 
+.page_numbers {
+    padding: 4px 8px;
+    font-size: 18px;
+}
