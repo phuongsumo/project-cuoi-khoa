@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import style from "./CreateAccount.module.css"
 import logo from '../login/img/logo.jpg'
-import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 interface UserData {
@@ -32,26 +32,29 @@ const CreateAccount = () => {
 
         userName: Yup.string()
             .min(5, 'Username must be at least 5 characters')
+            .max(16, "Username tối đa 16 ký tự")
+            .matches(/^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){5,16}[a-zA-Z0-9]$/, "Username không được có dấu cách")
             .required('Username is required'),
         password: Yup.string()
-            .min(5, 'Password must be at least 5 characters')
+            .min(6, 'Password must be at least 5 characters')
+            .max(16, "Password tối đa 16 ký tự")
+            .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, ' Password phải có 1 ký tự viết hoa và 1 ký tự số')
             .required('Password is required'),
         email: Yup.string()
             .required('Email is required')
-            .email('Email is invalid'),
+            .matches(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Nhập lại email. VD: anh@gmail.com'),
 
-        phone: Yup.number()
+        phone: Yup.string()
             .typeError("That doesn't look like a phone number")
-            .positive("A phone number can't start with a minus")
-            .integer("A phone number can't include a decimal point")
-            .min(8)
+            .matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,5}$/im, "Số điện thoại phải có ít nhất 12 số")
             .required('A phone number is required'),
 
         fullName: Yup.string()
             .min(5, 'Fullname must be at least 5 characters')
-            .required('Fullname is required'),
+            .matches( /^([\w]{3,})+\s+([\w\s]{3,})+$/i, 'Fullname is required'),
         address: Yup.string()
             .min(5, 'Address must be at least 5 characters')
+            .matches(/^[a-zA-Z0-9\s,'-]*$/, 'Địa chỉ có chứa dấu gạch ngang. VD HaNoi - VietNam')
             .required('Address is required'),
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
@@ -77,12 +80,14 @@ const CreateAccount = () => {
        let check;
        for(let i = 0; i<users.length ; i++){
            check=true;
+           
                if(name === users[i].toString() )
            {
                check=false;
                break;
            } 
-    }
+        
+    }  
     if(check){
         var dataPost = {
         username: name,
@@ -125,37 +130,37 @@ const CreateAccount = () => {
                 <img className={style.logo_toco} src={logo} alt="" />
 
                 <div className={style.popup_login_input}>
-                    <input id='userName' type="text" {...register('userName')} className={`${style.form_control} ${errors.userName ? 'is-invalid' : ''}`} placeholder="Nhập tên  của bạn" />
+                    <input id='userName' type="text" {...register('userName')} className={`${style.form_control} ${style.form_input} ${errors.userName ? 'is-invalid' : ''}`} placeholder="Nhập tên  của bạn" />
                     <div className="invalid-feedback">{errors.userName?.message}</div>
                 </div>
 
                 <div className={style.popup_login_input}>
-                    <input id="password" type="password" {...register('password')} className={`${style.form_control} ${errors.password ? 'is-invalid' : ''}`} placeholder="Nhập mật khẩu của bạn" />
+                    <input id="password" type="password" {...register('password')} className={`${style.form_control} ${style.form_input} ${errors.password ? 'is-invalid' : ''}`} placeholder="Nhập mật khẩu của bạn" />
                     <div className="invalid-feedback">{errors.password?.message}</div>
 
                 </div>
                 <div className={style.popup_login_input}>
-                    <input id="email" type="email" {...register('email')} className={`${style.form_control} ${errors.email ? 'is-invalid' : ''}`} placeholder="Nhập email của bạn" />
-                    <div className="invalid-feedback">{errors.password?.message}</div>
+                    <input id="email" type="email" {...register('email')} className={`${style.form_control} ${style.form_input} ${errors.email ? 'is-invalid' : ''}`} placeholder="Nhập email của bạn" />
+                    <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
 
             
 
                 <div className={style.popup_login_input}>
-                    <input type="text" id="phone" {...register('phone')} className={`${style.form_control} ${errors.phone ? 'is-invalid' : ''}`} placeholder="Nhập số điện thoại của bạn" />
+                    <input type="text" id="phone" {...register('phone')} className={`${style.form_control} ${style.form_input} ${errors.phone ? 'is-invalid' : ''}`} placeholder="Nhập số điện thoại của bạn" />
 
                     <div className="invalid-feedback">{errors.phone?.message}</div>
                 </div>
 
                 <div className={style.popup_login_input}>
 
-                    <input type="text" id="fullName" {...register('fullName')} className={`${style.form_control} ${errors.fullName ? 'is-invalid' : ''}`} placeholder="Nhập tên đầy đủ của bạn" />
+                    <input type="text" id="fullName" {...register('fullName')} className={`${style.form_control} ${style.form_input} ${errors.fullName ? 'is-invalid' : ''}`} placeholder="Nhập tên đầy đủ của bạn" />
                     <div className="invalid-feedback">{errors.fullName?.message}</div>
                 </div>
 
 
                 <div className={style.popup_login_input}>
-                    <input type="text" id="address" {...register('address')} className={`${style.form_control} ${errors.address ? 'is-invalid' : ''}`} placeholder="Nhập địa chỉ của bạn" />
+                    <input type="text" id="address" {...register('address')} className={`${style.form_control} ${style.form_input} ${errors.address ? 'is-invalid' : ''}`} placeholder="Nhập địa chỉ của bạn" />
 
                     <div className="invalid-feedback">{errors.address?.message}</div>
                 </div>
@@ -163,7 +168,18 @@ const CreateAccount = () => {
 
                 <div className={style.btn}>
                     
-                        <button  type="submit" className={style.btn_yellow}>Đăng ký</button>
+                        <button  type="submit" className={`${style.btn_yellow} ${style.buton} `} onClick={() => {
+        reset({
+          firstName: "bill"
+        }, {
+          keepErrors: true, 
+          keepDirty: true,
+          keepIsSubmitted: false,
+          keepTouched: false,
+          keepIsValid: false,
+          keepSubmitCount: false,
+        });
+      }}>Đăng ký</button>
                 </div>
                 <div className={style.sugget_text}>
                     <div className={style.text}>
@@ -178,7 +194,7 @@ const CreateAccount = () => {
                     </div>
                 </div>
                 <div className={style.sugget_text}>
-                    <a href="#" className={style.back_home}>
+                    <a href="#" className={`${style.back_home} ${style.alink}`}>
                         <span className={style.span_text}>
                             <Link to='/' className={style.span_text}>Quay lại chính màn hình</Link>
                         </span>
