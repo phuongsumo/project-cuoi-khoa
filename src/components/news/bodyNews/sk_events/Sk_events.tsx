@@ -1,7 +1,10 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 import styles from './Sk_events.module.css'
 const Sk_events = () => {
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
     return (
         <>
 
@@ -21,13 +24,13 @@ const Sk_events = () => {
                             <div className={styles.menu_category_menu}>
                                 <ul id="menu_category_menu" className={`${styles.menu} ${styles.ulist}`}>
                                     <li id="menu_item_4480" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category}  ${styles.menu_item_4480}`}>
-                                    <Link to='/Commercial_story' target='_parent' >Câu chuyện thương hiệu</Link>
+                                        <Link to='/Commercial_story' target='_parent' >Câu chuyện thương hiệu</Link>
                                     </li>
                                     <li id="menu_item_4481" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category} ${styles.menu_item_4481}`}>
-                                    <Link to="/Promotional_news" target='_parent' >Tin tức khuyến mại</Link>
+                                        <Link to="/Promotional_news" target='_parent' >Tin tức khuyến mại</Link>
                                     </li>
                                     <li id="menu_item_4482" className={`${styles.menu_item} ${styles.menu_item_type_taxonomy} ${styles.menu_item_object_category} ${styles.current_menu_item} ${styles.menu_item_4482}`}>
-                                    <Link to="/Sk_events" target='_parent' >Sự kiện </Link>
+                                        <Link to="/Sk_events" target='_parent' >Sự kiện </Link>
                                     </li>
                                 </ul>
                             </div>

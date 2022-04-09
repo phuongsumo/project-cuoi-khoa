@@ -23,7 +23,7 @@ const HomeCarousel = () => {
                         Với sứ mệnh mang tới niềm vui và hạnh phúc, TocoToco hy vọng sẽ tạo nên<br />
                         một nét văn hóa giải trí bên cạnh ly trà sữa Ngon - sạch - tươi
                     </p>
-                    <Link to="/" className={style.carousel_link}>Đặt hàng ngay</Link>
+                    <Link to="/product" className={style.carousel_link}>Đặt hàng ngay</Link>
                     <div className={style.carousel_scroll}>
                         <BsMouse className={style.carousel_scroll_icon} />
                         <p>Cuộn xuống</p>
@@ -44,7 +44,7 @@ const HomeCarousel = () => {
                         Với sứ mệnh mang tới niềm vui và hạnh phúc, TocoToco hy vọng sẽ tạo nên<br />
                         một nét văn hóa giải trí bên cạnh ly trà sữa Ngon - sạch - tươi
                     </p>
-                    <Link to="/" className={style.carousel_link}>Đặt hàng ngay</Link>
+                    <Link to="/product" className={style.carousel_link}>Đặt hàng ngay</Link>
                     <div className={style.carousel_scroll}>
                         <BsMouse className={style.carousel_scroll_icon} />
                         <p>Cuộn xuống</p>
@@ -65,7 +65,7 @@ const HomeCarousel = () => {
                         Với sứ mệnh mang tới niềm vui và hạnh phúc, TocoToco hy vọng sẽ tạo nên<br />
                         một nét văn hóa giải trí bên cạnh ly trà sữa Ngon - sạch - tươi
                     </p>
-                    <Link to="/" className={style.carousel_link}>Đặt hàng ngay</Link>
+                    <Link to="/product" className={style.carousel_link}>Đặt hàng ngay</Link>
                     <div className={style.carousel_scroll}>
                         <BsMouse className={style.carousel_scroll_icon} />
                         <p>Cuộn xuống</p>
