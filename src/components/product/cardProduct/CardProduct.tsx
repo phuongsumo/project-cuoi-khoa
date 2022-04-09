@@ -27,7 +27,9 @@ export default function CardProduct({
         handleShowDetail();
       }}
     >
-      <img className="card-img-top" src={productImg} alt="" />
+      <div className="custom-card-img-top">
+        <img className="card-img-top" src={productImg} alt="" />
+      </div>
       <div className="card-body">
         <h5 className="card-title p-0">{productName}</h5>
         <div className="card-text row p-0  d-flex align-items-center text-align-center">
