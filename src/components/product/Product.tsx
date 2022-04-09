@@ -88,7 +88,7 @@ const Product: React.FC = memo(() => {
       ...seletedProduct,
       id: productCarts.length + 1,
       name: item.name,
-      price: item.price,
+      price: item.salePrice,
     });
   };
   const soLuongSanPham = (type: string | boolean) => {

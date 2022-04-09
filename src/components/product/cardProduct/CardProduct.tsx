@@ -27,18 +27,18 @@ export default function CardProduct({
         handleShowDetail();
       }}
     >
-      <div className="custom-card-img-top">
+      <div className="custom-card-img-top mb-1">
         <img className="card-img-top" src={productImg} alt="" />
       </div>
       <div className="card-body">
         <h5 className="card-title p-0">{productName}</h5>
         <div className="card-text row p-0  d-flex align-items-center text-align-center">
           <div className="col-5 p-0 ">
-            {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ{" "}
+            {salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ{" "}
           </div>
           <div className="col-5 p-0 ">
             <del>
-              {salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
+              {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
             </del>
           </div>
           <div className="card-icon p-0 col-1 ">
