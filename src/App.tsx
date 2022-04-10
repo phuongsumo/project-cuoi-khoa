@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
-  Navbar, HomePage, ListShop, Recruit, Checkout, Footer, Product,
+  Navbar, HomePage, ListShop, Recruit, Checkout,ReturnPaymentResult, Footer, Product,
   Achievement,
   HistoryAndMission,
   CreateAccount, 
@@ -11,12 +11,11 @@ import {
   Promotional_news, 
   Sk_events
 } from './components/index';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+// import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import './App.css';
-
 function App(): JSX.Element {
   return (
-    <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>
+    // <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>
       <div className="App">
         <Navbar />
         <Routes>
@@ -24,6 +23,7 @@ function App(): JSX.Element {
           <Route path="/list-shop" element={<ListShop />} />
           <Route path="/recruit" element={<Recruit />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout/return" element={<ReturnPaymentResult />} />
           <Route path="/product" element={<Product />} />
           <Route path="/achievement" element={<Achievement />} />
           <Route path="/historyAndMission" element={<HistoryAndMission />} />
@@ -36,7 +36,7 @@ function App(): JSX.Element {
         </Routes>
         <Footer />
       </div>
-    </PayPalScriptProvider>
+    // </PayPalScriptProvider>
 
   );
 }
