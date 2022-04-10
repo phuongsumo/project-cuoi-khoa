@@ -60,14 +60,14 @@ const ReturnPaymentResult = () => {
   const updateOrders = async (value: Orders) => {
     let updateOrders = await ordersApi
       .post(`/`, { ...value })
-      .then(function (response) {
-        console.log(response);
-      })
       .catch(err => console.log(err))
   }
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
   const [popupFailOrder, setPopupFailOrder] = useState<boolean>(false)
   const today = new Date();
+  const time = new Date();
+  let hour = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
+  let minute = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
   useEffect(() => {
     if (value.get('vnp_ResponseCode') === '00') {
       setPopupSuccessOrder(true)
@@ -88,7 +88,7 @@ const ReturnPaymentResult = () => {
               sugar: true,
               amount: 3,
               price: "23000",
-              total: 69000,
+              total: "69000",
               topping: ["1", "2", "3"],
               productImg: "http://placeimg.com/640/480/people"
             }
@@ -106,10 +106,9 @@ const ReturnPaymentResult = () => {
           paid: true,
           status: "1",
           fullName: formData.name || user.fullName,
-          time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+          time: `${hour}:${minute}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
           id: ""
         }
-        console.log('order: ', orderss)
         updateOrders(orderss)
         getUser()
       }
@@ -126,7 +125,7 @@ const ReturnPaymentResult = () => {
           paid: true,
           status: "1",
           fullName: formData.name,
-          time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+          time: `${hour}:${minute}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
           id: ""
         }
         updateOrders(ordersnotlogin);

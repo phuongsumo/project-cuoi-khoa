@@ -5,7 +5,7 @@ export interface Cart {
     sugar:boolean;
     amount: number;
     price: string;
-    total: number;
+    total: string;
     topping:string[];
     productImg: string,
   };
@@ -30,7 +30,7 @@ export interface Orders {
     status: string;
     fullName: string;
     time: string;
-    id: string;
+    id?: string;
 }
 // users modal
 export interface User {

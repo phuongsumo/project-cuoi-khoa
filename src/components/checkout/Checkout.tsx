@@ -55,20 +55,22 @@ const Checkout: React.FC = () => {
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const coldcheckedRef = useRef(null);
-  const momocheckedRef = useRef(null);
-  const momoMarkRadio = useRef(null);
+  const vnpaycheckedRef = useRef(null);
+  const vnpayMarkRadio = useRef(null);
   const coldMarkRadio = useRef(null);
   const noteRef = useRef(null);
   const mapCheckoutRef = useRef(null);
   const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
 
-  const test:any = localStorage.getItem("account")
-  const user:any =JSON.parse(test)
-  console.log(user)
+  const user: User = JSON.parse(localStorage.getItem("account") as any)
+  const time = new Date();
+  let hourr = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
+  let minutee = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
   useEffect(() => {
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
-    (momocheckedRef.current as any).checked = true;
+    (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (coldMarkRadio.current as any).style.backgroundColor = '#fff';
+    (vnpaycheckedRef.current as any).checked = true;
     window.scroll(0, 0)
     getUser();
     let s = 0;
@@ -79,7 +81,7 @@ const Checkout: React.FC = () => {
       if (user.cart.length > 0) {
         setCheckCart(false)
         setListProducts(user.cart)
-        user.cart.map((item:any) => {
+        user.cart.map((item) => {
           s = s + item.amount;
           p += Number(item.price) * item.amount;
         })
@@ -131,10 +133,11 @@ const Checkout: React.FC = () => {
   console.log('render')
   const getUser = async () => {
     try {
-      let userr = await api.get(`/${user.id}`)
-        .then(({ data }) => data)
-      // setUser({ ...userr })
-      localStorage.setItem('account', JSON.stringify(userr))
+      if (user.username) {
+        let userr = await api.get(`/${user.id}`)
+          .then(({ data }) => data)
+        localStorage.setItem('account', JSON.stringify(userr))
+      }
     }
     catch (err) {
       console.log(" Có lỗi khi lấy user/ user không tồn tại: ", err)
@@ -153,16 +156,9 @@ const Checkout: React.FC = () => {
   }
   const updateOrders = async (value: Orders) => {
     let updateOrders = await ordersApi
-      .post(`/`, value , {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-        }
-})
+      .post(`/`, { ...value })
       .catch(err => console.log(err))
   }
-  
-  
-
   // show/hide map and note field
   const handleOnlButton = () => {
     (noteRef.current as any).classList.remove(`${style.hide}`);
@@ -192,18 +188,18 @@ const Checkout: React.FC = () => {
   const handleColdSelectedRadio = () => {
     (coldcheckedRef.current as any).checked = true;
     setTransFee(0);
-    (momoMarkRadio.current as any).style.backgroundColor = '#eee';
+    (vnpayMarkRadio.current as any).style.backgroundColor = '#eee';
     (coldMarkRadio.current as any).style.backgroundColor = '#d8b979';
-    (momoMarkRadio.current as any).classList.remove(`${style.noHover}`);
+    (vnpayMarkRadio.current as any).classList.remove(`${style.noHover}`);
     (coldMarkRadio.current as any).classList.toggle(`${style.noHover}`);
   }
-  const handleMomoSelectedRadio = () => {
-    (momocheckedRef.current as any).checked = true;
+  const handleVnpaySelectedRadio = () => {
+    (vnpaycheckedRef.current as any).checked = true;
     setTransFee(18000);
     (coldMarkRadio.current as any).style.backgroundColor = '#eee';
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
     (coldMarkRadio.current as any).classList.remove(`${style.noHover}`);
-    (momoMarkRadio.current as any).classList.toggle(`${style.noHover}`);
+    (vnpayMarkRadio.current as any).classList.toggle(`${style.noHover}`);
   }
   // handle stores
   const [storedChoosed, setStoredChoosed] = useState<Properties>({
@@ -256,12 +252,12 @@ const Checkout: React.FC = () => {
             setCheckCart(true)
           } else {
             setCheckCart(false)
-            const a = [...user.orders, ...user.cart]
-            const b={ ...user, orders: a }
-            localStorage.setItem('account',JSON.stringify(b))
+            user.orders = [...user.orders, ...user.cart]
+            // localStorage.setItem('account',JSON.stringify(user))
             updateOrder(
-              a
+              user.orders
             )
+            getUser();
             updateCart(
               [
                 {
@@ -271,7 +267,7 @@ const Checkout: React.FC = () => {
                   sugar: true,
                   amount: 3,
                   price: "23000",
-                  total: 69000,
+                  total: "69000",
                   topping: ["1", "2", "3"],
                   productImg: "http://placeimg.com/640/480/people"
                 }
@@ -291,10 +287,9 @@ const Checkout: React.FC = () => {
               paid: false,
               status: "1",
               fullName: data.name || user.fullName,
-              time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+              time: `${hourr}:${minutee}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
               id: ""
             }
-            console.log(orders)
             updateOrders(orders)
           }
           getUser()
@@ -318,17 +313,16 @@ const Checkout: React.FC = () => {
               paid: false,
               status: "1",
               fullName: data.name,
-              time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-              id: ""
+              time: `${hourr}:${minutee}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+              // id: ""
             }
             updateOrders(ordersnotlogin);
             localStorage.removeItem('LocalStorageCart')
-            console.log('localcart: ', locStorageCart)
           }
         }
         setPopupSuccessOrder(true)
       } else
-        if ((momocheckedRef.current as any).checked === true) {
+        if ((vnpaycheckedRef.current as any).checked === true) {
           setPopupSuccessOrder(false)
           setCheckout(true)
         }
@@ -509,10 +503,10 @@ const Checkout: React.FC = () => {
                         <input ref={coldcheckedRef} type="radio" name="type" value="cold" />
                         <span ref={coldMarkRadio} className={style.checkmarkRadio}></span>
                       </label>
-                      <label onClick={() => handleMomoSelectedRadio()} htmlFor="" className={`${style.containerRadio} ${style.momoPayment}`}>
-                        <span>Thanh toán qua momo</span>
-                        <input ref={momocheckedRef} type="radio" name="type" value="momo" />
-                        <span ref={momoMarkRadio} className={`${style.checkmarkRadio}`}></span>
+                      <label onClick={() => handleVnpaySelectedRadio()} htmlFor="" className={`${style.containerRadio} ${style.vnpayPayment}`}>
+                        <span>Thanh toán qua VnPay</span>
+                        <input ref={vnpaycheckedRef} type="radio" name="type" value="vnpay" />
+                        <span ref={vnpayMarkRadio} className={`${style.checkmarkRadio}`}></span>
                       </label>
                     </div>
                   </div>
