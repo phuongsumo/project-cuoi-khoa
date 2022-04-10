@@ -63,61 +63,14 @@ const Checkout: React.FC = () => {
   const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
 
-  const [user, setUser] = useRecoilState<User>(accountState);
-  localStorage.setItem('LocalStorageCart', JSON.stringify(
-    [
-      {
-        name: "tra sua tran chau den",
-        size: true,
-        ice: true,
-        sugar: true,
-        amount: 3,
-        price: "23000",
-        total: 69000,
-        topping: ["1", "2", "3"],
-        productImg: "http://placeimg.com/640/480/people"
-      }
-    ]
-  ))
-  const locStorageCart:Cart[] =JSON.parse(localStorage.getItem("LocalStorageCart") as any)
-  const api = axios.create({
-    baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
-  })
-  const ordersApi = axios.create({
-    baseURL: `https://6243085ab6734894c15a1d8e.mockapi.io/tea-shop/orders`
-  })
-  const getUser = async () => {
-    try {
-      let userr = await api.get(`/${user.id}`)
-        .then(({ data }) => data)
-      setUser({ ...userr })
-    }
-    catch (err) {
-      console.log(" Có lỗi khi lấy user/ user không tồn tại: ", err)
-    }
-  }
-  const updateOrder = async (value: Cart[]) => {
-    let updateUser = await api
-      .put(`/${user.id}`, { orders: value })
-      .catch(err => console.log(err))
-  }
-  const updateCart = async (value: Cart[]) => {
-    let updateCart = await api
-      .put(`/${user.id}`, { cart: value })
-      .catch(err => console.log(err))
-  }
-  const updateOrders = async (value: Orders) => {
-    let updateOrders = await ordersApi
-      .post(`/`, { ...value })
-      .catch(err => console.log(err))
-  }
+  const test:any = localStorage.getItem("account")
+  const user:any =JSON.parse(test)
+  console.log(user)
   useEffect(() => {
     (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
     (momocheckedRef.current as any).checked = true;
     window.scroll(0, 0)
-  }, [])
-
-  useEffect(() => {
+    getUser();
     let s = 0;
     let p = 0;
     if (user.username !== "") {
@@ -126,13 +79,14 @@ const Checkout: React.FC = () => {
       if (user.cart.length > 0) {
         setCheckCart(false)
         setListProducts(user.cart)
-        user.cart.map((item) => {
+        user.cart.map((item:any) => {
           s = s + item.amount;
           p += Number(item.price) * item.amount;
         })
       }
       else {
         setCheckCart(true)
+
       }
     }
     else {
@@ -151,7 +105,63 @@ const Checkout: React.FC = () => {
     }
     setQuantity(s)
     setPrice(p)
-  }, [user])
+  }, [])
+  localStorage.setItem('LocalStorageCart', JSON.stringify(
+    [
+      {
+        name: "tra sua tran chau den",
+        size: true,
+        ice: true,
+        sugar: true,
+        amount: 3,
+        price: "23000",
+        total: 69000,
+        topping: ["1", "2", "3"],
+        productImg: "http://placeimg.com/640/480/people"
+      }
+    ]
+  ))
+  const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("LocalStorageCart") as any)
+  const api = axios.create({
+    baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
+  })
+  const ordersApi = axios.create({
+    baseURL: `https://6243085ab6734894c15a1d8e.mockapi.io/tea-shop/orders`
+  })
+  console.log('render')
+  const getUser = async () => {
+    try {
+      let userr = await api.get(`/${user.id}`)
+        .then(({ data }) => data)
+      // setUser({ ...userr })
+      localStorage.setItem('account', JSON.stringify(userr))
+    }
+    catch (err) {
+      console.log(" Có lỗi khi lấy user/ user không tồn tại: ", err)
+    }
+  }
+
+  const updateOrder = async (value: Cart[]) => {
+    let updateUser = await api
+      .put(`/${user.id}`, { orders: value })
+      .catch(err => console.log(err))
+  }
+  const updateCart = async (value: Cart[]) => {
+    let updateCart = await api
+      .put(`/${user.id}`, { cart: value })
+      .catch(err => console.log(err))
+  }
+  const updateOrders = async (value: Orders) => {
+    let updateOrders = await ordersApi
+      .post(`/`, value , {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+})
+      .catch(err => console.log(err))
+  }
+  
+  
 
   // show/hide map and note field
   const handleOnlButton = () => {
@@ -237,7 +247,6 @@ const Checkout: React.FC = () => {
   } = useForm();
   const OnSubmit = (data: any) => {
     if (storedChoosed.name) {
-      console.log('data:', data)
       localStorage.setItem("OnlSuccessPaymentData", JSON.stringify({ phone: data.phone, location: searchAddress, name: data.name }))
       if ((coldcheckedRef.current as any).checked === true) {
         setCheckout(false)
@@ -247,9 +256,11 @@ const Checkout: React.FC = () => {
             setCheckCart(true)
           } else {
             setCheckCart(false)
-            user.orders = [...user.orders, ...user.cart];
+            const a = [...user.orders, ...user.cart]
+            const b={ ...user, orders: a }
+            localStorage.setItem('account',JSON.stringify(b))
             updateOrder(
-              user.orders
+              a
             )
             updateCart(
               [
@@ -283,10 +294,10 @@ const Checkout: React.FC = () => {
               time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
               id: ""
             }
+            console.log(orders)
             updateOrders(orders)
-            getUser()
-            console.log("user after update orders: ", user)
           }
+          getUser()
         }
         else {
           setLogin(false)
@@ -358,12 +369,6 @@ const Checkout: React.FC = () => {
     }
     setSearchAddress(e.target.value);
     //can nhac dung use memo 
-  }
-  const getFullNameValue = (e: any) => {
-    // formData.fullName = e.target.value
-  }
-  const getPhoneValue = (e: any) => {
-    // formData.phone = e.target.value
   }
   const handleLocationOnClick = (item: any) => {
     setCheckSearchBox(false);
