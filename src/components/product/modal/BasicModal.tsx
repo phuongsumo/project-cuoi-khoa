@@ -51,9 +51,9 @@ export default function BasicModal({
   const increase = () => {
     setQuantity(quantity + 1);
     if (quantity === 1 && total === 0) {
-      setTotal(2 * +productDetail.price);
+      setTotal(2 * +productDetail.salePrice);
     } else {
-      setTotal(total + +productDetail.price);
+      setTotal(total + +productDetail.salePrice);
     }
     console.log("total", total);
     
@@ -63,9 +63,9 @@ export default function BasicModal({
     if (quantity > 1) {
       setQuantity(quantity - 1);
       if (quantity === 1 && total === 0) {
-        setTotal(+productDetail.price);
+        setTotal(+productDetail.salePrice);
       } else {
-        setTotal(total - +productDetail.price);
+        setTotal(total - +productDetail.salePrice);
       }
     }
   };
@@ -78,7 +78,7 @@ export default function BasicModal({
       if (total !== 0) {
         setTotal(total + 9000);
       } else if (total === 0) {
-        setTotal(+productDetail.price + 9000);
+        setTotal(+productDetail.salePrice + 9000);
       }
     } else {
       setTotal(total - 9000);
@@ -121,12 +121,12 @@ export default function BasicModal({
               <div className="modal-info-title">{productDetail.name}</div>
               <div className="modal-info-price">
                 {" "}
-                {productDetail?.price
+                {productDetail?.salePrice
                   ?.toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 đ{" "}
                 <del>
-                  {productDetail?.salePrice
+                  {productDetail?.price
                     ?.toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   đ
@@ -153,7 +153,7 @@ export default function BasicModal({
                   }}
                 >
                   {total! === 0
-                    ? `+ ${productDetail?.price
+                    ? `+ ${productDetail?.salePrice
                         ?.toString()
                         .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ `
                     : `+ ${total

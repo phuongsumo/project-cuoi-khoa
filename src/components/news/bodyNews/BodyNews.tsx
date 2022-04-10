@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styles from './BodyNews.module.css'
 import { Link } from 'react-router-dom';
 
 const BodyNews = () => {
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
 
     return (
         <div className={styles.category}>

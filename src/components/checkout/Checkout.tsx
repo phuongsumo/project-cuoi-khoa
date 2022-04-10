@@ -45,7 +45,7 @@ const Checkout: React.FC = () => {
   // 
   const onlButtonRef = useRef(null)
   const offButtonRef = useRef(null)
-  const chooseStoreRef=useRef(null)
+  const chooseStoreRef = useRef(null)
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const coldcheckedRef = useRef(null);
@@ -137,6 +137,11 @@ const Checkout: React.FC = () => {
       .post(`/`, { ...value })
       .catch(err => console.log(err))
   }
+
+  useEffect(() => {
+    window.scroll(0, 0)
+  }, [])
+
   useEffect(() => {
     getUser();
     (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
@@ -144,10 +149,10 @@ const Checkout: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    if(user.username!==""){
+    if (user.username !== "") {
       setLogin(true)
     }
-    else{
+    else {
       setLogin(false)
     }
     let s = 0;
@@ -260,7 +265,7 @@ const Checkout: React.FC = () => {
         setCheckCart(false)
         if ((coldcheckedRef.current as any).checked === true) {
           setCheckout(false)
-          if (user.username!=="") {
+          if (user.username !== "") {
             setLogin(true)
             user.orders = [...user.orders, ...user.cart];
             updateOrder(
@@ -386,9 +391,9 @@ const Checkout: React.FC = () => {
   const handlePopupChooseStore = () => {
     if (searchAddressOnClick) {
       // if(chooseStoreRef){
-        //   (chooseStoreRef as any).focus()
-        // }
-        setPopupChooseStore(true);
+      //   (chooseStoreRef as any).focus()
+      // }
+      setPopupChooseStore(true);
     }
     else {
       setPopupChooseStore(false)
@@ -623,9 +628,9 @@ const Checkout: React.FC = () => {
         listStore={listStore}
         handleDisplayStoreChoosed={(item: any) => { handleDisplayStoreChoosed(item) }}
         fillStoreChoose={fillStoreChoose}
-        searchAddressStore={searchAddressStore} 
-        chooseStoreRef= {chooseStoreRef}
-        />}
+        searchAddressStore={searchAddressStore}
+        chooseStoreRef={chooseStoreRef}
+      />}
       {/* error modals */}
       <div ref={errorModals} className={style.errorModal}>
         <div className={style.errorMessage}>{error}</div>
