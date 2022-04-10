@@ -5,32 +5,17 @@ import axios from 'axios'
 import { User, Cart, Orders, Order } from '../../checkout/models'
 import OnlinePaymentSuccessPopup from '../popup/OnlinePaymentSuccessPopup'
 import OnlinePaymentFailPopup from '../popup/OnlinePaymentFailPopup'
+import {accountState} from '../../../recoilProvider/userProvider'
+import {useRecoilState} from 'recoil'
+
 const ReturnPaymentResult = () => {
-  let formData:any =JSON.parse(localStorage.getItem('OnlSuccessPaymentData')as any)
-  console.log(formData)
+  let formData: any = JSON.parse(localStorage.getItem('OnlSuccessPaymentData') as any)
   const url_string = window.location.href;
   const urll = new URL(url_string);
   const value = urll.searchParams;
 
-  const [user, setUser] = useState<User>(
-    {
-      "username": "",
-      "password": "",
-      "email": "",
-      "phone": "",
-      "fullName": "",
-      "age": 0,
-      "avatar": "",
-      "address": "",
-      "cart": [
-      ],
-      "orders": [
-
-      ],
-      "id": ""
-    }
-  );
-  const [locStorageCart, setLocStorageCart] = useState<Cart[]>(
+  const [user, setUser] = useRecoilState<User>(accountState);
+  localStorage.setItem('LocalStorageCart', JSON.stringify(
     [
       {
         name: "tra sua tran chau den",
@@ -44,7 +29,8 @@ const ReturnPaymentResult = () => {
         productImg: "http://placeimg.com/640/480/people"
       }
     ]
-  )
+  ))
+  const locStorageCart:Cart[] =JSON.parse(localStorage.getItem("LocalStorageCart") as any)
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -53,23 +39,22 @@ const ReturnPaymentResult = () => {
   })
   const getUser = async () => {
     try {
-      let user = await api.get('/50')
-        // sau se thay 49 thanh user.id
+      let userr = await api.get(`/${user.id}`)
         .then(({ data }) => data)
-      setUser({ ...user })
+      setUser({ ...userr })
     }
     catch (err) {
-      console.log(" error when get user data: ", err)
+      console.log(" Có lỗi khi lấy user/user không tồn tại: ", err)
     }
   }
   const updateOrder = async (value: Cart[]) => {
     let updateUser = await api
-      .put(`/50`, { orders: value })
+      .put(`/${user.id}`, { orders: value })
       .catch(err => console.log(err))
   }
   const updateCart = async (value: Cart[]) => {
     let updateCart = await api
-      .put(`/50`, { cart: value })
+      .put(`/${user.id}`, { cart: value })
       .catch(err => console.log(err))
   }
   const updateOrders = async (value: Orders) => {
@@ -79,15 +64,12 @@ const ReturnPaymentResult = () => {
   }
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
   const [popupFailOrder, setPopupFailOrder] = useState<boolean>(false)
-  const today= new Date();
-  useEffect(() => {
-    getUser()
-  }, [])
+  const today = new Date();
   useEffect(() => {
     if (value.get('vnp_ResponseCode') === '00') {
       setPopupSuccessOrder(true)
       setPopupFailOrder(false)
-      if (user.username!=="") {
+      if (user.username !== "") {
           user.orders = [...user.orders, ...user.cart];
           updateOrder(user.orders)
           updateCart(
@@ -107,52 +89,52 @@ const ReturnPaymentResult = () => {
           )
           let value1: any[] = [...user.cart]
           let value2: any[] = value1.map((value) => {
-            return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price+18000, topping: value.topping }
+            return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price + 18000, topping: value.topping }
           })
           const orders: Orders = {
-            username: user.fullName || 'user is not register account',
-            phone: user.phone === "" ? formData.phone : user.phone,
+            username: user.username,
+            phone: formData.phone || user.phone,
             address: formData.location,
             orders: value2,
             paid: true,
             status: "1",
-            fullName: user.fullName === "" ? formData.name : user.fullName,
+            fullName: formData.name || user.fullName,
             time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
             id: ""
           }
           updateOrders(orders)
-        }
-      else {
-        let value1: any[] = [...locStorageCart]
-        let value2: any[] = value1.map((value) => {
-          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price+18000, topping: value.topping }
-        })
-        const ordersnotlogin: Orders = {
-          username: user.fullName || 'user is not register account',
-          phone:formData.phone,
-          address: formData.location,
-          orders: value2,
-          paid: true,
-          status: "1",
-          fullName: formData.name,
-          time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-          id: ""
-        }
-        updateOrders(ordersnotlogin);
-        setLocStorageCart([])
+          getUser()
+          console.log("user after update orders: ",user)
       }
-      getUser()
+      else {
+          let value1: any[] = [...locStorageCart]
+          let value2: any[] = value1.map((value) => {
+            return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price + 18000, topping: value.topping }
+          })
+          const ordersnotlogin: Orders = {
+            username: user.fullName || 'user is not register account',
+            phone: formData.phone,
+            address: formData.location,
+            orders: value2,
+            paid: true,
+            status: "1",
+            fullName: formData.name,
+            time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+            id: ""
+          }
+          updateOrders(ordersnotlogin);
+          localStorage.removeItem('LocalStorageCart')
+      }
     }
     else {
       setPopupSuccessOrder(false)
       setPopupFailOrder(true)
-      console.log('fail')
     }
   }, [value.get('vnp_ResponseCode')])
   return (
     <div className={style.container}>
-      {popupSuccessOrder && <OnlinePaymentSuccessPopup setPopupSuccessOrder={(a:boolean) =>{setPopupSuccessOrder(a)}}/>}
-      {popupFailOrder && <OnlinePaymentFailPopup setPopupFailOrder={(a:boolean) =>{setPopupFailOrder(a)}}/>}
+      {popupSuccessOrder && <OnlinePaymentSuccessPopup setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
+      {popupFailOrder && <OnlinePaymentFailPopup setPopupFailOrder={(a: boolean) => { setPopupFailOrder(a) }} />}
       <table className={style.table}>
         <thead>
           <tr>

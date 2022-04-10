@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import CreatePaymentUrl from './payment/CreatePaymentUrl'
 import { User, Cart, Feature, Properties, Orders, Order } from './models'
+import { accountState } from '../../recoilProvider/userProvider'
+import { useRecoilState } from 'recoil'
 // popups
 import DeliveryTimePopup from './popup/DeliveryTimePopup'
 import PromotionCodePopup from './popup/PromotionCodePopup'
@@ -14,6 +16,7 @@ import ChooseStorePopup from './popup/ChooseStorePopup'
 import SuccessOrderPopup from './popup/SuccessOrderPopup'
 import CheckCartPopup from './popup/CheckCartPopup'
 import SearchBoxPopup from './popup/SearchBoxPopup'
+import BackToLoginPupop from './popup/BackToLoginPupop'
 // import icons
 import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
@@ -41,7 +44,10 @@ const Checkout: React.FC = () => {
   const [minute, setMinute] = useState<string>('')
   const [error, setError] = useState<string>("")
   const [login, setLogin] = useState<boolean>(false)
+  const [backToLogin, setBackToLogin] = useState<boolean>(false)
   const [checkCart, setCheckCart] = useState<boolean>(false)
+  const [listProducts, setListProducts] = useState<Cart[]>([])
+
   // 
   const onlButtonRef = useRef(null)
   const offButtonRef = useRef(null)
@@ -56,25 +62,9 @@ const Checkout: React.FC = () => {
   const mapCheckoutRef = useRef(null);
   const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
-  const [user, setUser] = useState<User>(
-    {
-      "username": "",
-      "password": "",
-      "email": "",
-      "phone": "",
-      "fullName": "",
-      "age": 0,
-      "avatar": "",
-      "address": "",
-      "cart": [
-      ],
-      "orders": [
 
-      ],
-      "id": ""
-    }
-  );
-  const [locStorageCart, setLocStorageCart] = useState<Cart[]>(
+  const [user, setUser] = useRecoilState<User>(accountState);
+  localStorage.setItem('LocalStorageCart', JSON.stringify(
     [
       {
         name: "tra sua tran chau den",
@@ -88,23 +78,8 @@ const Checkout: React.FC = () => {
         productImg: "http://placeimg.com/640/480/people"
       }
     ]
-  )
-  // const [orders, setOrders] = useState<Orders>(
-  //   // {
-  //   //   "username": "",
-  //   //   "phone": "",
-  //   //   "address": "",
-  //   //   "orders": [
-
-  //   //   ],
-  //   //   "paid": false,
-  //   //   "status": "1",
-  //   //   "fullName": "",
-  //   //   "time": "",
-  //   //   "key": "",
-  //   //   "id": ""
-  //   // }
-  // );
+  ))
+  const locStorageCart:Cart[] =JSON.parse(localStorage.getItem("LocalStorageCart") as any)
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -113,23 +88,22 @@ const Checkout: React.FC = () => {
   })
   const getUser = async () => {
     try {
-      let user = await api.get('/50')
-        // sau se thay 49 thanh user.id
+      let userr = await api.get(`/${user.id}`)
         .then(({ data }) => data)
-      setUser({ ...user })
+      setUser({ ...userr })
     }
     catch (err) {
-      console.log(" error when get user data: ", err)
+      console.log(" Có lỗi khi lấy user/ user không tồn tại: ", err)
     }
   }
   const updateOrder = async (value: Cart[]) => {
     let updateUser = await api
-      .put(`/50`, { orders: value })
+      .put(`/${user.id}`, { orders: value })
       .catch(err => console.log(err))
   }
   const updateCart = async (value: Cart[]) => {
     let updateCart = await api
-      .put(`/50`, { cart: value })
+      .put(`/${user.id}`, { cart: value })
       .catch(err => console.log(err))
   }
   const updateOrders = async (value: Orders) => {
@@ -137,34 +111,43 @@ const Checkout: React.FC = () => {
       .post(`/`, { ...value })
       .catch(err => console.log(err))
   }
-
   useEffect(() => {
+    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (momocheckedRef.current as any).checked = true;
     window.scroll(0, 0)
   }, [])
 
   useEffect(() => {
-    getUser();
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
-    (momocheckedRef.current as any).checked = true;
-  }, [])
-
-  useEffect(() => {
+    let s = 0;
+    let p = 0;
     if (user.username !== "") {
       setLogin(true)
+      setBackToLogin(false)
+      if (user.cart.length > 0) {
+        setCheckCart(false)
+        setListProducts(user.cart)
+        user.cart.map((item) => {
+          s = s + item.amount;
+          p += Number(item.price) * item.amount;
+        })
+      }
+      else {
+        setCheckCart(true)
+      }
     }
     else {
       setLogin(false)
-    }
-    let s = 0;
-    let p = 0;
-    if (locStorageCart) {
-      setCheckCart(false)
-      locStorageCart.map((item) => {
-        s = s + item.amount;
-        p += Number(item.price) * item.amount;
-      })
-    } else {
-      setCheckCart(true)
+      setBackToLogin(true)
+      if (locStorageCart.length > 0) {
+        setCheckCart(false)
+        setListProducts(locStorageCart)
+        locStorageCart.map((item) => {
+          s = s + item.amount;
+          p += Number(item.price) * item.amount;
+        })
+      } else {
+        setCheckCart(true)
+      }
     }
     setQuantity(s)
     setPrice(p)
@@ -249,24 +232,21 @@ const Checkout: React.FC = () => {
     }, 2000);
   }
   // 
-  const [formData, setFormData] = useState<any>({});
   const {
     register, handleSubmit, formState: { errors }
   } = useForm();
   const OnSubmit = (data: any) => {
     if (storedChoosed.name) {
       console.log('data:', data)
-      localStorage.setItem("OnlSuccessPaymentData",JSON.stringify({phone:data.phone, location:searchAddress, name:data.name}))
-      setFormData({ ...data, location: searchAddress })
-      if (locStorageCart.length === 0) {
-        setCheckCart(true)
-      }
-      else {
-        setCheckCart(false)
-        if ((coldcheckedRef.current as any).checked === true) {
-          setCheckout(false)
-          if (user.username !== "") {
-            setLogin(true)
+      localStorage.setItem("OnlSuccessPaymentData", JSON.stringify({ phone: data.phone, location: searchAddress, name: data.name }))
+      if ((coldcheckedRef.current as any).checked === true) {
+        setCheckout(false)
+        if (user.username !== "") {
+          setLogin(true)
+          if (user.cart.length === 0) {
+            setCheckCart(true)
+          } else {
+            setCheckCart(false)
             user.orders = [...user.orders, ...user.cart];
             updateOrder(
               user.orders
@@ -291,47 +271,56 @@ const Checkout: React.FC = () => {
               return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
             })
             const orders: Orders = {
-              username: user.fullName || 'user is not register account',
-              phone: user.phone === "" ? data.phone : user.phone,
+              username: user.username,
+              phone: data.phone || user.phone,
+              // check phone => hoi co thay doi so dien thoai ko
               address: searchAddress,
+              // loi dia chi
               orders: value2,
               paid: false,
               status: "1",
-              fullName: user.fullName === "" ? data.name : user.fullName,
+              fullName: data.name || user.fullName,
               time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
               id: ""
             }
             updateOrders(orders)
+            getUser()
+            console.log("user after update orders: ", user)
+          }
+        }
+        else {
+          setLogin(false)
+          if (locStorageCart.length === 0) {
+            setCheckCart(true)
           }
           else {
-            setLogin(false)
+            setCheckCart(false)
             let value1: any[] = [...locStorageCart]
             let value2: any[] = value1.map((value) => {
               return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
             })
             const ordersnotlogin: Orders = {
-              username: user.fullName || 'user is not register account',
-              phone: user.phone === "" ? data.phone : user.phone,
+              username: 'user is not register account',
+              phone: data.phone,
               address: searchAddress,
               orders: value2,
               paid: false,
               status: "1",
-              fullName: user.fullName === "" ? data.name : user.fullName,
+              fullName: data.name,
               time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
               id: ""
             }
             updateOrders(ordersnotlogin);
-            setLocStorageCart([])
+            localStorage.removeItem('LocalStorageCart')
             console.log('localcart: ', locStorageCart)
           }
-          setPopupSuccessOrder(true)
-        } else
-          if ((momocheckedRef.current as any).checked === true) {
-            setPopupSuccessOrder(false)
-            setCheckout(true)
-          }
-        getUser()
-      }
+        }
+        setPopupSuccessOrder(true)
+      } else
+        if ((momocheckedRef.current as any).checked === true) {
+          setPopupSuccessOrder(false)
+          setCheckout(true)
+        }
     }
     else {
       handleSubmitOrder("Vui lòng nhập tên shop!");
@@ -548,8 +537,8 @@ const Checkout: React.FC = () => {
                       </div>
                     </div>
                     <div className={style.listCheckout}>
-                      {user.cart.length > 0 ?
-                        user.cart.map((cartItem) => {
+                      {listProducts.length > 0 ?
+                        listProducts.map((cartItem) => {
                           return (
                             <div className={style.productCheckout}>
                               <img src={cartItem.productImg} alt="product image" />
@@ -564,7 +553,8 @@ const Checkout: React.FC = () => {
                               </div>
                             </div>
                           )
-                        }) : <div className={style.noProductCheckout}>Không có sản phẩm nào!!!</div>}
+                        }) : <div className={style.noProductCheckout}>Không có sản phẩm nào!!!</div>
+                      }
                     </div>
                     <div className={style.promotionCode}>
                       <div className={style.left}>
@@ -620,6 +610,7 @@ const Checkout: React.FC = () => {
         }
       </div>
       {/* popup */}
+      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} />}
       {show && <DeliveryTimePopup setShow={(a: boolean) => { setShow(a) }} setHour={(a: string) => { setHour(a) }} setMinute={(a: string) => { setMinute(a) }} handleSetTimeSelected={() => { handleSetTimeSelected() }} />}
       {promotionShow && <PromotionCodePopup setPromotionShow={(a: boolean) => { setPromotionShow(a) }} />}
       {popupChooseStore && <ChooseStorePopup
