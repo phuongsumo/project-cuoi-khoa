@@ -32,6 +32,11 @@
     position: relative;
 }
 
+.nav_element_avatar {
+    position: relative;
+    margin-left: 16px;
+}
+
 .nav_element:first-child {
     margin-left: 0;
 }
@@ -138,6 +143,63 @@
     display: none;
 }
 
+.avatar_wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.logout {
+    position: absolute;
+    top: 110%;
+    padding: 8px 0 8px 8px;
+    min-width: 120px;
+    right: 10px;
+    background-color: rgb(184, 181, 181);
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.logout::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+.nav_element_avatar:hover .logout {
+    visibility: visible;
+}
+
+.logout:hover {
+    background-color: rgba(114, 114, 114);
+}
+
+logout_text {
+    white-space: nowrap;
+    font-size: 24px;
+}
+
+.logout_icon {
+    margin-bottom: 2.5px;
+    margin-right: 8px;
+}
+
+.icon_arrow {
+    color: rgb(184, 181, 181);
+    position: absolute;
+    right: 0;
+    top: -10px;
+}
 
 /* Small devices (landscape phones, 576px and up) */
 
@@ -153,12 +215,15 @@
 
 @media (max-width: 991px) {
     .navbar {}
+
     .nav_container {
         justify-content: space-between;
     }
+
     .logo {
         height: 40px;
     }
+
     .list_nav {
         position: fixed;
         right: 0;
@@ -175,42 +240,54 @@
         align-items: initial;
         overflow-y: scroll;
     }
-    .nav_element {
+
+    .nav_element,
+    .nav_element_avatar {
         margin: 0;
         margin: 16px 0 16px 16px;
         display: flex;
         align-items: center;
     }
+
     .nav_element:hover.nav_element::after,
     .nav_element.active.nav_element::after {
         display: none;
     }
+
     .nav_element:hover .sub_nav_list {
         display: none;
     }
+
     .nav_link {
         font-size: 14px;
     }
+
     .nav_icons {
         display: none;
     }
+
     .nav_icon_more {
         display: initial;
     }
+
     .nav_close_icon {
         display: block;
     }
+
     .nav_menu_icon {
         display: initial;
     }
+
     .sub_nav_list {
         position: initial;
         background-color: unset;
         margin-top: 8px;
     }
+
     .sub_item {
         border: none;
     }
+
     .sub_link {
         font-weight: 400;
         display: block;

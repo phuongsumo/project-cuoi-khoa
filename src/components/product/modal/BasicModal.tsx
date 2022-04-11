@@ -1,11 +1,12 @@
 import { AddCircle, Close, RemoveCircle } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
+import { accountState } from "../../../recoilProvider/userProvider";
 import "./basicModal.css";
 import style from "./styleBox";
-
-// var context: any = {};
 
 export default function BasicModal({
   open,
@@ -16,6 +17,7 @@ export default function BasicModal({
   INIT_DATA,
   seletedProduct,
   setSeletedProduct,
+  context,
 }: {
   open: boolean;
   setOpen: any;
@@ -25,11 +27,13 @@ export default function BasicModal({
   INIT_DATA: any;
   seletedProduct: any;
   setSeletedProduct: any;
+  context: any;
 }) {
   const [quantity, setQuantity] = useState<number>(1);
 
   const [total, setTotal] = useState<number>(0);
-  
+
+  const [account, setAccount] = useRecoilState(accountState);
 
 
   useEffect(() => {
@@ -40,6 +44,8 @@ export default function BasicModal({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [total, +productDetail.price, quantity]);
+  
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -56,7 +62,6 @@ export default function BasicModal({
       setTotal(total + +productDetail.salePrice);
     }
     console.log("total", total);
-    
   };
   // giam so luong
   const decrease = () => {
@@ -103,7 +108,24 @@ export default function BasicModal({
   //Đẩy cart vào local storage
   const putCart = () => {
     localStorage.setItem("cart", JSON.stringify(productCarts));
+    // localStorage.setItem("account", JSON.stringify({...account,cart: productCarts}));
+    if (account.id) {
+      axios.put(
+        `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`,
+        { ...context.current, cart: productCarts }
+      );
+      const getContext = async () => {
+        const res = await axios.get(
+          `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`
+        );
+        context.current = res.data;
+      };
+      getContext()
+    }
   };
+  console.log("context", context.current);
+
+
   return (
     <div>
       <Modal
