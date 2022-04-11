@@ -1,13 +1,14 @@
+import ListIcon from "@mui/icons-material/List";
+import axios from "axios";
 import React, { memo, useEffect, useRef, useState } from "react";
-import ScrollToTop from "../../components/scrollToTop/ScrollToTop";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { IProduct, IState } from "../../interfaces";
+import { accountState } from "../../recoilProvider/userProvider";
 import { getProduct } from "../../services";
 import CardProduct from "./cardProduct/CardProduct";
 import Cart from "./cart/Cart";
 import BasicModal from "./modal/BasicModal";
 import "./product.css";
-import ListIcon from "@mui/icons-material/List";
-import axios from "axios";
 
 const Product: React.FC = memo(() => {
   const INIT_DATA: IState = {
@@ -20,6 +21,8 @@ const Product: React.FC = memo(() => {
     ice: "100ice",
     topping: [],
   };
+
+  var context: any = useRef({});
 
   const [datas, setData] = useState<IProduct[] | null>([]);
   const [open, setOpen] = useState(false);
@@ -42,6 +45,8 @@ const Product: React.FC = memo(() => {
 
   const [showCategory, setShowCategory] = useState<boolean>(true);
 
+  const [account, setAccount] = useRecoilState(accountState);
+
   //su kien khi click vao danh muc san pham
   const monnoibatSection = useRef<HTMLDivElement | null>(null);
   const trasuaSection = useRef<HTMLDivElement | null>(null);
@@ -58,6 +63,17 @@ const Product: React.FC = memo(() => {
     };
     getData();
   }, []);
+
+  useEffect(() => {
+    const getContext = async () => {
+      const res = await axios.get(
+        `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`
+      );
+      context.current = await res.data;
+    };
+    getContext();
+  }, []);
+
   //show text khi không có data
   useEffect(() => {
     if (productCarts.length === 0) {
@@ -67,14 +83,26 @@ const Product: React.FC = memo(() => {
     }
   }, [productCarts.length]);
 
-  //kiem tra cart local storage
   useEffect(() => {
-    const getCartLocalS = localStorage.getItem("cart");
-    if (getCartLocalS) {
-      const parseDataCart = JSON.parse(getCartLocalS!);
-      setProductCarts([...parseDataCart]);
+    //lay cart user dang nhap
+    if (account.id !== "") {
+      const getContext = async () => {
+        const res = await axios.get(
+          `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`
+        );
+        const data = await res.data;
+        setProductCarts(data.cart);
+      };
+      getContext();
+    } else {
+      //kiem tra cart local storage
+      const getCartLocalS = localStorage.getItem("cart");
+      if (getCartLocalS) {
+        const parseDataCart = JSON.parse(getCartLocalS!);
+        setProductCarts([...parseDataCart]);
+      }
     }
-  }, []);
+  }, [account]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -110,6 +138,21 @@ const Product: React.FC = memo(() => {
     //cap nhat lai local storage
 
     localStorage.setItem("cart", JSON.stringify([...items]));
+
+    //cap nhat lai cart tren api user
+    if (account.id) {
+      axios.put(
+        `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`,
+        { ...context.current, cart: [...items] }
+      );
+      const getContext = async () => {
+        const res = await axios.get(
+          `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`
+        );
+        context.current = res.data;
+      };
+      getContext();
+    }
   };
   // giam so luong
   const decrease = (i: any) => {
@@ -124,6 +167,21 @@ const Product: React.FC = memo(() => {
     }
     // cap nhat lai local storage
     localStorage.setItem("cart", JSON.stringify([...items]));
+
+    //cap nhat lai cart tren api user
+    if (account.id) {
+      axios.put(
+        `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`,
+        { ...context.current, cart: [...items] }
+      );
+      const getContext = async () => {
+        const res = await axios.get(
+          `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`
+        );
+        context.current = res.data;
+      };
+      getContext();
+    }
   };
 
   const [queried, setQueried] = useState<boolean>(false);
@@ -145,6 +203,25 @@ const Product: React.FC = memo(() => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setQueried(true);
+  };
+
+  const deleteAllCart = () => {
+    setProductCarts([]);
+    localStorage.setItem("cart", JSON.stringify([]));
+    //cap nhat lai cart tren api user
+    if (account.id) {
+      axios.put(
+        `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`,
+        { ...context.current, cart: [] }
+      );
+      const getContext = async () => {
+        const res = await axios.get(
+          `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${account.id}`
+        );
+        context.current = res.data;
+      };
+      getContext();
+    }
   };
 
   return (
@@ -323,8 +400,7 @@ const Product: React.FC = memo(() => {
                     <div
                       className="col-5 p-0"
                       onClick={() => {
-                        setProductCarts([]);
-                        localStorage.setItem("cart", JSON.stringify([]));
+                        deleteAllCart();
                       }}
                     >
                       Xóa tất cả
@@ -415,6 +491,7 @@ const Product: React.FC = memo(() => {
         INIT_DATA={INIT_DATA}
         seletedProduct={seletedProduct}
         setSeletedProduct={setSeletedProduct}
+        context={context}
       />
     </div>
   );
