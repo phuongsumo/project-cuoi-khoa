@@ -2,7 +2,7 @@ import { AddCircle, Close, RemoveCircle } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { INIT_PRODUCT, productState } from "../../../recoilProvider/productProvider";
 import { accountState } from "../../../recoilProvider/userProvider";
@@ -126,8 +126,6 @@ export default function BasicModal({
       getContext()
     }
   };
-  console.log("context", context.current);
-
 
   return (
     <div>
