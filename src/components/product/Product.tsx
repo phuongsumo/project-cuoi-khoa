@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { memo, useEffect, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { IProduct, IState } from "../../interfaces";
+import { productState } from "../../recoilProvider/productProvider";
 import { accountState } from "../../recoilProvider/userProvider";
 import { getProduct } from "../../services";
 import CardProduct from "./cardProduct/CardProduct";
@@ -53,6 +54,21 @@ const Product: React.FC = memo(() => {
   const freshteaSection = useRef<HTMLDivElement | null>(null);
   const MacchiatoCreamCheeseSection = useRef<HTMLDivElement | null>(null);
   const suachuadeoSection = useRef<HTMLDivElement | null>(null);
+
+  const [product, setProduct] = useRecoilState(productState)
+
+  useEffect(() => {
+    if (product.name) {
+      setProductDetail(product)
+      setSeletedProduct({
+        ...seletedProduct,
+        name: product.name,
+        price: Number(product.salePrice),
+        id: productCarts.length + 1
+      })
+      setOpen(true)
+    }
+  }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -408,30 +424,29 @@ const Product: React.FC = memo(() => {
                   </div>
                   <hr />
 
-                  {!checkEmpty
-                    ? productCarts?.map((item, index) => {
-                        return (
-                          <Cart
-                            key={item.id}
-                            cartName={item.name}
-                            cartPrice={item.price}
-                            cartSize={item.size}
-                            cartTopping={item.topping.map((t: string) => {
-                              return t === "1"
-                                ? "trân châu sương mai"
-                                : t === "2"
-                                ? "hạt rẻ"
-                                : "trân châu baby";
-                            })}
-                            cartIce={item.ice === "100ice" ? "100" : "50"}
-                            cartSugar={item.sugar === "100sugar" ? "100" : "50"}
-                            cartQuantity={item.quantitySelect}
-                            handleIncrease={() => increase(index)}
-                            handleDecrease={() => decrease(index)}
-                          />
-                        );
-                      })
-                    : checkEmpty}
+                  {productCarts && productCarts.map((item, index) => {
+                    return (
+                      <Cart
+                        key={item.id}
+                        cartName={item.name}
+                        cartPrice={item.price}
+                        cartSize={item.size}
+                        cartTopping={item.topping.map((t: string) => {
+                          return t === "1"
+                            ? "trân châu sương mai"
+                            : t === "2"
+                              ? "hạt rẻ"
+                              : "trân châu baby";
+                        })}
+                        cartIce={item.ice === "100ice" ? "100" : "50"}
+                        cartSugar={item.sugar === "100sugar" ? "100" : "50"}
+                        cartQuantity={item.quantitySelect}
+                        handleIncrease={() => increase(index)}
+                        handleDecrease={() => decrease(index)}
+                      />
+                    );
+                  })
+                    || checkEmpty}
                 </div>
               )}
               <div className="custom-cart-down row p-0 d-flex align-items-center">
@@ -453,11 +468,11 @@ const Product: React.FC = memo(() => {
                   {productCarts
                     .reduce(
                       (total, currentValue) =>
-                        (total =
-                          total +
-                          currentValue.quantitySelect! *
-                            (+currentValue.price! +
-                              currentValue.topping.length * 9000)),
+                      (total =
+                        total +
+                        currentValue.quantitySelect! *
+                        (+currentValue.price! +
+                          currentValue.topping.length * 9000)),
                       0
                     )
                     .toString()

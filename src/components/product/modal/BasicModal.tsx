@@ -4,6 +4,7 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import { INIT_PRODUCT, productState } from "../../../recoilProvider/productProvider";
 import { accountState } from "../../../recoilProvider/userProvider";
 import "./basicModal.css";
 import style from "./styleBox";
@@ -34,6 +35,7 @@ export default function BasicModal({
   const [total, setTotal] = useState<number>(0);
 
   const [account, setAccount] = useRecoilState(accountState);
+  const [product, setProduct] = useRecoilState(productState);
 
 
   useEffect(() => {
@@ -44,14 +46,15 @@ export default function BasicModal({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [total, +productDetail.price, quantity]);
-  
-  
+
+
 
   const handleClose = () => {
     setOpen(false);
     setQuantity(1);
     setTotal(0);
     setSeletedProduct(INIT_DATA);
+    setProduct(INIT_PRODUCT);
   };
   // tang so luong
   const increase = () => {
@@ -176,11 +179,11 @@ export default function BasicModal({
                 >
                   {total! === 0
                     ? `+ ${productDetail?.salePrice
-                        ?.toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ `
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ `
                     : `+ ${total
-                        ?.toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
                 </div>
               </div>
               <div className="custom-modal-btn-pay">

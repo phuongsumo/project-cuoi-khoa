@@ -37,7 +37,7 @@ const HomePage = () => {
                                     chúng tôi luôn tự tin mang đến khách hàng những trải nghiệm tốt nhất về dịch vụ và không gian.
                                 </p>
                                 <div className={style.about_more_btn}>
-                                    <Link to="/product" className={style.about_more}>xem thêm</Link>
+                                    <Link to="/historyAndMission" className={style.about_more}>xem thêm</Link>
                                 </div>
                             </div>
                         </div>

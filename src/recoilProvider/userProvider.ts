@@ -1,6 +1,7 @@
 import { atom } from "recoil";
+import { IUser } from "../interfaces";
 
-export const initialValues: any = {
+export const initialValues: IUser = {
     username: '',
     password: '',
     email: '',

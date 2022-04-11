@@ -199,7 +199,7 @@ const CreateAccount = () => {
                     <div className={style.sugget_text}>
                         <a href="#" className={`${style.back_home} ${style.alink}`}>
                             <span className={style.span_text}>
-                                <Link to='/' className={style.span_text}>Quay lại chính màn hình</Link>
+                                <Link to='/' className={style.span_text}>Quay lại màn hình chính</Link>
                             </span>
                         </a>
                     </div>
