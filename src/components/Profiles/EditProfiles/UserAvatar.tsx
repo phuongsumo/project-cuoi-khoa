@@ -1,25 +1,34 @@
-import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import {Container} from 'react-bootstrap'
-function UserAvatar() {
-  return (
-    <Container className = {}>
-        <Avatar
-          shape="circle"
-          size={100}
-          icon={
-            <UserOutlined
-              style={{
-                backgroundColor: "RGB(204, 204, 204)",
-                padding: "15px",
-                borderRadius: "50%",
-              }}
-            />
-          }
-        />
-        <input type='file'/>
-    </Container>
-  )
+import { useEffect, useState } from "react";
+import style from "./UserAvatar.module.css";
+
+interface UserAvatar {
+  avatar : string,
+  register : any
 }
 
-export default UserAvatar
+const UserAvatar: React.FC<UserAvatar>= ({avatar,register}) => {
+
+  const [changeAvatar, setChangeAvatar] = useState<string>('')
+
+  useEffect(()=>{
+    setChangeAvatar(avatar)
+  },[avatar])
+
+  return (
+    <>
+      <label htmlFor="avatar" className={style.avatarLabel}>
+        <div className={style.avatarWrapper}>
+          <img src={changeAvatar} alt="" className={style.userAvatar} />
+        </div>
+      </label>
+      <input
+        type="file"
+        id="avatar"
+        style={{ display: "none", visibility: "hidden" }}
+        {...register("avatar")}
+      />
+    </>
+  );
+};
+
+export default UserAvatar;

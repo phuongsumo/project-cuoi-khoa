@@ -20,19 +20,15 @@ function ProfilesCategory() {
         </ListGroup.Item>
         <ListGroup.Item className = {`py-3 d-flex`}>
           <AiOutlineUser />
-          <Link to="#" className={`ms-2 text-decoration-none`}>Thông tin tài khoản</Link>
+          <Link to="/user/infor" className={`ms-2 text-decoration-none`}>Thông tin tài khoản</Link>
         </ListGroup.Item>
         <ListGroup.Item className = {`py-3 d-flex`}>
           <AiOutlineShoppingCart />
-          <Link to="#" className={`ms-2 text-decoration-none`}>Đơn hàng</Link>
-        </ListGroup.Item>
-        <ListGroup.Item className = {`py-3 d-flex`}>
-          <AiFillApple />
-          <Link to="#" className={`ms-2 text-decoration-none`}>Mã khuyến mãi</Link>
+          <Link to="/user/order" className={`ms-2 text-decoration-none`}>Đơn hàng</Link>
         </ListGroup.Item>
         <ListGroup.Item className = {`py-3 d-flex`}>
           <AiOutlineLogout />
-          <Link to="#" className={`ms-2 text-decoration-none`}>Đăng xuất</Link>
+          <Link to="/" className={`ms-2 text-decoration-none`}>Đăng xuất</Link>
         </ListGroup.Item>
       </ListGroup>
     </nav>

@@ -9,7 +9,6 @@ import {
   Footer,
 } from "./components/index";
 import "./App.css";
-
 import ProfilesWrapper from "./components/Profiles/ProfilesWrapper";
 
 function App(): JSX.Element {
@@ -17,7 +16,7 @@ function App(): JSX.Element {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<ProfilesWrapper />} />
         <Route path="/list-shop" element={<ListShop />} />
         <Route path="/recruit" element={<Recruit />} />
         <Route path="/checkout" element={<Checkout />} />
