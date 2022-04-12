@@ -82,8 +82,8 @@ const Checkout: React.FC = () => {
         setCheckCart(false)
         setListProducts(user.cart)
         user.cart.map((item) => {
-          s = s + item.amount;
-          p += Number(item.price) * item.amount;
+          s = s + Number(item.quantitySelect);
+          p += (Number(item.price)+Number(item.topping.length*9000)) * Number(item.quantitySelect);
         })
       }
       else {
@@ -98,8 +98,8 @@ const Checkout: React.FC = () => {
         setCheckCart(false)
         setListProducts(locStorageCart)
         locStorageCart.map((item) => {
-          s = s + item.amount;
-          p += Number(item.price) * item.amount;
+          s = s + Number(item.quantitySelect);
+          p += (Number(item.price)+Number(item.topping.length*9000)) * Number(item.quantitySelect);
         })
       } else {
         setCheckCart(true)
@@ -108,21 +108,8 @@ const Checkout: React.FC = () => {
     setQuantity(s)
     setPrice(p)
   }, [])
-  localStorage.setItem('LocalStorageCart', JSON.stringify(
-    [
-      {
-        name: "tra sua tran chau den",
-        size: true,
-        ice: true,
-        sugar: true,
-        amount: 3,
-        price: "23000",
-        topping: ["1", "2", "3"],
-        productImg: "http://placeimg.com/640/480/people"
-      }
-    ]
-  ))
-  const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("LocalStorageCart") as any)
+  const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("cart") as any)
+  console.log(locStorageCart)
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -252,28 +239,12 @@ const Checkout: React.FC = () => {
           } else {
             setCheckCart(false)
             user.orders = [...user.orders, ...user.cart]
-            // localStorage.setItem('account',JSON.stringify(user))
             updateOrder(
               user.orders
             )
-            getUser();
-            updateCart(
-              [
-                {
-                  name: "tra sua tran chau den",
-                  size: true,
-                  ice: true,
-                  sugar: true,
-                  amount: 3,
-                  price: "23000",
-                  topping: ["1", "2", "3"],
-                  productImg: "http://placeimg.com/640/480/people"
-                }
-              ]
-            )
             let value1: any[] = [...user.cart]
             let value2: any[] = value1.map((value) => {
-              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: Number(value.quantitySelect), price: Number(value.price), total: Number(value.quantitySelect) * Number(value.price), topping: value.topping }
             })
             const orders: Orders = {
               username: user.username,
@@ -289,6 +260,8 @@ const Checkout: React.FC = () => {
               id: ""
             }
             updateOrders(orders)
+            updateCart([])
+            localStorage.setItem("cart", JSON.stringify([]));
           }
           getUser()
         }
@@ -301,7 +274,7 @@ const Checkout: React.FC = () => {
             setCheckCart(false)
             let value1: any[] = [...locStorageCart]
             let value2: any[] = value1.map((value) => {
-              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: Number(value.quantitySelect), price: Number(value.price), total: Number(value.quantitySelect) * Number(value.price), topping: value.topping }
             })
             const ordersnotlogin: Orders = {
               username: 'user is not register account',
@@ -315,7 +288,7 @@ const Checkout: React.FC = () => {
               // id: ""
             }
             updateOrders(ordersnotlogin);
-            localStorage.removeItem('LocalStorageCart')
+            localStorage.setItem("cart", JSON.stringify([]));
           }
         }
         setPopupSuccessOrder(true)
@@ -546,7 +519,7 @@ const Checkout: React.FC = () => {
                                     : item === "2" ? <span>Hạt dẻ, </span>
                                       : <span>Trân châu baby, </span>
                                 })}</div>
-                                <div className={style.quantity}>{VND.format(Number(cartItem.price))} x {cartItem.amount}= {VND.format(Number(cartItem.price) * cartItem.amount)}</div>
+                                <div className={style.quantity}>{VND.format(Number(cartItem.price)+cartItem.topping.length*9000)} x {Number(cartItem.quantitySelect)}= {VND.format((Number(cartItem.price)+cartItem.topping.length*9000) * Number(cartItem.quantitySelect))}</div>
                               </div>
                             </div>
                           )

@@ -1,9 +1,9 @@
 export interface Cart {
     name: string;
-    size:boolean;
-    ice:boolean;
-    sugar:boolean;
-    amount: number;
+    size:string;
+    ice:string;
+    sugar:string;
+    quantitySelect: string;
     price: string;
     topping:string[];
     productImg: string,
@@ -12,10 +12,10 @@ export interface Cart {
   // orders modals
   export interface Order {
     name: string;
-    size: boolean;
-    ice: boolean;
-    sugar: boolean;
-    amount: string;
+    size: string;
+    ice: string;
+    sugar: string;
+    quantitySelect: string;
     price: string;
     total: string;
     topping: string[];
@@ -38,26 +38,13 @@ export interface User {
   email: string;
   phone:string;
   fullName: string;
-  age: number;
+  age: string;
   avatar: string;
   address: string;
   cart: Cart[];
   orders: Cart[];
   id: string;
 }
-//   product modals
-export interface Product {
-    name: string;
-    price: number;
-    salePrice: number;
-    description: string;
-    image: string;
-    category: string;
-    sizeM: boolean;
-    sizeL: boolean;
-    id: string;
-  }
-
   // map modals
   export interface Properties {
     id?: string;

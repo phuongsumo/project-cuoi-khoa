@@ -5,8 +5,6 @@ import axios from 'axios'
 import { User, Cart, Orders, Order } from '../../checkout/models'
 import OnlinePaymentSuccessPopup from '../popup/OnlinePaymentSuccessPopup'
 import OnlinePaymentFailPopup from '../popup/OnlinePaymentFailPopup'
-import { accountState } from '../../../recoilProvider/userProvider'
-import { useRecoilState } from 'recoil'
 
 const ReturnPaymentResult = () => {
   let formData: any = JSON.parse(localStorage.getItem('OnlSuccessPaymentData') as any)
@@ -15,22 +13,7 @@ const ReturnPaymentResult = () => {
   const value = urll.searchParams;
 
   const user: User = JSON.parse(localStorage.getItem("account") as any)
-  localStorage.setItem('LocalStorageCart', JSON.stringify(
-    [
-      {
-        name: "tra sua tran chau den",
-        size: true,
-        ice: true,
-        sugar: true,
-        amount: 3,
-        price: "23000",
-        total: 69000,
-        topping: ["1", "2", "3"],
-        productImg: "http://placeimg.com/640/480/people"
-      }
-    ]
-  ))
-  const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("LocalStorageCart") as any)
+  const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("cart") as any)
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -79,23 +62,9 @@ const ReturnPaymentResult = () => {
         updateOrder(
           a
         )
-        updateCart(
-          [
-            {
-              name: "tra sua tran chau den",
-              size: true,
-              ice: true,
-              sugar: true,
-              amount: 3,
-              price: "23000",
-              topping: ["1", "2", "3"],
-              productImg: "http://placeimg.com/640/480/people"
-            }
-          ]
-        )
         let value1: any[] = [...user.cart]
         let value2: any[] = value1.map((value) => {
-          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price + 18000, topping: value.topping }
+          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: value.quantitySelect, price: value.price, total: Number(value.quantitySelect) * Number(value.price) + 18000, topping: value.topping }
         })
         const orderss: Orders = {
           username: user.username,
@@ -109,12 +78,14 @@ const ReturnPaymentResult = () => {
           id: ""
         }
         updateOrders(orderss)
+        updateCart([])
+        localStorage.setItem("cart", JSON.stringify([]));
         getUser()
       }
       else {
         let value1: any[] = [...locStorageCart]
         let value2: any[] = value1.map((value) => {
-          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price + 18000, topping: value.topping }
+          return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: value.quantitySelect, price: value.price, total: Number(value.quantitySelect) * Number(value.price) + 18000, topping: value.topping }
         })
         const ordersnotlogin: Orders = {
           username: user.fullName || 'user is not register account',
@@ -128,7 +99,7 @@ const ReturnPaymentResult = () => {
           id: ""
         }
         updateOrders(ordersnotlogin);
-        localStorage.removeItem('LocalStorageCart')
+        localStorage.setItem("cart", JSON.stringify([]));
       }
     }
     else {
