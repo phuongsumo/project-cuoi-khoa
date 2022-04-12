@@ -5,7 +5,6 @@ export interface Cart {
     sugar:boolean;
     amount: number;
     price: string;
-    total: string;
     topping:string[];
     productImg: string,
   };

@@ -117,7 +117,6 @@ const Checkout: React.FC = () => {
         sugar: true,
         amount: 3,
         price: "23000",
-        total: 69000,
         topping: ["1", "2", "3"],
         productImg: "http://placeimg.com/640/480/people"
       }
@@ -267,7 +266,6 @@ const Checkout: React.FC = () => {
                   sugar: true,
                   amount: 3,
                   price: "23000",
-                  total: "69000",
                   topping: ["1", "2", "3"],
                   productImg: "http://placeimg.com/640/480/people"
                 }
