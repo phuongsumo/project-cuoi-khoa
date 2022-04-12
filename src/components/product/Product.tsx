@@ -132,7 +132,7 @@ const Product: React.FC = memo(() => {
       ...seletedProduct,
       id: productCarts.length + 1,
       name: item.name,
-      price: item.salePrice,
+      price: item.salePrice ? item.salePrice : item.price,
     });
   };
   const soLuongSanPham = (type: string | boolean) => {
