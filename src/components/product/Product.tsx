@@ -16,6 +16,7 @@ const Product: React.FC = memo(() => {
   const INIT_DATA: IState = {
     id: 0,
     name: "",
+    productImg: "",
     price: 0,
     quantitySelect: 1,
     size: "m",
@@ -132,6 +133,7 @@ const Product: React.FC = memo(() => {
       ...seletedProduct,
       id: productCarts.length + 1,
       name: item.name,
+      productImg: item.image,
       price: item.salePrice ? item.salePrice : item.price,
     });
   };
