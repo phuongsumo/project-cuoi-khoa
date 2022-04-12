@@ -4,7 +4,10 @@ import Modal from "@mui/material/Modal";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { INIT_PRODUCT, productState } from "../../../recoilProvider/productProvider";
+import {
+  INIT_PRODUCT,
+  productState,
+} from "../../../recoilProvider/productProvider";
 import { accountState } from "../../../recoilProvider/userProvider";
 import "./basicModal.css";
 import style from "./styleBox";
@@ -37,7 +40,6 @@ export default function BasicModal({
   const [account, setAccount] = useRecoilState(accountState);
   const [product, setProduct] = useRecoilState(productState);
 
-
   useEffect(() => {
     setSeletedProduct({
       ...seletedProduct,
@@ -46,8 +48,6 @@ export default function BasicModal({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [total, +productDetail.price, quantity]);
-
-
 
   const handleClose = () => {
     setOpen(false);
@@ -86,7 +86,9 @@ export default function BasicModal({
       if (total !== 0) {
         setTotal(total + 9000);
       } else if (total === 0) {
-        setTotal(+productDetail.salePrice + 9000);
+        (productDetail.salePrice &&
+          setTotal(+productDetail.salePrice + 9000)) ||
+          setTotal(+productDetail.price + 9000);
       }
     } else {
       setTotal(total - 9000);
@@ -123,7 +125,7 @@ export default function BasicModal({
         );
         context.current = res.data;
       };
-      getContext()
+      getContext();
     }
   };
 
@@ -138,20 +140,26 @@ export default function BasicModal({
         <Box sx={style} className="custom-box-modal ">
           <div className="modal-content-up container-fruid row">
             <div className="modal-img col-lg-4 col-6">
-              <img src={productDetail.image} alt="" />
+              <img style={{height:'200px',objectFit: 'cover'}} src={productDetail.image} alt="" />
             </div>
             <div className="modal-info col-lg-7 col-6">
               <div className="modal-info-title">{productDetail.name}</div>
               <div className="modal-info-price">
                 {" "}
-                {productDetail?.salePrice
-                  ?.toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                {productDetail.salePrice
+                  ? productDetail?.salePrice
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  : productDetail?.price
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 đ{" "}
                 <del>
-                  {productDetail?.price
-                    ?.toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  {(productDetail.salePrice &&
+                    productDetail?.price
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")) ||
+                    "0"}
                   đ
                 </del>
               </div>
@@ -176,12 +184,18 @@ export default function BasicModal({
                   }}
                 >
                   {total! === 0
-                    ? `+ ${productDetail?.salePrice
-                      ?.toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ `
+                    ? `+ ${
+                        (productDetail.salePrice &&
+                          productDetail?.salePrice
+                            ?.toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")) ||
+                        productDetail?.price
+                          ?.toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                      }đ `
                     : `+ ${total
-                      ?.toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
+                        ?.toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
                 </div>
               </div>
               <div className="custom-modal-btn-pay">
