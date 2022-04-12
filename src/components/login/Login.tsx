@@ -55,6 +55,7 @@ const Login = () => {
                 if (bien && bien.password === data.password) {
                     setAccount(bien);
                     localStorage.setItem("account", JSON.stringify(bien))
+                    localStorage.setItem("cart", JSON.stringify(bien.cart))
                     navigate("/")
                 }
                 else {
@@ -80,7 +81,7 @@ const Login = () => {
 
 
                     <div className={style.popup_login_input}>
-                        <input id="password" type="password" {...register('password')} className={`${style.form_control} ${style.form_input} ${errors.password ? 'is-invalid' : ''}`} placeholder="Mật khẩu" />
+                        <input id="password" type="password" {...register('password')} className={`${style.form_control} ${style.form_input} ${errors.password ? 'is-invalid' : ''}`} placeholder="Mật khẩu..." />
                         <div className="invalid-feedback">{errors.password?.message}</div>
 
                     </div>
@@ -116,7 +117,7 @@ const Login = () => {
                     <div className={style.sugget_text}>
                         <a href="#" className={`${style.back_home} ${style.alink}`}>
                             <span className={style.span_text}>
-                                <Link to='/' className={style.span_text}>Quay lại chính màn hình</Link>
+                                <Link to='/' className={style.span_text}>Quay lại màn hình chính</Link>
                             </span>
                         </a>
                     </div>

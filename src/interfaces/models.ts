@@ -14,7 +14,7 @@ export interface IState {
 	name?: string,
 	price?: number,
 	quantitySelect?: number,
-	size?: string | null ,
+	size?: string | null,
 	ice?: string,
 	sugar?: string,
 	topping?: string[] | any,

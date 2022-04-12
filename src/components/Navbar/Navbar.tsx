@@ -56,6 +56,7 @@ const Navbar = () => {
   const handleLogout = () => {
     setAccount(initialValues);
     localStorage.setItem("account", JSON.stringify(initialValues))
+    localStorage.setItem("cart", JSON.stringify([]))
     navigate("/login")
   }
 

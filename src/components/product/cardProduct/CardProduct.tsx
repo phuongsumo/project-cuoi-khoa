@@ -34,11 +34,14 @@ export default function CardProduct({
         <h5 className="card-title p-0">{productName}</h5>
         <div className="card-text row p-0  d-flex align-items-center text-align-center">
           <div className="col-5 p-0 ">
-            {salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ{" "}
+            {salePrice
+              ? salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            đ{" "}
           </div>
           <div className="col-5 p-0 ">
             <del>
-              {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ
+              {salePrice && price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")|| '0'}đ
             </del>
           </div>
           <div className="card-icon p-0 col-1 ">

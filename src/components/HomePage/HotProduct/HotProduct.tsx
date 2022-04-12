@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
 import styles from './HotProduct.module.css'
 import homeLine from './home_line.jpg';
 import { Link } from 'react-router-dom';
+import { productState } from '../../../recoilProvider/productProvider';
 
 interface HotProductData {
     name: string;
@@ -17,6 +19,7 @@ interface HotProductData {
 
 const HotProduct = () => {
     const [datas, setDatas] = useState<HotProductData[]>([]);
+    const [product, setProduct] = useRecoilState(productState);
 
     async function fetchData() {
         let response = await axios(
@@ -30,6 +33,9 @@ const HotProduct = () => {
         fetchData();
     }, [])
 
+    const handleClick = (data: any) => {
+        setProduct(data)
+    }
 
     return (
         <section className={styles.hot_product}>
@@ -47,7 +53,7 @@ const HotProduct = () => {
                     {datas.map(data => {
                         return (
                             <Col md={3} xs={6} key={data.id}>
-                                <Link to='/product' className={styles.product_card}>
+                                <Link to='/product' className={styles.product_card} onClick={() => handleClick(data)}>
                                     <div className={styles.product_img_wrap}>
                                         <img src={data.image} alt="any" className={styles.product_img} />
                                     </div>
