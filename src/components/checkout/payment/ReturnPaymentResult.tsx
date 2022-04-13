@@ -30,7 +30,7 @@ const ReturnPaymentResult = () => {
       console.log(" Có lỗi khi lấy user/user không tồn tại: ", err)
     }
   }
-  const updateOrder = async (value: Cart[]) => {
+  const updateOrder = async (value: Orders[]) => {
     let updateUser = await api
       .put(`/${user.id}`, { orders: value })
       .catch(err => console.log(err))
@@ -47,19 +47,15 @@ const ReturnPaymentResult = () => {
   }
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
   const [popupFailOrder, setPopupFailOrder] = useState<boolean>(false)
-  const today = new Date();
   const time = new Date();
   let hour = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
   let minute = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
+  let seconds = time.getSeconds() < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`
   useEffect(() => {
     if (value.get('vnp_ResponseCode') === '00') {
       setPopupSuccessOrder(true)
       setPopupFailOrder(false)
       if (user.username !== "") {
-        user.orders = [...user.orders, ...locStorageCart]
-        updateOrder(
-          user.orders
-        )
         let value1: any[] = [...locStorageCart]
         let value2: any[] = value1.map((value) => {
           return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: value.quantitySelect, price: value.price, total: Number(value.quantitySelect) * Number(value.price) + 18000, topping: value.topping }
@@ -72,9 +68,12 @@ const ReturnPaymentResult = () => {
           paid: true,
           status: "1",
           fullName: formData.name || user.fullName,
-          time: `${hour}:${minute}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-          id: ""
+          time: `${hour}:${minute}:${seconds}  ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`,
+          // id: ""
         }
+        user.orders = [...user.orders, orderss]
+        api.get(`${user.id}`)
+            .then(()=>{updateOrder(user.orders)})
         updateOrders(orderss)
         updateCart([])
         localStorage.setItem("cart", JSON.stringify([]));
@@ -93,8 +92,8 @@ const ReturnPaymentResult = () => {
           paid: true,
           status: "1",
           fullName: formData.name,
-          time: `${hour}:${minute}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-          id: ""
+          time: `${hour}:${minute}:${seconds}  ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`,
+          // id: ""
         }
         updateOrders(ordersnotlogin);
         updateCart([])
@@ -105,6 +104,7 @@ const ReturnPaymentResult = () => {
       setPopupSuccessOrder(false)
       setPopupFailOrder(true)
       updateCart([])
+      localStorage.setItem("cart", JSON.stringify([]));
     }
   }, [value.get('vnp_ResponseCode')])
   return (

@@ -42,7 +42,7 @@ export interface User {
   avatar: string;
   address: string;
   cart: Cart[];
-  orders: Cart[];
+  orders: Orders[];
   id: string;
 }
   // map modals
