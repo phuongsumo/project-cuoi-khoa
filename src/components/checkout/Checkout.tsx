@@ -4,34 +4,20 @@ import axios from 'axios'
 import { Container, Row, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
-import { OnlinePaymentSuccess } from '../../atoms'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import CreatePaymentUrl from './payment/CreatePaymentUrl'
-import OnlinePaymentSuccessPopup from './popup/OnlinePaymentSuccessPopup'
 import { User, Cart, Feature, Properties, Orders, Order } from './models'
-// popups
-import DeliveryTimePopup from './popup/DeliveryTimePopup'
-import PromotionCodePopup from './popup/PromotionCodePopup'
-import ChooseStorePopup from './popup/ChooseStorePopup'
-import SuccessOrderPopup from './popup/SuccessOrderPopup'
-import CheckCartPopup from './popup/CheckCartPopup'
-import SearchBoxPopup from './popup/SearchBoxPopup'
-// import icons
+import {DeliveryTimePopup, PromotionCodePopup, ChooseStorePopup, SuccessOrderPopup, CheckCartPopup, SearchBoxPopup, BackToLoginPupop} from './popup/Popups'
 import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AiFillPhone } from 'react-icons/ai'
 import { FaStickyNote, FaStore } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import imgButton from './mapData/checkmapimgs/mapbox-marker-icon-20px-orange.png';
-// 
 import map from './mapData/Map'
 import listStores from './mapData/listStores'
 
 const Checkout: React.FC = () => {
-  const today = new Date()
-  const [quantity, setQuantity] = useState<number>(0)
-  const [price, setPrice] = useState<number>(0)
   const [transFee, setTransFee] = useState<number>(18000);
   const [show, setShow] = useState<boolean>(false)
   const [checkTime, setCheckTime] = useState<boolean>(true)
@@ -39,13 +25,14 @@ const Checkout: React.FC = () => {
   const [checkSearchBox, setCheckSearchBox] = useState<boolean>(false)
   const [popupChooseStore, setPopupChooseStore] = useState<boolean>(false)
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
-  const [onlSuccessPayment, setOnlSuccessPayment] = useRecoilState(OnlinePaymentSuccess)
   const [checkout, setCheckout] = useState<boolean>(false)
   const [hour, setHour] = useState<string>('')
   const [minute, setMinute] = useState<string>('')
   const [error, setError] = useState<string>("")
   const [login, setLogin] = useState<boolean>(false)
+  const [backToLogin, setBackToLogin] = useState<boolean>(false)
   const [checkCart, setCheckCart] = useState<boolean>(false)
+  const [listProducts, setListProducts] = useState<Cart[]>([])
   // 
   const onlButtonRef = useRef(null)
   const offButtonRef = useRef(null)
@@ -53,87 +40,63 @@ const Checkout: React.FC = () => {
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const coldcheckedRef = useRef(null);
-  const momocheckedRef = useRef(null);
-  const momoMarkRadio = useRef(null);
+  const vnpaycheckedRef = useRef(null);
+  const vnpayMarkRadio = useRef(null);
   const coldMarkRadio = useRef(null);
   const noteRef = useRef(null);
   const mapCheckoutRef = useRef(null);
   const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
-  const [user, setUser] = useState<User>(
-    {
-      "username": "",
-      "password": "",
-      "email": "",
-      "phone": "",
-      "fullName": "",
-      "age": 0,
-      "avatar": "",
-      "address": "",
-      "cart": [
-      ],
-      "orders": [
+  const time = new Date();
 
-      ],
-      "id": ""
-    }
-  );
-  const [locStorageCart, setLocStorageCart] = useState<Cart[]>(
-    [
-      {
-        name: "tra sua tran chau den",
-        size: true,
-        ice: true,
-        sugar: true,
-        amount: 3,
-        price: "23000",
-        total: 69000,
-        topping: ["1", "2", "3"],
-        productImg: "http://placeimg.com/640/480/people"
-      }
-    ]
-  )
-  const [orders, setOrders] = useState<Orders>(
-    // {
-    //   "username": "",
-    //   "phone": "",
-    //   "address": "",
-    //   "orders": [
-
-    //   ],
-    //   "paid": false,
-    //   "status": "1",
-    //   "fullName": "",
-    //   "time": "",
-    //   "key": "",
-    //   "id": ""
-    // }
-  );
+  useEffect(() => {
+    getUser();
+    (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (coldMarkRadio.current as any).style.backgroundColor = '#fff';
+    (vnpaycheckedRef.current as any).checked = true;
+    window.scroll(0, 0)
+  }, [])
+  const user: User = JSON.parse(localStorage.getItem("account") as any)
+  const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("cart") as any)
+  let hourr = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
+  let minutee = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
+  let seconds = time.getSeconds() < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`
+  useEffect(() => {
+    return user.username !== "" ? (setLogin(true), setBackToLogin(false)) : (setLogin(false), setBackToLogin(true))
+  }, [user.username])
+  useEffect(() => {
+    return locStorageCart.length > 0 ? (setCheckCart(false), setListProducts(locStorageCart)) : (setCheckCart(true))
+  }, [])
+  console.log(locStorageCart)
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
   const ordersApi = axios.create({
     baseURL: `https://6243085ab6734894c15a1d8e.mockapi.io/tea-shop/orders`
   })
-  const getUser = async () => {
+  console.log('render')
+  const getUser = () => {
     try {
-      let user = await api.get('/50')
-        // sau se thay 49 thanh user.id
-        .then(({ data }) => data)
-      setUser({ ...user })
+      if (user.username) {
+        api.get(`/${user.id}`)
+          .then((res) => {
+            return localStorage.setItem('account', JSON.stringify(res.data))
+          })
+      }
     }
     catch (err) {
-      console.log(" error when get user data: ", err)
+      console.log(" Có lỗi khi lấy user/ user không tồn tại: ", err)
     }
   }
-  const updateOrder = async (value: Cart[]) => {
+
+  const updateOrder = async (value: Orders[]) => {
     let updateUser = await api
-      .put(`/50`, { orders: value })
+      .put(`/${user.id}`, { orders: value })
       .catch(err => console.log(err))
   }
   const updateCart = async (value: Cart[]) => {
     let updateCart = await api
-      .put(`/50`, { cart: value })
+      .put(`/${user.id}`, { cart: value })
       .catch(err => console.log(err))
   }
   const updateOrders = async (value: Orders) => {
@@ -141,39 +104,6 @@ const Checkout: React.FC = () => {
       .post(`/`, { ...value })
       .catch(err => console.log(err))
   }
-
-  useEffect(() => {
-    window.scroll(0, 0)
-  }, [])
-
-  useEffect(() => {
-    getUser();
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
-    (momocheckedRef.current as any).checked = true;
-  }, [])
-
-  useEffect(() => {
-    if (user.username !== "") {
-      setLogin(true)
-    }
-    else {
-      setLogin(false)
-    }
-    let s = 0;
-    let p = 0;
-    if (locStorageCart) {
-      setCheckCart(false)
-      locStorageCart.map((item) => {
-        s = s + item.amount;
-        p += Number(item.price) * item.amount;
-      })
-    } else {
-      setCheckCart(true)
-    }
-    setQuantity(s)
-    setPrice(p)
-  }, [user])
-
   // show/hide map and note field
   const handleOnlButton = () => {
     (noteRef.current as any).classList.remove(`${style.hide}`);
@@ -203,18 +133,18 @@ const Checkout: React.FC = () => {
   const handleColdSelectedRadio = () => {
     (coldcheckedRef.current as any).checked = true;
     setTransFee(0);
-    (momoMarkRadio.current as any).style.backgroundColor = '#eee';
+    (vnpayMarkRadio.current as any).style.backgroundColor = '#eee';
     (coldMarkRadio.current as any).style.backgroundColor = '#d8b979';
-    (momoMarkRadio.current as any).classList.remove(`${style.noHover}`);
+    (vnpayMarkRadio.current as any).classList.remove(`${style.noHover}`);
     (coldMarkRadio.current as any).classList.toggle(`${style.noHover}`);
   }
-  const handleMomoSelectedRadio = () => {
-    (momocheckedRef.current as any).checked = true;
+  const handleVnpaySelectedRadio = () => {
+    (vnpaycheckedRef.current as any).checked = true;
     setTransFee(18000);
     (coldMarkRadio.current as any).style.backgroundColor = '#eee';
-    (momoMarkRadio.current as any).style.backgroundColor = '#d8b979';
+    (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
     (coldMarkRadio.current as any).classList.remove(`${style.noHover}`);
-    (momoMarkRadio.current as any).classList.toggle(`${style.noHover}`);
+    (vnpayMarkRadio.current as any).classList.toggle(`${style.noHover}`);
   }
   // handle stores
   const [storedChoosed, setStoredChoosed] = useState<Properties>({
@@ -253,90 +183,77 @@ const Checkout: React.FC = () => {
     }, 2000);
   }
   // 
-  const [formData, setFormData] = useState<any>({});
   const {
     register, handleSubmit, formState: { errors }
   } = useForm();
   const OnSubmit = (data: any) => {
     if (storedChoosed.name) {
-      console.log('data:', data)
-      setFormData({ ...data, location: searchAddress })
-      setOnlSuccessPayment({ phone: data.phone, location: data.location, name: data.name })
-      console.log('formdata:', formData)
-      if (locStorageCart.length === 0) {
-        setCheckCart(true)
-      }
-      else {
-        setCheckCart(false)
-        if ((coldcheckedRef.current as any).checked === true) {
-          setCheckout(false)
-          if (user.username !== "") {
-            setLogin(true)
-            user.orders = [...user.orders, ...user.cart];
-            updateOrder(
-              user.orders
-            )
-            updateCart(
-              [
-                {
-                  name: "tra sua tran chau den",
-                  size: true,
-                  ice: true,
-                  sugar: true,
-                  amount: 3,
-                  price: "23000",
-                  total: 69000,
-                  topping: ["1", "2", "3"],
-                  productImg: "http://placeimg.com/640/480/people"
-                }
-              ]
-            )
-            let value1: any[] = [...user.cart]
-            let value2: any[] = value1.map((value) => {
-              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
-            })
-            const orders: Orders = {
-              username: user.fullName || 'user is not register account',
-              phone: user.phone === "" ? data.phone : user.phone,
-              address: searchAddress,
-              orders: value2,
-              paid: false,
-              status: "1",
-              fullName: user.fullName === "" ? data.name : user.fullName,
-              time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-              id: ""
-            }
-            updateOrders(orders)
-          }
-          else {
-            setLogin(false)
+      localStorage.setItem("OnlSuccessPaymentData", JSON.stringify({ phone: data.phone, location: searchAddress, name: data.name }))
+      if ((coldcheckedRef.current as any).checked === true) {
+        setCheckout(false)
+        if (user.username !== "") {
+          setLogin(true)
+          if (locStorageCart.length === 0) {
+            setCheckCart(true)
+          } else {
+            setCheckCart(false)
             let value1: any[] = [...locStorageCart]
             let value2: any[] = value1.map((value) => {
-              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, amount: value.amount, price: value.price, total: value.amount * value.price, topping: value.topping }
+              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: Number(value.quantitySelect), price: Number(value.price), total: Number(value.quantitySelect) * Number(value.price), topping: value.topping }
             })
-            const ordersnotlogin: Orders = {
-              username: user.fullName || 'user is not register account',
-              phone: user.phone === "" ? data.phone : user.phone,
+            const orders: Orders = {
+              username: user.username,
+              phone: data.phone || user.phone,
               address: searchAddress,
               orders: value2,
               paid: false,
               status: "1",
-              fullName: user.fullName === "" ? data.name : user.fullName,
-              time: `${today.getHours()}:${today.getMinutes()}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
-              id: ""
+              fullName: data.name || user.fullName,
+              time: `${hourr}:${minutee}:${seconds}  ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`,
+              // id: ""
+            }
+            user.orders = [...user.orders, orders]
+            api.get(`${user.id}`)
+            .then(()=>{updateOrder(user.orders)})
+            updateOrders(orders)
+            updateCart([])
+            localStorage.setItem("cart", JSON.stringify([]));
+          }
+          getUser()
+        }
+        else {
+          setLogin(false)
+          if (locStorageCart.length === 0) {
+            setCheckCart(true)
+          }
+          else {
+            setCheckCart(false)
+            let value1: any[] = [...locStorageCart]
+            let value2: any[] = value1.map((value) => {
+              return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: Number(value.quantitySelect), price: Number(value.price), total: Number(value.quantitySelect) * Number(value.price), topping: value.topping }
+            })
+            const ordersnotlogin: Orders = {
+              username: 'user is not register account',
+              phone: data.phone,
+              address: searchAddress,
+              orders: value2,
+              paid: false,
+              status: "1",
+              fullName: data.name,
+              time: `${hourr}:${minutee}:${seconds}  ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`,
+              // id: ""
             }
             updateOrders(ordersnotlogin);
-            setLocStorageCart([])
-            console.log('localcart: ', locStorageCart)
+            updateCart([])
+            localStorage.setItem("cart", JSON.stringify([]));
           }
-          setPopupSuccessOrder(true)
-        } else
-          if ((momocheckedRef.current as any).checked === true) {
-            setPopupSuccessOrder(false)
-            setCheckout(true)
-          }
-        getUser()
-      }
+        }
+        setPopupSuccessOrder(true)
+      } else
+        if ((vnpaycheckedRef.current as any).checked === true) {
+          setPopupSuccessOrder(false)
+          setCheckout(true)
+        }
     }
     else {
       handleSubmitOrder("Vui lòng nhập tên shop!");
@@ -358,12 +275,6 @@ const Checkout: React.FC = () => {
   const [searchAddressStore, setSearchAddressStore] = useState<string>("")
   const [listStore, setListStore] = useState<Array<any>>([])
   const handleAddressChange = (e: any) => {
-    // setViewport({
-    //   ...viewport,
-    //   width: '100%',
-    //   zoom: 10
-    // })
-    //checksearchbox nen de mot lan
     setCheckSearchBox(true);
     let arr: any = map.features;
     let b = [...arr];
@@ -374,12 +285,6 @@ const Checkout: React.FC = () => {
     }
     setSearchAddress(e.target.value);
     //can nhac dung use memo 
-  }
-  const getFullNameValue = (e: any) => {
-    // formData.fullName = e.target.value
-  }
-  const getPhoneValue = (e: any) => {
-    // formData.phone = e.target.value
   }
   const handleLocationOnClick = (item: any) => {
     setCheckSearchBox(false);
@@ -435,8 +340,8 @@ const Checkout: React.FC = () => {
                         <BsFillPersonFill />
                       </div>
                       {login
-                        ? <input {...register("name", { required: false })} defaultValue={user.fullName} type="text" id={style['customerName']} placeholder='Tên người nhận' />
-                        : <input {...register("name", { required: true, pattern: /[A-Za-z]+/ })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
+                        ? <input {...register("name", { required: false })} defaultValue={user.fullName} disabled={true} type="text" id={style['customerName']} placeholder='Tên người nhận' />
+                        : <input {...register("name", { required: true, pattern: /^([\w]{3,})+\s+([\w\s]{3,})+$/i })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
                       {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>name is required</p>)}
                       {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>name is not correct</p>)}
                     </div>
@@ -445,8 +350,8 @@ const Checkout: React.FC = () => {
                         <AiFillPhone />
                       </div>
                       {login
-                        ? <input {...register("phone", { required: false, pattern: /[0][1-9]?[0-9]{8}$/ })} defaultValue={user.phone} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
-                        : <input {...register("phone", { required: true, pattern: /[0][1-9]?[0-9]{8}$/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
+                        ? <input {...register("phone", { required: false })} defaultValue={user.phone} disabled={true} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
+                        : <input {...register("phone", { required: true, pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,5}$/im })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
                       {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
                       {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
                     </div>
@@ -495,12 +400,12 @@ const Checkout: React.FC = () => {
                       <div className={style.left}>
                         <span>Giao hàng </span>
                         <span className={style.time}>
-                          {(checkTime && today.getHours()) || <span className={style.hour} ref={hourRef}>21</span>}
+                          {(checkTime && time.getHours()) || <span className={style.hour} ref={hourRef}>21</span>}
                           :
-                          {(checkTime && today.getMinutes()) || <span className={style.minute} ref={minuteRef}>55</span>}
+                          {(checkTime && time.getMinutes()) || <span className={style.minute} ref={minuteRef}>55</span>}
                         </span>
                         <span> - hôm nay </span>
-                        {<span>{`${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`}</span> || <span className={style.date}>18/03/2022</span>}
+                        {<span>{`${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`}</span> || <span className={style.date}>18/03/2022</span>}
                       </div>
                       <div onClick={() => setShow(true)} className={`${style.right} ${style.editDeliveryTime}`}>Sửa</div>
                     </div>
@@ -520,10 +425,10 @@ const Checkout: React.FC = () => {
                         <input ref={coldcheckedRef} type="radio" name="type" value="cold" />
                         <span ref={coldMarkRadio} className={style.checkmarkRadio}></span>
                       </label>
-                      <label onClick={() => handleMomoSelectedRadio()} htmlFor="" className={`${style.containerRadio} ${style.momoPayment}`}>
-                        <span>Thanh toán qua momo</span>
-                        <input ref={momocheckedRef} type="radio" name="type" value="momo" />
-                        <span ref={momoMarkRadio} className={`${style.checkmarkRadio}`}></span>
+                      <label onClick={() => handleVnpaySelectedRadio()} htmlFor="" className={`${style.containerRadio} ${style.vnpayPayment}`}>
+                        <span>Thanh toán qua VnPay</span>
+                        <input ref={vnpaycheckedRef} type="radio" name="type" value="vnpay" />
+                        <span ref={vnpayMarkRadio} className={`${style.checkmarkRadio}`}></span>
                       </label>
                     </div>
                   </div>
@@ -553,10 +458,10 @@ const Checkout: React.FC = () => {
                       </div>
                     </div>
                     <div className={style.listCheckout}>
-                      {user.cart.length > 0 ?
-                        user.cart.map((cartItem) => {
+                      {listProducts.length > 0 ?
+                        listProducts.map((cartItem, index) => {
                           return (
-                            <div className={style.productCheckout}>
+                            <div className={style.productCheckout} key={index}>
                               <img src={cartItem.productImg} alt="product image" />
                               <div className={style.productCheckoutContent}>
                                 <div className={style.title}>{cartItem.name}</div>
@@ -565,11 +470,12 @@ const Checkout: React.FC = () => {
                                     : item === "2" ? <span>Hạt dẻ, </span>
                                       : <span>Trân châu baby, </span>
                                 })}</div>
-                                <div className={style.quantity}>{VND.format(Number(cartItem.price))} x {cartItem.amount}= {VND.format(Number(cartItem.price) * cartItem.amount)}</div>
+                                <div className={style.quantity}>{VND.format(Number(cartItem.price) + cartItem.topping.length * 9000)} x {Number(cartItem.quantitySelect)}= {VND.format((Number(cartItem.price) + cartItem.topping.length * 9000) * Number(cartItem.quantitySelect))}</div>
                               </div>
                             </div>
                           )
-                        }) : <div className={style.noProductCheckout}>Không có sản phẩm nào!!!</div>}
+                        }) : <div className={style.noProductCheckout}>Không có sản phẩm nào!!!</div>
+                      }
                     </div>
                     <div className={style.promotionCode}>
                       <div className={style.left}>
@@ -584,12 +490,22 @@ const Checkout: React.FC = () => {
                       <div className={style.priceTop}>
                         <div className={style.quantity}>
                           "Số lượng cốc: "
-                          <span className={style.quantityNumber}>{quantity}</span>
+                          <span className={style.quantityNumber}>{
+                            locStorageCart ?
+                              locStorageCart.reduce((total: number, item: Cart) => {
+                                return Number(total) + Number(item.quantitySelect);
+                              }, 0) : "0"
+                          }</span>
                           " cốc"
                         </div>
                         <div className={style.total}>
                           <div className={style.totalTitle}>Tổng:</div>
-                          <div className={`${style.txtRight} ${style.totalNumber}`}>{VND.format(price)}</div>
+                          <div className={`${style.txtRight} ${style.totalNumber}`}>{VND.format(
+                            locStorageCart ?
+                              locStorageCart.reduce((total: number, item: Cart) => {
+                                return Number(total) + (Number(item.price) + Number(item.topping.length * 9000)) * Number(item.quantitySelect)
+                              }, 0) : 0
+                          )}</div>
                         </div>
                       </div>
                       <div className={style.transportPrice}>
@@ -602,7 +518,12 @@ const Checkout: React.FC = () => {
                       </div>
                       <div className={style.grandTotal}>
                         <div className={style.grandTotalTitle}>Tổng cộng:</div>
-                        <div className={`${style.txtRight} ${style.grandTotalNumber}`}>{VND.format(price + transFee)}</div>
+                        <div className={`${style.txtRight} ${style.grandTotalNumber}`}>{VND.format(
+                          locStorageCart ?
+                            locStorageCart.reduce((total: number, item: Cart) => {
+                              return Number(total) + transFee + (Number(item.price) + Number(item.topping.length * 9000)) * Number(item.quantitySelect)
+                            }, 0) : transFee
+                        )}</div>
                       </div>
                     </div>
                     <div className={style.checkoutNote}>
@@ -620,18 +541,12 @@ const Checkout: React.FC = () => {
         </Container>
         {
           checkout && <CreatePaymentUrl
-            products={user}
+            products={locStorageCart}
             setCheckout={(a: boolean) => setCheckout(a)} />
         }
       </div>
-      {/* <ReturnPaymentResult
-        products={user}
-        updateOrd={(a: Cart[]) => { updateOrder(a) }}
-        ConvertCartToOrders={(a: Cart[]) => { ConvertCartToOrders(a) }}
-        updateOrders={() => { }}
-        updateCart={() => { }}
-      /> */}
       {/* popup */}
+      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} />}
       {show && <DeliveryTimePopup setShow={(a: boolean) => { setShow(a) }} setHour={(a: string) => { setHour(a) }} setMinute={(a: string) => { setMinute(a) }} handleSetTimeSelected={() => { handleSetTimeSelected() }} />}
       {promotionShow && <PromotionCodePopup setPromotionShow={(a: boolean) => { setPromotionShow(a) }} />}
       {popupChooseStore && <ChooseStorePopup

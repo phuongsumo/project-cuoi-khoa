@@ -370,7 +370,7 @@
 }
 
 .backToLoginContent .backTitle {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #b0854b;
     text-align: center;
     margin-top: 24px;
@@ -396,20 +396,32 @@
 .backToLoginContent .backButtons .ok {
     background-color: #ee4d2d;
     outline: 1px solid #ee4d2d;
+    color: #fff;
+    height: 100%;
 }
 
-.backToLoginContent .backButtons .ok a {
-    text-decoration: none;
+.backToLoginContent .backButtons .okCart {
+    background-color: #ee4d2d;
+    outline: 1px solid #ee4d2d;
+}
+
+.backToLoginContent .backButtons .okCart a {
     color: #fff;
     height: 100%;
     width: 100%;
+    text-decoration: none;
 }
 
-.backToLoginContent .backButtons .ok:hover a {
+.backToLoginContent .backButtons .okCart:hover {
+    background-color: #fff;
+}
+
+.backToLoginContent .backButtons .okCart:hover a {
     color: #ee4d2d;
 }
 
 .backToLoginContent .backButtons .ok:hover {
+    color: #ee4d2d;
     background-color: #fff;
 }
 
