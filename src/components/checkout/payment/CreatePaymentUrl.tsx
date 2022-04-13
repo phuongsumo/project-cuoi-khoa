@@ -50,7 +50,7 @@ const CreatePaymentUrl = (props:any) => {
   var createDate:number = Number(`${time.getFullYear()}${month}${date}${hour}${minute}${second}`);
   let total:number=18000;
   products.map((item:any)=>{
-    return total+= item.amount* item.price;
+    return total+= (Number(item.price)+Number(item.topping.length*9000))* Number(item.quantitySelect);
   })
   var amount:number= total;
   var currCode:string = 'VND';

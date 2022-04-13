@@ -56,13 +56,11 @@ const ReturnPaymentResult = () => {
       setPopupSuccessOrder(true)
       setPopupFailOrder(false)
       if (user.username !== "") {
-        const a = [...user.orders, ...user.cart]
-        const b = { ...user, orders: a }
-        localStorage.setItem('account', JSON.stringify(b))
+        user.orders = [...user.orders, ...locStorageCart]
         updateOrder(
-          a
+          user.orders
         )
-        let value1: any[] = [...user.cart]
+        let value1: any[] = [...locStorageCart]
         let value2: any[] = value1.map((value) => {
           return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: value.quantitySelect, price: value.price, total: Number(value.quantitySelect) * Number(value.price) + 18000, topping: value.topping }
         })
@@ -99,12 +97,14 @@ const ReturnPaymentResult = () => {
           id: ""
         }
         updateOrders(ordersnotlogin);
+        updateCart([])
         localStorage.setItem("cart", JSON.stringify([]));
       }
     }
     else {
       setPopupSuccessOrder(false)
       setPopupFailOrder(true)
+      updateCart([])
     }
   }, [value.get('vnp_ResponseCode')])
   return (
@@ -128,7 +128,7 @@ const ReturnPaymentResult = () => {
           </tr>
           <tr>
             <td className={`${style.column}`}>Nội dung thanh toán</td>
-            <td className={`${style.column}`}>{value.get('vnp_OrderInfo')}</td>
+            <td className={`${style.column}`}>{(value.get('vnp_OrderInfo')as any).replaceAll('+', ' ')}</td>
           </tr>
           <tr>
             <td className={`${style.column}`}>Mã phản hồi</td>

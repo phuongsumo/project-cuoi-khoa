@@ -7,8 +7,6 @@ import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import CreatePaymentUrl from './payment/CreatePaymentUrl'
 import { User, Cart, Feature, Properties, Orders, Order } from './models'
-import { accountState } from '../../recoilProvider/userProvider'
-import { useRecoilState } from 'recoil'
 // popups
 import DeliveryTimePopup from './popup/DeliveryTimePopup'
 import PromotionCodePopup from './popup/PromotionCodePopup'
@@ -17,21 +15,16 @@ import SuccessOrderPopup from './popup/SuccessOrderPopup'
 import CheckCartPopup from './popup/CheckCartPopup'
 import SearchBoxPopup from './popup/SearchBoxPopup'
 import BackToLoginPupop from './popup/BackToLoginPupop'
-// import icons
 import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AiFillPhone } from 'react-icons/ai'
 import { FaStickyNote, FaStore } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import imgButton from './mapData/checkmapimgs/mapbox-marker-icon-20px-orange.png';
-// 
 import map from './mapData/Map'
 import listStores from './mapData/listStores'
 
 const Checkout: React.FC = () => {
-  const today = new Date()
-  const [quantity, setQuantity] = useState<number>(0)
-  const [price, setPrice] = useState<number>(0)
   const [transFee, setTransFee] = useState<number>(18000);
   const [show, setShow] = useState<boolean>(false)
   const [checkTime, setCheckTime] = useState<boolean>(true)
@@ -62,54 +55,25 @@ const Checkout: React.FC = () => {
   const mapCheckoutRef = useRef(null);
   const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
-
-  const user: User = JSON.parse(localStorage.getItem("account") as any)
   const time = new Date();
-  let hourr = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
-  let minutee = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
+
   useEffect(() => {
+    getUser();
     (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
     (coldMarkRadio.current as any).style.backgroundColor = '#fff';
     (vnpaycheckedRef.current as any).checked = true;
     window.scroll(0, 0)
-    getUser();
-    let s = 0;
-    let p = 0;
-    if (user.username !== "") {
-      setLogin(true)
-      setBackToLogin(false)
-      if (user.cart.length > 0) {
-        setCheckCart(false)
-        setListProducts(user.cart)
-        user.cart.map((item) => {
-          s = s + Number(item.quantitySelect);
-          p += (Number(item.price)+Number(item.topping.length*9000)) * Number(item.quantitySelect);
-        })
-      }
-      else {
-        setCheckCart(true)
-
-      }
-    }
-    else {
-      setLogin(false)
-      setBackToLogin(true)
-      if (locStorageCart.length > 0) {
-        setCheckCart(false)
-        setListProducts(locStorageCart)
-        locStorageCart.map((item) => {
-          s = s + Number(item.quantitySelect);
-          p += (Number(item.price)+Number(item.topping.length*9000)) * Number(item.quantitySelect);
-        })
-      } else {
-        setCheckCart(true)
-      }
-    }
-    setQuantity(s)
-    setPrice(p)
   }, [])
+  const user: User = JSON.parse(localStorage.getItem("account") as any)
   const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("cart") as any)
-  console.log(locStorageCart)
+  let hourr = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
+  let minutee = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
+  useEffect(() => {
+    return user.username!==""? (setLogin(true), setBackToLogin(false)):(setLogin(false),setBackToLogin(true))
+  }, [user.username])
+  useEffect(() => {
+    return locStorageCart.length > 0? (setCheckCart(false),setListProducts(locStorageCart)):(setCheckCart(true))
+  }, [locStorageCart.length])
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -117,12 +81,13 @@ const Checkout: React.FC = () => {
     baseURL: `https://6243085ab6734894c15a1d8e.mockapi.io/tea-shop/orders`
   })
   console.log('render')
-  const getUser = async () => {
+  const getUser = () => {
     try {
       if (user.username) {
-        let userr = await api.get(`/${user.id}`)
-          .then(({ data }) => data)
-        localStorage.setItem('account', JSON.stringify(userr))
+        api.get(`/${user.id}`)
+          .then((res) => {
+            return localStorage.setItem('account', JSON.stringify(res.data))
+          })
       }
     }
     catch (err) {
@@ -234,15 +199,15 @@ const Checkout: React.FC = () => {
         setCheckout(false)
         if (user.username !== "") {
           setLogin(true)
-          if (user.cart.length === 0) {
+          if (locStorageCart.length === 0) {
             setCheckCart(true)
           } else {
             setCheckCart(false)
-            user.orders = [...user.orders, ...user.cart]
+            user.orders = [...user.orders, ...locStorageCart]
             updateOrder(
               user.orders
             )
-            let value1: any[] = [...user.cart]
+            let value1: any[] = [...locStorageCart]
             let value2: any[] = value1.map((value) => {
               return value = { name: value.name, size: value.size, ice: value.ice, sugar: value.sugar, quantitySelect: Number(value.quantitySelect), price: Number(value.price), total: Number(value.quantitySelect) * Number(value.price), topping: value.topping }
             })
@@ -256,7 +221,7 @@ const Checkout: React.FC = () => {
               paid: false,
               status: "1",
               fullName: data.name || user.fullName,
-              time: `${hourr}:${minutee}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+              time: `${hourr}:${minutee}  ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`,
               id: ""
             }
             updateOrders(orders)
@@ -284,11 +249,12 @@ const Checkout: React.FC = () => {
               paid: false,
               status: "1",
               fullName: data.name,
-              time: `${hourr}:${minutee}  ${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+              time: `${hourr}:${minutee}  ${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`,
               // id: ""
             }
             updateOrders(ordersnotlogin);
             localStorage.setItem("cart", JSON.stringify([]));
+            updateCart([])
           }
         }
         setPopupSuccessOrder(true)
@@ -390,7 +356,7 @@ const Checkout: React.FC = () => {
                       </div>
                       {login
                         ? <input {...register("name", { required: false })} defaultValue={user.fullName} type="text" id={style['customerName']} placeholder='Tên người nhận' />
-                        : <input {...register("name", { required: true, pattern: /[A-Za-z]+/ })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
+                        : <input {...register("name", { required: true, pattern: /^([\w]{3,})+\s+([\w\s]{3,})+$/i })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
                       {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>name is required</p>)}
                       {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>name is not correct</p>)}
                     </div>
@@ -399,8 +365,8 @@ const Checkout: React.FC = () => {
                         <AiFillPhone />
                       </div>
                       {login
-                        ? <input {...register("phone", { required: false, pattern: /[0][1-9]?[0-9]{8}$/ })} defaultValue={user.phone} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
-                        : <input {...register("phone", { required: true, pattern: /[0][1-9]?[0-9]{8}$/ })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
+                        ? <input {...register("phone", { required: false })} defaultValue={user.phone} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
+                        : <input {...register("phone", { required: true, pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,5}$/im })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
                       {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
                       {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
                     </div>
@@ -449,12 +415,12 @@ const Checkout: React.FC = () => {
                       <div className={style.left}>
                         <span>Giao hàng </span>
                         <span className={style.time}>
-                          {(checkTime && today.getHours()) || <span className={style.hour} ref={hourRef}>21</span>}
+                          {(checkTime && time.getHours()) || <span className={style.hour} ref={hourRef}>21</span>}
                           :
-                          {(checkTime && today.getMinutes()) || <span className={style.minute} ref={minuteRef}>55</span>}
+                          {(checkTime && time.getMinutes()) || <span className={style.minute} ref={minuteRef}>55</span>}
                         </span>
                         <span> - hôm nay </span>
-                        {<span>{`${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`}</span> || <span className={style.date}>18/03/2022</span>}
+                        {<span>{`${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}`}</span> || <span className={style.date}>18/03/2022</span>}
                       </div>
                       <div onClick={() => setShow(true)} className={`${style.right} ${style.editDeliveryTime}`}>Sửa</div>
                     </div>
@@ -519,7 +485,7 @@ const Checkout: React.FC = () => {
                                     : item === "2" ? <span>Hạt dẻ, </span>
                                       : <span>Trân châu baby, </span>
                                 })}</div>
-                                <div className={style.quantity}>{VND.format(Number(cartItem.price)+cartItem.topping.length*9000)} x {Number(cartItem.quantitySelect)}= {VND.format((Number(cartItem.price)+cartItem.topping.length*9000) * Number(cartItem.quantitySelect))}</div>
+                                <div className={style.quantity}>{VND.format(Number(cartItem.price) + cartItem.topping.length * 9000)} x {Number(cartItem.quantitySelect)}= {VND.format((Number(cartItem.price) + cartItem.topping.length * 9000) * Number(cartItem.quantitySelect))}</div>
                               </div>
                             </div>
                           )
@@ -539,12 +505,22 @@ const Checkout: React.FC = () => {
                       <div className={style.priceTop}>
                         <div className={style.quantity}>
                           "Số lượng cốc: "
-                          <span className={style.quantityNumber}>{quantity}</span>
+                          <span className={style.quantityNumber}>{
+                            locStorageCart ?
+                            locStorageCart.reduce((total:number, item:Cart) => {
+                             return Number(total)+Number(item.quantitySelect);
+                            }, 0):"0"
+                          }</span>
                           " cốc"
                         </div>
                         <div className={style.total}>
                           <div className={style.totalTitle}>Tổng:</div>
-                          <div className={`${style.txtRight} ${style.totalNumber}`}>{VND.format(price)}</div>
+                          <div className={`${style.txtRight} ${style.totalNumber}`}>{VND.format(
+                            locStorageCart ?
+                            locStorageCart.reduce((total:number, item:Cart) => {
+                             return Number(total)+(Number(item.price) + Number(item.topping.length * 9000)) * Number(item.quantitySelect)
+                            }, 0):0
+                            )}</div>
                         </div>
                       </div>
                       <div className={style.transportPrice}>
@@ -557,7 +533,12 @@ const Checkout: React.FC = () => {
                       </div>
                       <div className={style.grandTotal}>
                         <div className={style.grandTotalTitle}>Tổng cộng:</div>
-                        <div className={`${style.txtRight} ${style.grandTotalNumber}`}>{VND.format(price + transFee)}</div>
+                        <div className={`${style.txtRight} ${style.grandTotalNumber}`}>{VND.format(
+                          locStorageCart ?
+                            locStorageCart.reduce((total:number, item:Cart) => {
+                             return Number(total) + transFee +(Number(item.price) + Number(item.topping.length * 9000)) * Number(item.quantitySelect)
+                            }, 0):transFee
+                          )}</div>
                       </div>
                     </div>
                     <div className={style.checkoutNote}>
