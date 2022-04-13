@@ -1,7 +1,71 @@
-// declare module mapData {
-export interface Properties {
-    short_code: string;
-    wikidata: string;
+export interface Cart {
+    name: string;
+    size:boolean;
+    ice:boolean;
+    sugar:boolean;
+    amount: number;
+    price: string;
+    total: number;
+    topping:string[];
+    productImg: string,
+  };
+  
+  // orders modals
+  export interface Order {
+    name: string;
+    size: boolean;
+    ice: boolean;
+    sugar: boolean;
+    amount: string;
+    price: string;
+    total: string;
+    topping: string[];
+}
+export interface Orders {
+    username: string;
+    phone: string;
+    address: string;
+    orders: Order[];
+    paid: boolean;
+    status: string;
+    fullName: string;
+    time: string;
+    id: string;
+}
+// users modal
+export interface User {
+  username: string;
+  password: string;
+  email: string;
+  phone:string;
+  fullName: string;
+  age: number;
+  avatar: string;
+  address: string;
+  cart: Cart[];
+  orders: Cart[];
+  id: string;
+}
+//   product modals
+export interface Product {
+    name: string;
+    price: number;
+    salePrice: number;
+    description: string;
+    image: string;
+    category: string;
+    sizeM: boolean;
+    sizeL: boolean;
+    id: string;
+  }
+
+  // map modals
+  export interface Properties {
+    id?: string;
+    name: string;
+    distance: string;
+    address?: string;
+    district?: string;
 }
 
 export interface Geometry {
@@ -9,29 +73,13 @@ export interface Geometry {
     coordinates: number[];
 }
 
-export interface Context {
-    id: string;
-    wikidata: string;
-    short_code: string;
-    text: string;
+export interface Feature {
+    type: string;
+    properties: Properties;
+    geometry: Geometry;
 }
 
-export interface Feature {
-    id: string;
+export interface Map {
     type: string;
-    place_type: string[];
-    relevance: number;
-    properties: Properties;
-    text: string;
-    place_name: string;
-    bbox: number[];
-    center: number[];
-    geometry: Geometry;
-    context: Context[];
-}
-export interface MapData {
-    type: string;
-    query: string[];
     features: Feature[];
 }
-// }

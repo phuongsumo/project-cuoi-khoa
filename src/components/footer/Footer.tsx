@@ -16,7 +16,6 @@ import {
   AiFillGooglePlusCircle,
 } from "react-icons/ai";
 
-
 function Footer() {
   return (
     <div className={style.footer}>

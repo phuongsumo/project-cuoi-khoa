@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './HomePage.module.css';
 import { Container, Row } from 'react-bootstrap';
 import HomeCarousel from './Carousel/HomeCarousel';
@@ -9,6 +9,12 @@ import aboutBgImg from './banner_about_us.png';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
+
+    useEffect(() => {
+        window.scroll(0, 0)
+    }, [])
+
+
     return (
         <div className={style.home}>
             <HomeCarousel />
@@ -31,7 +37,7 @@ const HomePage = () => {
                                     chúng tôi luôn tự tin mang đến khách hàng những trải nghiệm tốt nhất về dịch vụ và không gian.
                                 </p>
                                 <div className={style.about_more_btn}>
-                                    <Link to="/" className={style.about_more}>xem thêm</Link>
+                                    <Link to="/historyAndMission" className={style.about_more}>xem thêm</Link>
                                 </div>
                             </div>
                         </div>

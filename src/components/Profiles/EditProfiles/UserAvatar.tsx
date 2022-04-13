@@ -3,22 +3,23 @@ import style from "./UserAvatar.module.css";
 
 interface UserAvatar {
   avatar : string,
-  register : any
+  register : any,
+  setAvatar :any
 }
 
-const UserAvatar: React.FC<UserAvatar>= ({avatar,register}) => {
+const UserAvatar: React.FC<UserAvatar>= ({avatar,register,setAvatar}) => {
 
-  const [changeAvatar, setChangeAvatar] = useState<string>('')
 
-  useEffect(()=>{
-    setChangeAvatar(avatar)
-  },[avatar])
+  const handleChangeAvatar = (e: any) => { 
+    const newAvatar = URL.createObjectURL(e.target.files[0])
+    setAvatar(newAvatar)
 
+   }
   return (
     <>
       <label htmlFor="avatar" className={style.avatarLabel}>
         <div className={style.avatarWrapper}>
-          <img src={changeAvatar} alt="" className={style.userAvatar} />
+          <img src={avatar} alt="" className={style.userAvatar} />
         </div>
       </label>
       <input
@@ -26,6 +27,7 @@ const UserAvatar: React.FC<UserAvatar>= ({avatar,register}) => {
         id="avatar"
         style={{ display: "none", visibility: "hidden" }}
         {...register("avatar")}
+        onChange = {handleChangeAvatar}
       />
     </>
   );
