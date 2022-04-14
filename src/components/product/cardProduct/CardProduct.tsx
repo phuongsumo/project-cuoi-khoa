@@ -32,8 +32,8 @@ export default function CardProduct({
       </div>
       <div className="card-body">
         <h5 className="card-title p-0">{productName}</h5>
-        <div className="card-text row p-0  d-flex align-items-center text-align-center">
-          <div className="col-5 p-0 ">
+        <div className="card-text row p-0  d-flex align-items-center text-left">
+          <div className="col-5 p-0 " style={{textAlign: "left"}}>
             {salePrice
               ? salePrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}

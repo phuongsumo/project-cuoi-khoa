@@ -154,7 +154,7 @@
     
   }
 }
-@media screen and (max-width: 890px) and (min-width: 768px) {
+@media screen and (max-width: 990px) and (min-width: 768px) {
   .cart {
     position: fixed !important;
     bottom: 0 !important;
