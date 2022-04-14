@@ -30,7 +30,7 @@ const RecruitCarousel: React.FC<any>= ({idH3}) => {
             <h3 className={style.text2}>
               TRỞ THÀNH THÀNH VIÊN TRONG <br /> GIA ĐÌNH TOCOTOCO TEA
             </h3>
-            <button className={style.carouselButton} type="button">Các vị trí hiện tại</button>
+            <a href={`#${scroll}`} className={style.carouselButton} type="button">Các vị trí hiện tại</a>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item interval={5000}>
@@ -41,7 +41,7 @@ const RecruitCarousel: React.FC<any>= ({idH3}) => {
             <h3 className={style.text2}>
               TRỞ THÀNH THÀNH VIÊN TRONG <br /> GIA ĐÌNH TOCOTOCO TEA
             </h3>
-            <a href={`#${scroll}`} className={style.carouselButton} type="button">Các vị trí hiện tại</a>           
+            <a href={`#${scroll}`}  className={style.carouselButton} type="button">Các vị trí hiện tại</a>           
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>

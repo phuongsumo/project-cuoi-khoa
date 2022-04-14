@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, } from 'react-router-dom';
+import 'antd/dist/antd.css';
+
 import {
   Navbar, HomePage, ListShop, Recruit, Checkout, ReturnPaymentResult, Footer, Product,
   Achievement, HistoryAndMission, CreateAccount,
@@ -8,7 +10,17 @@ import {
 
 // import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import './App.css';
+import ProfilesWrapper from './components/Profiles/ProfilesWrapper';
+import ProfilesPreview from './components/Profiles/EditProfiles/ProfilesPreview';
+import ProfilesOrder from './components/Profiles/ProfilesOrder'
+import { useRecoilValue } from 'recoil';
+import { accountState } from './recoilProvider/userProvider';
+
+
 function App(): JSX.Element {
+
+  const user = useRecoilValue(accountState)
+
   return (
     // <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>
     <div className="App">
@@ -29,6 +41,10 @@ function App(): JSX.Element {
         <Route path="/commercial_story" element={<Commercial_story />} />
         <Route path='/promotional_news' element={<Promotional_news />} />
         <Route path='/sk_events' element={<Sk_events />} />
+        <Route path='/account' element = {user.username ? <ProfilesWrapper/> : <Navigate to="/Login" />}>
+          <Route path = '/account/' element = {<ProfilesPreview/>}/>
+          <Route path = 'order' element = {<ProfilesOrder/>}/>
+        </Route>
       </Routes>
       <Footer />
 

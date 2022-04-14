@@ -1,7 +1,8 @@
 import ListIcon from "@mui/icons-material/List";
 import axios from "axios";
 import React, { memo, useEffect, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {Link} from 'react-router-dom'
+import { useRecoilState } from "recoil";
 import { IProduct, IState } from "../../interfaces";
 import { productState } from "../../recoilProvider/productProvider";
 import { accountState } from "../../recoilProvider/userProvider";
@@ -15,6 +16,7 @@ const Product: React.FC = memo(() => {
   const INIT_DATA: IState = {
     id: 0,
     name: "",
+    productImg: "",
     price: 0,
     quantitySelect: 1,
     size: "m",
@@ -40,7 +42,6 @@ const Product: React.FC = memo(() => {
 
   //san pham da chon
   const [seletedProduct, setSeletedProduct] = useState<IState>(INIT_DATA);
-  console.log("seletedProduct", seletedProduct);
 
   const [showCartUp, setShowCartUp] = useState<boolean>(true);
 
@@ -132,7 +133,8 @@ const Product: React.FC = memo(() => {
       ...seletedProduct,
       id: productCarts.length + 1,
       name: item.name,
-      price: item.salePrice,
+      productImg: item.image,
+      price: item.salePrice ? item.salePrice : item.price,
     });
   };
   const soLuongSanPham = (type: string | boolean) => {
@@ -424,29 +426,30 @@ const Product: React.FC = memo(() => {
                   </div>
                   <hr />
 
-                  {productCarts && productCarts.map((item, index) => {
-                    return (
-                      <Cart
-                        key={item.id}
-                        cartName={item.name}
-                        cartPrice={item.price}
-                        cartSize={item.size}
-                        cartTopping={item.topping.map((t: string) => {
-                          return t === "1"
-                            ? "trân châu sương mai"
-                            : t === "2"
+                  {(productCarts &&
+                    productCarts.map((item, index) => {
+                      return (
+                        <Cart
+                          key={index}
+                          cartName={item.name}
+                          cartPrice={item.price}
+                          cartSize={item.size}
+                          cartTopping={item.topping.map((t: string) => {
+                            return t === "1"
+                              ? "trân châu sương mai"
+                              : t === "2"
                               ? "hạt rẻ"
                               : "trân châu baby";
-                        })}
-                        cartIce={item.ice === "100ice" ? "100" : "50"}
-                        cartSugar={item.sugar === "100sugar" ? "100" : "50"}
-                        cartQuantity={item.quantitySelect}
-                        handleIncrease={() => increase(index)}
-                        handleDecrease={() => decrease(index)}
-                      />
-                    );
-                  })
-                    || checkEmpty}
+                          })}
+                          cartIce={item.ice === "100ice" ? "100" : "50"}
+                          cartSugar={item.sugar === "100sugar" ? "100" : "50"}
+                          cartQuantity={item.quantitySelect}
+                          handleIncrease={() => increase(index)}
+                          handleDecrease={() => decrease(index)}
+                        />
+                      );
+                    })) ||
+                    checkEmpty}
                 </div>
               )}
               <div className="custom-cart-down row p-0 d-flex align-items-center">
@@ -468,11 +471,11 @@ const Product: React.FC = memo(() => {
                   {productCarts
                     .reduce(
                       (total, currentValue) =>
-                      (total =
-                        total +
-                        currentValue.quantitySelect! *
-                        (+currentValue.price! +
-                          currentValue.topping.length * 9000)),
+                        (total =
+                          total +
+                          currentValue.quantitySelect! *
+                            (+currentValue.price! +
+                              currentValue.topping.length * 9000)),
                       0
                     )
                     .toString()
@@ -480,9 +483,11 @@ const Product: React.FC = memo(() => {
                   đ
                 </div>
                 <div className="col-lg-12 col-5">
-                  <button type="button" className="btn custom-btn-pay">
-                    Thanh toán
-                  </button>
+                  <Link to="/checkout">
+                    <button type="button" className="btn custom-btn-pay">
+                      Thanh toán
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

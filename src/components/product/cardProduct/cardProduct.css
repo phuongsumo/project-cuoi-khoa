@@ -11,6 +11,7 @@
   background: gray;
   height: 65%;
   overflow: hidden;
+  object-fit: cover;
 }
 .products .custom-card img {
   height: 100%;

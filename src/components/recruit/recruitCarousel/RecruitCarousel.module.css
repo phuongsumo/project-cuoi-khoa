@@ -21,7 +21,7 @@
 }
 
 .CarouselCaption {
-    top: 200px;
+    top: calc(200px - 4vw);
 }
 
 .container {
@@ -45,13 +45,12 @@
     text-align: center;
     letter-spacing: 2.7px;
     line-height: 1;
-    margin-bottom: 35px;
     text-transform: uppercase;
     font-family: "MijasUltra", Helvetica, Arial, sans-serif !important;
 }
 
 .carouselButton {
-    border: none;
+    border: 1px solid #D3B673;
     outline: none;
     padding: 8px 24px;
     font-family: "Helvetica Neue", Helvetica, Arial;
@@ -62,53 +61,63 @@
     border-radius: 3px;
     margin-top: 90px;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .carouselButton:hover {
-    background-color: #f0c45d;
-    text-decoration: none;
-    color: #fff;
+    background-color: transparent;
+    color: #D3B673;
+}
+
+@media (min-width: 768px) and (max-width: 991.999px) {
+    .CarouselCaption {
+        top: calc(200px - 11vw);
+    }
+    .text1 {
+        margin-top: 12px;
+    }
+    .text2 {
+        margin-top: 12px;
+    }
+    .carouselButton {
+        padding: 8px 30px;
+        margin-top: 5vw;
+        font-size: 2vw;
+    }
+}
+
+@media (max-width: 767.999px) {
+    .CarouselCaption {
+        top: calc(200px - 11vw);
+    }
+    .carouselButton {
+        margin-top: 4vw;
+        padding: 8px 28px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 767.999px) and (min-width:480.001px) {
+    .CarouselCaption {
+        top: calc(100px - 3vw);
+    }
+    .carouselButton {
+        margin-top: 9vw;
+    }
+    .text1 {
+        font-size: 1.2rem;
+    }
+    .text2 {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
     .CarouselCaption {
         top: 48px;
     }
-}
-
-@media (max-width: 767.999px) and (min-width:480.001px) {
-    .CarouselCaption {
-        top: 70px;
-    }
-    .text1 {
-        font-size: 1.5rem;
-    }
+    .text1,
     .text2 {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 767.999px) {
-    .carouselButton {
-        margin-top: 24px;
-        padding: 4px 16px;
-        font-size: 1.2vh;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 991.999px) {
-    .CarouselCaption {
-        top: 100px;
-    }
-    .text1 {
-        margin-top: 12px;
-    }
-    .text2 {
-        margin-top: 12px;
-    }
-    .carouselButton {
-        padding: 10px 40px;
-        margin-top: 5vh;
-        font-size: 1.4vh;
+        font-size: 0.8rem;
     }
 }
