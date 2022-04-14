@@ -41,6 +41,7 @@ export default function BasicModal({
 
   const [account, setAccount] = useRecoilState(accountState);
   const [product, setProduct] = useRecoilState(productState);
+  console.log("seletedProduct", seletedProduct);
 
   useEffect(() => {
     setSeletedProduct({
@@ -120,16 +121,22 @@ export default function BasicModal({
       }
     }
   };
+  const handleSelectRadio = (e: any) => {
+    const { name, value, checked } = e.target;
+    if (checked) {
+      setSeletedProduct({
+        ...seletedProduct,
+        [name]: value,
+      });
+    }
+  };
 
   // xu li select radio button click
-  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
+  const handleSelectCheckbox = (e: any) => {
+    const { value, checked } = e.target;
     const { topping } = seletedProduct;
-    setSeletedProduct({
-      ...seletedProduct,
-      [name]: value,
-    });
-    if (name === "topping" && checked) {
+
+    if (checked) {
       if (!topping.includes(value)) {
         setSeletedProduct({
           ...seletedProduct,
@@ -139,9 +146,8 @@ export default function BasicModal({
     } else {
       setSeletedProduct({
         ...seletedProduct,
-        topping: topping.filter((t : any) => t !== value),
+        topping: topping.filter((t: any) => t !== value),
       });
-      
     }
   };
   //Đẩy cart vào local storage
@@ -285,7 +291,7 @@ export default function BasicModal({
                       id="sizem"
                       value="m"
                       checked={seletedProduct.size === "m"}
-                      onChange={(e) => handleSelect(e)}
+                      onChange={(e) => handleSelectRadio(e)}
                     />
                     <label htmlFor="sizem">Size M</label>
                   </div>
@@ -299,7 +305,7 @@ export default function BasicModal({
                       id="sizel"
                       value="l"
                       checked={seletedProduct.size === "l"}
-                      onChange={(e) => handleSelect(e)}
+                      onChange={(e) => handleSelectRadio(e)}
                     />
                     <label htmlFor="sizel">Size L</label>
                   </div>
@@ -317,7 +323,7 @@ export default function BasicModal({
                     id="100sugar"
                     value="100sugar"
                     checked={seletedProduct.sugar === "100sugar"}
-                    onChange={(e) => handleSelect(e)}
+                    onChange={(e) => handleSelectRadio(e)}
                   />
                   <label htmlFor="100sugar">100% đường</label>
                 </div>
@@ -329,7 +335,7 @@ export default function BasicModal({
                     id="50sugar"
                     value="50sugar"
                     checked={seletedProduct.sugar === "50sugar"}
-                    onChange={(e) => handleSelect(e)}
+                    onChange={(e) => handleSelectRadio(e)}
                   />
                   <label htmlFor="50sugar">50% đường</label>
                 </div>
@@ -346,7 +352,7 @@ export default function BasicModal({
                     id="100ice"
                     value="100ice"
                     checked={seletedProduct.ice === "100ice"}
-                    onChange={(e) => handleSelect(e)}
+                    onChange={(e) => handleSelectRadio(e)}
                   />
                   <label htmlFor="100ice">100% đá</label>
                 </div>
@@ -358,7 +364,7 @@ export default function BasicModal({
                     id="50ice"
                     value="50ice"
                     checked={seletedProduct.ice === "50ice"}
-                    onChange={(e) => handleSelect(e)}
+                    onChange={(e) => handleSelectRadio(e)}
                   />
                   <label htmlFor="50ice">50% đá</label>
                 </div>
@@ -377,7 +383,7 @@ export default function BasicModal({
                         id="tranchausuongmai"
                         value="1"
                         onClick={(e) => plusTopping(e)}
-                        onChange={(e) => handleSelect(e)}
+                        onChange={(e) => handleSelectCheckbox(e)}
                       />
                     </div>
                     <div className="col-11 p-0 ">
@@ -403,7 +409,7 @@ export default function BasicModal({
                         id="hatre"
                         value="2"
                         onClick={(e) => plusTopping(e)}
-                        onChange={(e) => handleSelect(e)}
+                        onChange={(e) => handleSelectCheckbox(e)}
                       />
                     </div>
                     <div className="col-11 p-0 ">
@@ -426,7 +432,7 @@ export default function BasicModal({
                         id="tranchaubaby"
                         value="3"
                         onClick={(e) => plusTopping(e)}
-                        onChange={(e) => handleSelect(e)}
+                        onChange={(e) => handleSelectCheckbox(e)}
                       />
                     </div>
                     <div className="col-11 p-0 ">
