@@ -46,17 +46,17 @@ function ProfilesOrder() {
   };
   return (
     <>
-      <Container className={`mt-3`}>
+      <Container className={`mt-3 ps-0`}  fluid>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>STT</th>
-              <th>Người đặt</th>
+              <th className="d-none d-sm-block">STT</th>
+              <th  className="d-none d-sm-block" >Người đặt</th>
               <th>Địa chỉ</th>
               <th> Số điện thoại</th>
               <th>Chi tiết</th>
               <th>Thanh toán</th>
-              <th>Trạng thái</th>
+              <th  className="d-none d-sm-block">Trạng thái</th>
             </tr>
           </thead>
           <tbody>
@@ -64,8 +64,8 @@ function ProfilesOrder() {
               orders.map((order: Iproduct, index) => {
                 return (
                   <tr>
-                    <td>{index + 1}</td>
-                    <td>{order.fullName}</td>
+                    <td className="d-none d-sm-block">{index + 1}</td>
+                    <td  className="d-none d-sm-block">{order.fullName}</td>
                     <td>{order.address}</td>
                     <td>{order.phone}</td>
                     <td>
@@ -80,7 +80,7 @@ function ProfilesOrder() {
                         <span className={`text-danger`}>Chưa thanh toán</span>
                       )}
                     </td>
-                    <td>
+                    <td  className="d-none d-sm-block">
                       {order.status === "1" ? (
                         <p className={`text-danger`}>Chờ xác nhận</p>
                       ) : order.status === "2" ? (
@@ -106,15 +106,15 @@ function ProfilesOrder() {
         </Modal.Header>
 
         <Modal.Body></Modal.Body>
-        <Table striped bordered hover>
+        <Table striped bordered hover >
           <thead>
             <tr>
               <th>Tên</th>
               <th>Số lượng</th>
-              <th>Size</th>
-              <th>Đá</th>
-              <th>Đường</th>
-              <th>Topping</th>
+              <th className="d-none d-lg-inline">Size</th>
+              <th className="d-none d-lg-inline">Đá</th>
+              <th className="d-none d-lg-inline">Đường</th>
+              <th className="d-none d-lg-inline">Topping</th>
               <th>Đơn giá</th>
               <th>Thành tiền</th>
             </tr>
@@ -125,12 +125,12 @@ function ProfilesOrder() {
                 <tr>
                   <td>{item.name}</td>
                   <td>{item.quantitySelect}</td>
-                  <td>{item.size ? <span>L</span> : <span>M</span>}</td>
-                  <td>
+                  <td className="d-none d-lg-inline">{item.size ? <span>L</span> : <span>M</span>}</td>
+                  <td className="d-none d-lg-inline">
                     {item.ice ? <span>Có đá</span> : <span>Không đá</span>}
                   </td>
-                  <td>{item.sugar ? <span>100%</span> : <span>50%</span>}</td>
-                  <td>
+                  <td className="d-none d-lg-inline">{item.sugar ? <span>100%</span> : <span>50%</span>}</td>
+                  <td className="d-none d-lg-inline">
                     {item.topping.map((tp: any, index: any) =>
                       tp === "1" ? (
                         <span key={index}>Trân châu sương mai</span>
