@@ -37,8 +37,12 @@ export default function BasicModal({
 
   const [total, setTotal] = useState<number>(0);
 
+  const [totalAProduct, setTotalAProduct] = useState<number>(0);
+  console.log("totalAProduct", totalAProduct);
+
   const [account, setAccount] = useRecoilState(accountState);
   const [product, setProduct] = useRecoilState(productState);
+  console.log("selectedproduct", seletedProduct);
 
   useEffect(() => {
     setSeletedProduct({
@@ -53,27 +57,36 @@ export default function BasicModal({
     setOpen(false);
     setQuantity(1);
     setTotal(0);
+    setTotalAProduct(0);
     setSeletedProduct(INIT_DATA);
     setProduct(INIT_PRODUCT);
   };
   // tang so luong
+
   const increase = () => {
     setQuantity(quantity + 1);
-    if (quantity === 1 && total === 0) {
-      setTotal(2 * +productDetail.salePrice);
+    if (seletedProduct.quantitySelect === 1) {
+      total ? setTotal(2 * +total) : setTotal(2 * +seletedProduct.price);
     } else {
-      setTotal(total + +productDetail.salePrice);
+      console.log(
+        "seletedProduct.quantitySelect",
+        seletedProduct.quantitySelect
+      );
+      totalAProduct === 0
+        ? setTotal((seletedProduct.quantitySelect + 1) * seletedProduct.price)
+        : setTotal((seletedProduct.quantitySelect + 1) * totalAProduct);
     }
-    console.log("total", total);
   };
   // giam so luong
   const decrease = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
       if (quantity === 1 && total === 0) {
-        setTotal(+productDetail.salePrice);
+        setTotal(+seletedProduct.price);
       } else {
-        setTotal(total - +productDetail.salePrice);
+        totalAProduct === 0
+          ? setTotal(total - +productDetail.salePrice)
+          : setTotal((seletedProduct.quantitySelect - 1) * totalAProduct);
       }
     }
   };
@@ -81,17 +94,29 @@ export default function BasicModal({
   //them topping
   const plusTopping = (e: any) => {
     const checked = e.target.checked;
+
     //Kiem tra xem checkbox la checked or not
     if (checked) {
-      if (total !== 0) {
-        setTotal(total + 9000);
-      } else if (total === 0) {
-        (productDetail.salePrice &&
-          setTotal(+productDetail.salePrice + 9000)) ||
-          setTotal(+productDetail.price + 9000);
+      setTotalAProduct(+seletedProduct.price + 9000);
+      if (totalAProduct !== 0) {
+        setTotalAProduct(totalAProduct + 9000);
+      }
+      if (seletedProduct.quantitySelect === 1) {
+        total !== 0
+          ? setTotal(total + 9000)
+          : setTotal(+seletedProduct.price + 9000);
+      } else {
+        totalAProduct === 0
+          ? setTotal(
+              (+seletedProduct.price + 9000) * seletedProduct.quantitySelect
+            )
+          : setTotal((+totalAProduct + 9000) * seletedProduct.quantitySelect);
       }
     } else {
-      setTotal(total - 9000);
+      setTotalAProduct(totalAProduct - 9000);
+      seletedProduct.quantitySelect === 1
+        ? setTotal(total - 9000)
+        : setTotal((+totalAProduct - 9000) * seletedProduct.quantitySelect);
     }
   };
 
@@ -137,12 +162,16 @@ export default function BasicModal({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="custom-box-modal ">
-          <div className="modal-content-up container-fruid row">
+        <Box sx={style} className="custom-box-modal p-0">
+          <div className="modal-content-up container-fruid row d-flex">
             <div className="modal-img col-lg-4 col-6">
-              <img style={{height:'200px',objectFit: 'cover'}} src={productDetail.image} alt="" />
+              <img
+                style={{ height: "200px", objectFit: "cover" }}
+                src={productDetail.image}
+                alt=""
+              />
             </div>
-            <div className="modal-info col-lg-7 col-6">
+            <div className="modal-info col-lg-7 col-6 p-0">
               <div className="modal-info-title">{productDetail.name}</div>
               <div className="modal-info-price">
                 {" "}
@@ -163,55 +192,67 @@ export default function BasicModal({
                   đ
                 </del>
               </div>
-              <div className="modal-info-description">Chưa có thông tin</div>
-              <div className="modal-info-quantity-total row">
-                <div className="modal-info-quantity col-lg-6 row p-0 d-flex align-items-center justify-content-center">
-                  <div className="col-3 p-0">
+              <div
+                className="modal-info-description"
+                style={{ fontSize: "95%" }}
+              >
+                Chưa có thông tin
+              </div>
+              <div className="modal-info-quantity-total  row">
+                <div className="modal-info-quantity col-lg-4 col-md-4 row d-flex align-items-center justify-content-left">
+                  <div className=" col-4 p-0" style={{ marginLeft: "0" }}>
                     <RemoveCircle className="custom-icon " onClick={decrease} />
                   </div>
-                  <div className="col-4 p-0">{quantity}</div>
-                  <div className="col-3 p-0">
+                  <div className=" col-4 p-0">{quantity}</div>
+                  <div className=" col-4 p-0">
                     <AddCircle className="custom-icon" onClick={increase} />
                   </div>
                 </div>
-                <div
-                  className="modal-info-total col-lg-6 text-light w-auto"
-                  onClick={() => {
-                    handleClose();
-                    productCarts.push(seletedProduct);
-                    setProductCarts([...productCarts]);
-                    putCart();
-                  }}
-                >
-                  {total! === 0
-                    ? `+ ${
-                        (productDetail.salePrice &&
-                          productDetail?.salePrice
-                            ?.toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")) ||
-                        productDetail?.price
-                          ?.toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                      }đ `
-                    : `+ ${total
-                        ?.toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
-                </div>
-              </div>
-              <div className="custom-modal-btn-pay">
-                <button
-                  type="button"
-                  className="btn btn-warning"
-                  onClick={() => {
-                    handleClose();
-                    productCarts.push(seletedProduct);
-                    setProductCarts([...productCarts]);
+                {/*  */}
+                <div className="row col-lg-8 col-md-8 p-0 m-0">
+                  <div className="custom-modal-total-pay col-lg-7 col-md-7 p-0">
+                    <button
+                      type="button"
+                      className="btn btn-warning custom-info-total"
+                      onClick={() => {
+                        handleClose();
+                        productCarts.push(seletedProduct);
+                        setProductCarts([...productCarts]);
 
-                    putCart();
-                  }}
-                >
-                  Đặt hàng
-                </button>
+                        putCart();
+                      }}
+                    >
+                      {total! === 0
+                        ? `+ ${
+                            (productDetail.salePrice &&
+                              productDetail?.salePrice
+                                ?.toString()
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")) ||
+                            productDetail?.price
+                              ?.toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                          }đ `
+                        : `+ ${total
+                            ?.toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
+                    </button>
+                  </div>
+                  <div className="custom-modal-btn-pay col-lg-5 col-md-5 p-0">
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => {
+                        handleClose();
+                        productCarts.push(seletedProduct);
+                        setProductCarts([...productCarts]);
+
+                        putCart();
+                      }}
+                    >
+                      Đặt hàng
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
