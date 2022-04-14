@@ -50,13 +50,13 @@ function ProfilesOrder() {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th className="d-none d-sm-block">STT</th>
-              <th  className="d-none d-sm-block" >Người đặt</th>
+              <th className="d-none d-sm-inline">STT</th>
+              <th  className="d-none d-sm-inline" >Người đặt</th>
               <th>Địa chỉ</th>
               <th> Số điện thoại</th>
               <th>Chi tiết</th>
               <th>Thanh toán</th>
-              <th  className="d-none d-sm-block">Trạng thái</th>
+              <th  className="d-none d-sm-inline">Trạng thái</th>
             </tr>
           </thead>
           <tbody>
@@ -64,8 +64,8 @@ function ProfilesOrder() {
               orders.map((order: Iproduct, index) => {
                 return (
                   <tr>
-                    <td className="d-none d-sm-block">{index + 1}</td>
-                    <td  className="d-none d-sm-block">{order.fullName}</td>
+                    <td className="d-none d-sm-inline">{index + 1}</td>
+                    <td  className="d-none d-sm-inline">{order.fullName}</td>
                     <td>{order.address}</td>
                     <td>{order.phone}</td>
                     <td>
@@ -80,7 +80,7 @@ function ProfilesOrder() {
                         <span className={`text-danger`}>Chưa thanh toán</span>
                       )}
                     </td>
-                    <td  className="d-none d-sm-block">
+                    <td  className="d-none d-sm-inline">
                       {order.status === "1" ? (
                         <p className={`text-danger`}>Chờ xác nhận</p>
                       ) : order.status === "2" ? (

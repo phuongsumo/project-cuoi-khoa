@@ -8,7 +8,9 @@ import axios from 'axios'
 import {Button} from 'react-bootstrap'
 import { useRecoilState } from "recoil";
 import { accountState } from "../../../recoilProvider/userProvider";
-import style from './EditForm.module.css'
+import style from './EditForm.module.css';
+import { message } from 'antd';
+
 
 
 interface UserProps {
@@ -41,11 +43,11 @@ const EditForm: React.FC= () => {
   const {id} = user
 
   const schema =  yup.object().shape({
-    fullName : yup.string().required("this field is required"),
-    phone : yup.string().required("this field is required").matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid'),
-    email : yup.string().email("this field must be Email").required("this field is required"),
-    address :yup.string().required("this field is required"),
-    age : yup.number().typeError("This field must be number").positive('this field must be possitive').integer('this field must be integer').required("this field is required"),
+    fullName : yup.string().required("Tên không được để trống"),
+    phone : yup.string().required("Số điên thoại không được để trống").matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Định dạng sai'),
+    email : yup.string().email("Trường này phải là Email").required("Trường này không được để trống"),
+    address :yup.string().required("Địa chỉ không được để trống"),
+    age : yup.number().typeError("Trường này phải là số").positive('Trường này phải là số dương').integer('Trường này phải là số dương').required("Trường này không được để trống"),
   })
   
   const {register,handleSubmit,formState: {errors},reset}  = useForm<IFormInputs>({
@@ -61,8 +63,8 @@ const EditForm: React.FC= () => {
     const newData  = {...user, ...data,avatar:avatar}
     await axios.put(`https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${id}`,newData)
     localStorage.setItem('account',JSON.stringify(newData))
+    message.success("Thay đổi thành công")
     setUser(newData)
-    alert('Cập nhật thành công')
     
    }
    useEffect(()=>{
