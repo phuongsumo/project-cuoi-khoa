@@ -1,6 +1,5 @@
 import React from 'react'
 import style from './Popup.module.css'
-import { IoCloseCircle } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 const BackToLoginPupop = (props: any) => {
     let { setBackToLogin } = props
@@ -8,7 +7,6 @@ const BackToLoginPupop = (props: any) => {
         <div>
             <div className={style.container}>
                 <div className={style.backToLoginMessage}>
-                    <div onClick={() => setBackToLogin(false)} className={style.popUpBtn}><IoCloseCircle className={style.popUpIcon} /></div>
                     <div className={style.backToLoginContent}>
                         <div className={style.backTitle}>Bạn chưa đăng nhập !<br/> Thông tin đặt hàng của bạn sẽ không được lưu. Bạn có muốn tiếp tục ?</div>
                         <div className={style.backButtons}>

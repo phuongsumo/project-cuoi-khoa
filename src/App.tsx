@@ -6,13 +6,10 @@ import {
   Login, News, Commercial_story, Promotional_news, Sk_events
 } from './components/index';
 
-// import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import './App.css';
 function App(): JSX.Element {
   return (
-    // <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>
     <div className="App">
-
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -31,10 +28,7 @@ function App(): JSX.Element {
         <Route path='/sk_events' element={<Sk_events />} />
       </Routes>
       <Footer />
-
     </div>
-    // </PayPalScriptProvider>
-
   );
 }
 
