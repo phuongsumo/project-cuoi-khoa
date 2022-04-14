@@ -147,8 +147,8 @@ const Navbar = () => {
             </li>
             {account.username ?
               <li className={style.nav_element_avatar}>
-                <Link to="/Login" className={style.nav_link}>
-                  <div className={style.avatar_wrap}>
+                <Link to="/account" className={style.nav_link}>
+                  <div className={style.avatar_wrap} >
                     <img className={style.avatar} src={`${account.avatar}`} alt="avatar" />
                   </div>
                 </Link>
