@@ -431,7 +431,7 @@ const Product: React.FC = memo(() => {
                     productCarts.map((item, index) => {
                       return (
                         <Cart
-                          key={index}
+                          key={item.id}
                           cartName={item.name}
                           cartPrice={item.price}
                           cartSize={item.size}
