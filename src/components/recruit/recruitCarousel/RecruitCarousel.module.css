@@ -21,7 +21,7 @@
 }
 
 .CarouselCaption {
-    top: calc(200px - 4vw);
+    top: calc(180px + 1vw);
 }
 
 .container {
@@ -40,6 +40,7 @@
 }
 
 .text2 {
+    margin-top: 24px;
     font-size: 4vw;
     color: #ffffff;
     text-align: center;
@@ -59,7 +60,7 @@
     background-color: #D3B673;
     transition: 0.3s ease;
     border-radius: 3px;
-    margin-top: 90px;
+    margin-top: 100px;
     text-decoration: none;
     font-weight: bold;
 }
@@ -71,7 +72,7 @@
 
 @media (min-width: 768px) and (max-width: 991.999px) {
     .CarouselCaption {
-        top: calc(200px - 11vw);
+        top: calc(200px - 6vw);
     }
     .text1 {
         margin-top: 12px;
@@ -99,15 +100,17 @@
 
 @media (max-width: 767.999px) and (min-width:480.001px) {
     .CarouselCaption {
-        top: calc(100px - 3vw);
+        top: calc(120px - 3vw);
     }
     .carouselButton {
-        margin-top: 9vw;
+        margin-top: 5vw;
+        padding: 8px 16px;
     }
     .text1 {
         font-size: 1.2rem;
     }
     .text2 {
+        margin-top: 12px;
         font-size: 1.2rem;
     }
 }
@@ -116,8 +119,30 @@
     .CarouselCaption {
         top: 48px;
     }
+    .carouselButton {
+        padding: 6px 10px;
+    }
+    .text1 {
+        font-size: 0.8rem;
+    }
+    .text2 {
+        margin-top: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .CarouselCaption {
+        top: 48px;
+    }
+    .carouselButton {
+        margin-top: 3vw;
+        padding: 4px 8px;
+    }
     .text1,
     .text2 {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
+    }
+    .text2 {
+        margin-top: 12px;
     }
 }

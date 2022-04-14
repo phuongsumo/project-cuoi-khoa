@@ -518,7 +518,7 @@ const Checkout: React.FC = () => {
                     </div>
                     <div className={style.wrapCheckoutBtn}>
                       <button type="submit" className={style.btnOrder}>ĐẶT HÀNG</button>
-                      <button className={style.btnBackToMenu}><Link to="/">TIẾP TỤC MUA HÀNG</Link></button>
+                      <button type="button" className={style.btnBackToMenu}><Link to="/product">TIẾP TỤC MUA HÀNG</Link></button>
                     </div>
                   </div>
                 </div>
