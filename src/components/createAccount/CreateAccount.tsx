@@ -16,34 +16,24 @@ interface UserData {
 }
 const CreateAccount = () => {
     const [err, setErr] = useState<boolean>(false);
+    const [disabled, setDisabled] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         window.scroll(0, 0)
     }, [])
 
-    // async function fetchData() {
-    //     let response = await axios(
-    //         'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users'
-    //     );
-    //     let userData = await response.data;
-    //     setDatas([...userData.reverse().splice(0, 45)]);
-    // }
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, [])
     const validationSchema = Yup.object().shape({
 
         username: Yup.string()
-            .min(5, 'Username tối thiểu 5 ký tự')
-            .max(16, "Username tối đa 16 ký tự")
-            .matches(/^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){5,16}[a-zA-Z0-9]$/, "Username không được có dấu cách")
+            .min(5, 'Tài khoản tối thiểu 5 ký tự')
+            .max(16, "Tài khoản tối đa 16 ký tự")
+            .matches(/^[a-zA-Z0-9]+$/, "Tài khoản không hợp lệ")
             .required('Vui lòng nhập trường này'),
         password: Yup.string()
             .min(6, 'Mật khẩu phải có tối thiểu 6 ký tự')
             .max(16, "Mật khẩu có tối đa 16 ký tự")
-            .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, ' Password phải có 1 ký tự viết hoa và 1 ký tự số')
+            .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, 'Password phải có 1 ký tự viết hoa và 1 ký tự số')
             .required('Vui lòng nhập trường này'),
         email: Yup.string()
             .required('Vui lòng nhập trường này')
@@ -69,21 +59,22 @@ const CreateAccount = () => {
     const { register, handleSubmit, reset, formState } = useForm(formOptions);
     const { errors } = formState;
     function onSubmit(data: any) {
-
+        setDisabled(true)
         axios.get('https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users')
             .then(res => {
                 const users = res.data
                 const check = users.find((user: any) => user.username === data.username)
                 if (check) {
                     setErr(true)
+                    setDisabled(false)
                 } else {
                     axios.post('https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users', data)
                         .then(res => {
                             alert('Đăng ký thành công')
+                            setDisabled(false)
                             navigate("/login")
                         })
                 }
-
             })
     }
 
@@ -139,7 +130,11 @@ const CreateAccount = () => {
 
 
                     <div className={style.btn}>
-                        <button type="submit" className={`${style.btn_yellow} ${style.buton} `}>Đăng ký</button>
+                        {disabled ?
+                            <button type="submit" className={`${style.btn_yellow} ${style.buton}`} disabled>Vui lòng chờ...</button>
+                            :
+                            <button type="submit" className={`${style.btn_yellow} ${style.buton}`}>Đăng ký</button>
+                        }
                     </div>
                     <div className={style.sugget_text}>
                         <div className={style.text}>

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Navigate, Route, Routes, } from 'react-router-dom';
-import 'antd/dist/antd.css';
-
 import {
   Navbar, HomePage, ListShop, Recruit, Checkout, ReturnPaymentResult, Footer, Product,
   Achievement, HistoryAndMission, CreateAccount,
@@ -41,9 +39,9 @@ function App(): JSX.Element {
         <Route path="/commercial_story" element={<Commercial_story />} />
         <Route path='/promotional_news' element={<Promotional_news />} />
         <Route path='/sk_events' element={<Sk_events />} />
-        <Route path='/account' element = {user.username ? <ProfilesWrapper/> : <Navigate to="/Login" />}>
-          <Route path = '/account/' element = {<ProfilesPreview/>}/>
-          <Route path = 'order' element = {<ProfilesOrder/>}/>
+        <Route path='/account' element={user.username ? <ProfilesWrapper /> : <Navigate to="/Login" />}>
+          <Route path='/account/' element={<ProfilesPreview />} />
+          <Route path='order' element={<ProfilesOrder />} />
         </Route>
       </Routes>
       <Footer />
