@@ -1,8 +1,9 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import { accountState } from "../../recoilProvider/userProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from './ProfilesOrder.module.css'
+import axios from 'axios';
 
 interface Iproduct {
   fullName: string;
@@ -35,11 +36,19 @@ interface IOrders {
   topping: any[];
 }
 
+const api = 'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users'
+
 function ProfilesOrder() {
-  const dataUser = useRecoilValue(accountState);
+  const [dataUser, setDataUser] = useRecoilState(accountState);
   const [show, setShow] = useState<boolean>(false);
   const [dataOrder, setDataOrder] = useState<IOrders[]>([]);
-  const orders = [...dataUser.orders];
+  const [orders, setOrders] = useState<Iproduct[]>([])
+  // const orders = [...dataUser.orders];
+
+  useEffect(() => {
+    axios.get(`${api}/${dataUser.id}`)
+      .then(res => setOrders(res.data.orders))
+  }, [])
 
   const handleClick = (order: Iproduct) => {
     setShow(true);
@@ -47,7 +56,7 @@ function ProfilesOrder() {
   };
   return (
     <>
-      <Container className={`mt-3 ps-0`}  fluid>
+      <Container className={`mt-3 ps-0`} fluid>
         <Table size="lg" className={`${style.tableOrder}`} bordered>
           <thead>
             <tr>
@@ -90,7 +99,7 @@ function ProfilesOrder() {
                         <p className={`text-danger`}>Chưa thanh toán</p>
                       )}
                     </td>
-                   
+
                   </tr>
                 );
               })
@@ -100,7 +109,7 @@ function ProfilesOrder() {
           </tbody>
         </Table >
       </Container>
-      <Modal show={show} onHide={() => setShow(false)} size = "xl" >
+      <Modal show={show} onHide={() => setShow(false)} size="xl" >
         <Modal.Header closeButton>
           <Modal.Title>Thông tin đơn hàng</Modal.Title>
         </Modal.Header>
@@ -133,7 +142,7 @@ function ProfilesOrder() {
                   <td >
                     {item.topping.map((tp: any, index: any) =>
                       tp === "1" ? (
-                        <span key={index}>Trân châu sương mai   </span> 
+                        <span key={index}>Trân châu sương mai   </span>
                       ) : tp === "2" ? (
                         <span key={index}>Hạt dẻ  </span>
                       ) : tp === "3" ? (
@@ -154,10 +163,10 @@ function ProfilesOrder() {
               <td>Tổng thanh toán</td>
               <td>
                 {
-                 ( ()=> {
-                  let totalPrice: number = dataOrder.reduce((a: any, b: any) => a + Number(b.total), 0);
-                      return ` ${totalPrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}`
-                })()
+                  (() => {
+                    let totalPrice: number = dataOrder.reduce((a: any, b: any) => a + Number(b.total), 0);
+                    return ` ${totalPrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}`
+                  })()
                 }
               </td>
             </tr>

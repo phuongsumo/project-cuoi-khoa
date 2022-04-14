@@ -6,40 +6,55 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import { Button } from "react-bootstrap";
-import { useRecoilState } from "recoil";
-import { accountState } from "../../../recoilProvider/userProvider";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { accountState, initialValues } from "../../../recoilProvider/userProvider";
 import style from "./EditForm.module.css";
+import { IUser } from "../../../interfaces";
 
-interface UserProps {
-  username: string;
-  password: string;
-  email: string;
-  phone: string;
-  fullName: string;
-  age: string;
-  avatar: string;
-  address: string;
-  id: string;
-  cart: [];
-}
-interface IFormInputs {
-  fullName: string;
-  phone: string;
-  email: string;
-  address: string;
-  age: string;
-  avatar: string | any;
-}
+// interface UserProps {
+//   username: string;
+//   password: string;
+//   email: string;
+//   phone: string;
+//   fullName: string;
+//   age: string;
+//   avatar: string;
+//   address: string;
+//   id: string;
+//   cart: [];
+// }
+// interface IFormInputs {
+//   fullName: string;
+//   phone: string;
+//   email: string;
+//   address: string;
+//   age: string;
+//   avatar: string | any;
+// }
 
 const EditForm: React.FC = () => {
   const apiImage = "https://api.cloudinary.com/v1_1/tocotoco/image/upload";
   const api = `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/`;
 
-  const [user, setUser] = useRecoilState<UserProps>(accountState);
-  const [avatar, setAvatar] = useState(user.avatar);
+  const [dataUser, setDataUser] = useRecoilState<IUser>(accountState);
+  const [avatar, setAvatar] = useState<string>('');
+  const [user, setUser] = useState<IUser>(initialValues);
+  const [editLoad, setEditLoad] = useState<boolean>(false);
   const [imageSelected, setImageSelected] = useState<any>("");
 
-  const { id } = user;
+  const { id } = dataUser;
+
+  useEffect(() => {
+    reset({ ...dataUser });
+  }, [dataUser]);
+
+  useEffect(() => {
+    axios.get(`${api}/${id}`)
+      .then((response) => {
+        setUser(response.data)
+        setAvatar(response.data.avatar)
+      })
+  }, [])
 
   const schema = yup.object().shape({
     fullName: yup.string().required("Tên không được để trống"),
@@ -68,46 +83,50 @@ const EditForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormInputs>({
+  } = useForm<IUser>({
     defaultValues: { fullName: "", phone: "", email: "", address: "", age: "" },
     resolver: yupResolver(schema),
   });
 
-  const submitForm = async (data: IFormInputs) => {
-   if(imageSelected){
-    const formData = new FormData();
-    formData.append("file", imageSelected);
-    formData.append("upload_preset", "tocoproduct");
-
-    axios.post(apiImage, formData).then((response: any) => {
-      // Assign data to Cloudinary image URL
-      data.avatar = response.data.secure_url;
-      // Put data to Api
+  const submitForm = async (data: IUser) => {
+    if (imageSelected) {
+      const formData = new FormData();
+      formData.append("file", imageSelected);
+      formData.append("upload_preset", "tocoproduct");
+      setEditLoad(true)
+      axios.post(apiImage, formData).then((response: any) => {
+        // Assign data to Cloudinary image URL
+        data.avatar = response.data.secure_url;
+        data.orders = user.orders
+        // Put data to Api
+        axios
+          .put(`${api}/${id}`, data)
+          .then((res) => {
+            alert("Thay đổi thành công");
+            const newData = { ...user, ...data };
+            // console.log(newData);
+            setEditLoad(false)
+            localStorage.setItem("account", JSON.stringify(newData));
+            setDataUser(newData);
+          })
+          .catch((e) => alert("có lỗi xảy ra"));
+      });
+    } else {
+      data.orders = user.orders
+      setEditLoad(true)
       axios
         .put(`${api}/${id}`, data)
         .then((res) => {
           alert("Thay đổi thành công");
           const newData = { ...user, ...data };
           localStorage.setItem("account", JSON.stringify(newData));
-          setUser(newData);
+          setDataUser(newData);
+          setEditLoad(false)
         })
-        .catch((e) => alert("có lõi xảy ra"));
-    });
-   }else{
-    axios
-    .put(`${api}/${id}`, data)
-    .then((res) => {
-      alert("Thay đổi thành công");
-      const newData = { ...user, ...data };
-      localStorage.setItem("account", JSON.stringify(newData));
-      setUser(newData);
-    })
-    .catch((e) => alert("có lõi xảy ra"));
-   }
+        .catch((e) => alert("có lỗi xảy ra"));
+    }
   };
-  useEffect(() => {
-    reset({ ...user });
-  }, [user]);
+
 
   return (
     <Form onSubmit={handleSubmit(submitForm)}>
@@ -182,6 +201,7 @@ const EditForm: React.FC = () => {
         </Row>
       </Container>
       <Button
+        disabled={editLoad}
         variant="success"
         className={`mb-3`}
         type="submit"
