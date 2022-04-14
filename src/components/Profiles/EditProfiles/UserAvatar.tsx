@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
 import style from "./UserAvatar.module.css";
 
 interface UserAvatar {
   avatar : string,
   register : any,
-  setAvatar :any
+  setAvatar :any,
+  setImageSelected:any
 }
 
-const UserAvatar: React.FC<UserAvatar>= ({avatar,register,setAvatar}) => {
+const UserAvatar: React.FC<UserAvatar>= ({avatar,register,setAvatar,setImageSelected}) => {
 
 
   const handleChangeAvatar = (e: any) => { 
     const newAvatar = URL.createObjectURL(e.target.files[0])
     setAvatar(newAvatar)
+    setImageSelected(e.target.files[0])
 
    }
   return (
