@@ -124,7 +124,6 @@ export default function BasicModal({
   // xu li select radio button click
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
-    console.log(value);
     const { topping } = seletedProduct;
     setSeletedProduct({
       ...seletedProduct,
