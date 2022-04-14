@@ -64,6 +64,7 @@ const Product: React.FC = memo(() => {
       setProductDetail(product);
       setSeletedProduct({
         ...seletedProduct,
+        productImg: product.image,
         name: product.name,
         price: Number(product.salePrice),
         id: productCarts.length + 1,
@@ -439,8 +440,8 @@ const Product: React.FC = memo(() => {
                             return t === "1"
                               ? "trân châu sương mai"
                               : t === "2"
-                              ? "hạt rẻ"
-                              : "trân châu baby";
+                                ? "hạt rẻ"
+                                : "trân châu baby";
                           })}
                           cartIce={item.ice === "100ice" ? "100" : "50"}
                           cartSugar={item.sugar === "100sugar" ? "100" : "50"}
@@ -472,11 +473,11 @@ const Product: React.FC = memo(() => {
                   {productCarts
                     .reduce(
                       (total, currentValue) =>
-                        (total =
-                          total +
-                          currentValue.quantitySelect! *
-                            (+currentValue.price! +
-                              currentValue.topping.length * 9000)),
+                      (total =
+                        total +
+                        currentValue.quantitySelect! *
+                        (+currentValue.price! +
+                          currentValue.topping.length * 9000)),
                       0
                     )
                     .toString()
