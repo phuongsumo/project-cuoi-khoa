@@ -1,11 +1,10 @@
 export interface Cart {
     name: string;
-    size:boolean;
-    ice:boolean;
-    sugar:boolean;
-    amount: number;
+    size:string;
+    ice:string;
+    sugar:string;
+    quantitySelect: string;
     price: string;
-    total: number;
     topping:string[];
     productImg: string,
   };
@@ -13,10 +12,10 @@ export interface Cart {
   // orders modals
   export interface Order {
     name: string;
-    size: boolean;
-    ice: boolean;
-    sugar: boolean;
-    amount: string;
+    size: string;
+    ice: string;
+    sugar: string;
+    quantitySelect: string;
     price: string;
     total: string;
     topping: string[];
@@ -30,7 +29,7 @@ export interface Orders {
     status: string;
     fullName: string;
     time: string;
-    id: string;
+    id?: string;
 }
 // users modal
 export interface User {
@@ -39,26 +38,13 @@ export interface User {
   email: string;
   phone:string;
   fullName: string;
-  age: number;
+  age: string;
   avatar: string;
   address: string;
   cart: Cart[];
-  orders: Cart[];
+  orders: Orders[];
   id: string;
 }
-//   product modals
-export interface Product {
-    name: string;
-    price: number;
-    salePrice: number;
-    description: string;
-    image: string;
-    category: string;
-    sizeM: boolean;
-    sizeL: boolean;
-    id: string;
-  }
-
   // map modals
   export interface Properties {
     id?: string;
