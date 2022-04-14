@@ -1,50 +1,175 @@
 import { useRecoilValue } from "recoil";
-import { Container, Table } from "react-bootstrap";
+import { Button, Container, Modal, Table } from "react-bootstrap";
 import { accountState } from "../../recoilProvider/userProvider";
+import { useState } from "react";
 
 interface Iproduct {
-  name: string;
-  price: string;
-  quantitySelect: string;
-  productImg: string;
-  total: string;
-  id: string;
+  fullName: string;
+  time: string;
+  status: string;
+  paid: boolean;
+  username: string;
+  phone: string;
+  address: string;
+  orders: Array<{
+    name: string;
+    size: string;
+    ice: string;
+    sugar: string;
+    quantitySelect: number;
+    price: number;
+    total: number;
+    topping: any[];
+  }>;
 }
+
+interface IOrders {
+  name: string;
+  size: string;
+  ice: string;
+  sugar: string;
+  quantitySelect: number;
+  price: number;
+  total: number;
+  topping: any[];
+}
+
 function ProfilesOrder() {
   const dataUser = useRecoilValue(accountState);
-  const cart = [...dataUser.orders];
+  const [show, setShow] = useState<boolean>(false);
+  const [dataOrder, setDataOrder] = useState<IOrders[]>([]);
+  const orders = [...dataUser.orders];
 
+  const handleClick = (order: Iproduct) => {
+    setShow(true);
+    setDataOrder(order.orders);
+  };
   return (
-    <Container className = {`mt-3`}>
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-            <th>STT</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity Select</th>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cart.length > 0 ? (
-            cart.map(({ name, price, quantitySelect,productImg }: Iproduct, index) => {
+    <>
+      <Container className={`mt-3`}>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Người đặt</th>
+              <th>Địa chỉ</th>
+              <th> Số điện thoại</th>
+              <th>Chi tiết</th>
+              <th>Thanh toán</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.length > 0 ? (
+              orders.map((order: Iproduct, index) => {
+                return (
+                  <tr>
+                    <td>{index + 1}</td>
+                    <td>{order.fullName}</td>
+                    <td>{order.address}</td>
+                    <td>{order.phone}</td>
+                    <td>
+                      <Button onClick={() => handleClick(order)}>
+                        Chi tiết
+                      </Button>
+                    </td>
+                    <td>
+                      {order.paid ? (
+                        <span className={`text-success`}>Đã thanh toán</span>
+                      ) : (
+                        <span className={`text-danger`}>Chưa thanh toán</span>
+                      )}
+                    </td>
+                    <td>
+                      {order.status === "1" ? (
+                        <p className={`text-danger`}>Chờ xác nhận</p>
+                      ) : order.status === "2" ? (
+                        <p className={`text-warning`}>Đang giao hàng</p>
+                      ) : order.status === "3" ? (
+                        <p className={`text-success`}>Đã giao hàng</p>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <p className={`py-3`}>không có đơn hàng nào </p>
+            )}
+          </tbody>
+        </Table>
+      </Container>
+      <Modal show={show} onHide={() => setShow(false)} size = "lg" >
+        <Modal.Header closeButton>
+          <Modal.Title>Thông tin đơn hàng</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body></Modal.Body>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Tên</th>
+              <th>Số lượng</th>
+              <th>Size</th>
+              <th>Đá</th>
+              <th>Đường</th>
+              <th>Topping</th>
+              <th>Đơn giá</th>
+              <th>Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataOrder.map((item: IOrders) => {
               return (
                 <tr>
-                  <td>{index +1}</td>
-                  <td>{name}</td>
-                  <td>{price}</td>
-                  <td>{quantitySelect}</td>
-                  <td><img src={productImg} style= {{width:'50px', height:'50px'}} alt="" /></td>
+                  <td>{item.name}</td>
+                  <td>{item.quantitySelect}</td>
+                  <td>{item.size ? <span>L</span> : <span>M</span>}</td>
+                  <td>
+                    {item.ice ? <span>Có đá</span> : <span>Không đá</span>}
+                  </td>
+                  <td>{item.sugar ? <span>100%</span> : <span>50%</span>}</td>
+                  <td>
+                    {item.topping.map((tp: any, index: any) =>
+                      tp === "1" ? (
+                        <span key={index}>Trân châu sương mai</span>
+                      ) : tp === "2" ? (
+                        <span key={index}>Hạt dẻ</span>
+                      ) : tp === "3" ? (
+                        <span key={index}>Trân châu Baby</span>
+                      ) : (
+                        ""
+                      )
+                    )}
+                  </td>
+                  <td>{item.price}</td>
+                  <td>{item.total}</td>
                 </tr>
               );
-            })
-          ) : (
-            <p className={`py-3`}>không có đơn hàng nào </p>
-          )}
-        </tbody>
-      </Table>
-    </Container>
+            })}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Tổng thanh toán</td>
+              <td>
+                {
+                 ( ()=> {
+                  let totalPrice: number = dataOrder.reduce((a: any, b: any) => a + Number(b.total), 0);
+                      return ` ${totalPrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}`
+                })()
+                }
+              </td>
+            </tr>
+          </tfoot>
+        </Table>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            Ok
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 
