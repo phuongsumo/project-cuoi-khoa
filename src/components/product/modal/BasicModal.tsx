@@ -41,7 +41,6 @@ export default function BasicModal({
 
   const [account, setAccount] = useRecoilState(accountState);
   const [product, setProduct] = useRecoilState(productState);
-  console.log("seletedProduct", seletedProduct);
 
   useEffect(() => {
     setSeletedProduct({
