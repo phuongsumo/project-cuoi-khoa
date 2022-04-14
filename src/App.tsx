@@ -4,14 +4,12 @@ import {
   Achievement, HistoryAndMission, CreateAccount,
   Login, News, Commercial_story, Promotional_news, Sk_events
 } from './components/index';
-
 import './App.css';
 import ProfilesWrapper from './components/Profiles/ProfilesWrapper';
 import ProfilesPreview from './components/Profiles/EditProfiles/ProfilesPreview';
 import ProfilesOrder from './components/Profiles/ProfilesOrder'
 import { useRecoilValue } from 'recoil';
 import { accountState } from './recoilProvider/userProvider';
-
 
 function App(): JSX.Element {
 
