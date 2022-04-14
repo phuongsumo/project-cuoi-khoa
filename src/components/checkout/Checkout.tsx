@@ -544,7 +544,6 @@ const Checkout: React.FC = () => {
       {/* order success message */}
       {popupSuccessOrder && <SuccessOrderPopup setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
       {checkCart && <CheckCartPopup setCheckCart={(a: boolean) => { setCheckCart(a) }} />}
-
     </div >
   )
 }
