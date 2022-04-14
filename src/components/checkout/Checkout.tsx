@@ -328,7 +328,7 @@ const Checkout: React.FC = () => {
                       </div>
                       {login
                         ? <input {...register("name", { required: false })} defaultValue={user.fullName} disabled={true} type="text" id={style['customerName']} placeholder='Tên người nhận' />
-                        : <input {...register("name", { required: true, pattern: /^([\w]{3,})+\s+([\w\s]{3,})+$/i })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
+                        : <input {...register("name", { required: true, pattern: /[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
                       {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>Tên là bắt buộc</p>)}
                       {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>Tên không đúng định dạng</p>)}
                     </div>
