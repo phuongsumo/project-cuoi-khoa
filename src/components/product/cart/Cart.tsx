@@ -32,7 +32,7 @@ export default function Cart({
           </div>
           <div className="custom-cart-detail">
             Thêm{" "}
-            {cartTopping?.map((a: string) => (
+            {cartTopping && cartTopping.map((a: string) => (
               <span>{a}, </span>
             ))}
             {cartIce}% đá, {cartSugar}% đường

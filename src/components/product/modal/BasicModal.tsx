@@ -38,11 +38,9 @@ export default function BasicModal({
   const [total, setTotal] = useState<number>(0);
 
   const [totalAProduct, setTotalAProduct] = useState<number>(0);
-  console.log("totalAProduct", totalAProduct);
 
   const [account, setAccount] = useRecoilState(accountState);
   const [product, setProduct] = useRecoilState(productState);
-  console.log("selectedproduct", seletedProduct);
 
   useEffect(() => {
     setSeletedProduct({
@@ -114,25 +112,37 @@ export default function BasicModal({
       }
     } else {
       setTotalAProduct(totalAProduct - 9000);
-      seletedProduct.quantitySelect === 1
-        ? setTotal(total - 9000)
-        : setTotal((+totalAProduct - 9000) * seletedProduct.quantitySelect);
+
+      if (seletedProduct.quantitySelect === 1) {
+        setTotal(total - 9000);
+      } else {
+        setTotal((+totalAProduct - 9000) * seletedProduct.quantitySelect);
+      }
     }
   };
 
   // xu li select radio button click
   const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked } = e.target;
+    console.log(value);
     const { topping } = seletedProduct;
     setSeletedProduct({
       ...seletedProduct,
       [name]: value,
     });
     if (name === "topping" && checked) {
+      if (!topping.includes(value)) {
+        setSeletedProduct({
+          ...seletedProduct,
+          topping: [...topping, value],
+        });
+      }
+    } else {
       setSeletedProduct({
         ...seletedProduct,
-        topping: [...topping, value],
+        topping: topping.filter((t : any) => t !== value),
       });
+      
     }
   };
   //Đẩy cart vào local storage
