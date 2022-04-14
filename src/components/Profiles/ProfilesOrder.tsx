@@ -1,7 +1,9 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import { accountState } from "../../recoilProvider/userProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import style from './ProfilesOrder.module.css'
+import axios from 'axios';
 
 interface Iproduct {
   fullName: string;
@@ -34,11 +36,19 @@ interface IOrders {
   topping: any[];
 }
 
+const api = 'https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users'
+
 function ProfilesOrder() {
-  const dataUser = useRecoilValue(accountState);
+  const [dataUser, setDataUser] = useRecoilState(accountState);
   const [show, setShow] = useState<boolean>(false);
   const [dataOrder, setDataOrder] = useState<IOrders[]>([]);
-  const orders = [...dataUser.orders];
+  const [orders, setOrders] = useState<Iproduct[]>([])
+  // const orders = [...dataUser.orders];
+
+  useEffect(() => {
+    axios.get(`${api}/${dataUser.id}`)
+      .then(res => setOrders(res.data.orders))
+  }, [])
 
   const handleClick = (order: Iproduct) => {
     setShow(true);
@@ -46,26 +56,24 @@ function ProfilesOrder() {
   };
   return (
     <>
-      <Container className={`mt-3 ps-0`}  fluid>
-        <Table striped bordered hover size="sm">
+      <Container className={`mt-3 ps-0`} fluid>
+        <Table size="lg" className={`${style.tableOrder}`} bordered>
           <thead>
             <tr>
-              <th className="d-none d-sm-inline">STT</th>
-              <th  className="d-none d-sm-inline" >Người đặt</th>
+              <th>Người đặt</th>
               <th>Địa chỉ</th>
               <th> Số điện thoại</th>
               <th>Chi tiết</th>
               <th>Thanh toán</th>
-              <th  className="d-none d-sm-inline">Trạng thái</th>
+              <th>Trạng thái</th>
             </tr>
           </thead>
           <tbody>
             {orders.length > 0 ? (
-              orders.map((order: Iproduct, index) => {
+              orders.map((order: Iproduct) => {
                 return (
                   <tr>
-                    <td className="d-none d-sm-inline">{index + 1}</td>
-                    <td  className="d-none d-sm-inline">{order.fullName}</td>
+                    <td  >{order.fullName}</td>
                     <td>{order.address}</td>
                     <td>{order.phone}</td>
                     <td>
@@ -73,14 +81,7 @@ function ProfilesOrder() {
                         Chi tiết
                       </Button>
                     </td>
-                    <td>
-                      {order.paid ? (
-                        <span className={`text-success`}>Đã thanh toán</span>
-                      ) : (
-                        <span className={`text-danger`}>Chưa thanh toán</span>
-                      )}
-                    </td>
-                    <td  className="d-none d-sm-inline">
+                    <td >
                       {order.status === "1" ? (
                         <p className={`text-danger`}>Chờ xác nhận</p>
                       ) : order.status === "2" ? (
@@ -91,6 +92,14 @@ function ProfilesOrder() {
                         ""
                       )}
                     </td>
+                    <td>
+                      {order.paid ? (
+                        <p className={`text-success`}>Đã thanh toán</p>
+                      ) : (
+                        <p className={`text-danger`}>Chưa thanh toán</p>
+                      )}
+                    </td>
+
                   </tr>
                 );
               })
@@ -98,23 +107,23 @@ function ProfilesOrder() {
               <p className={`py-3`}>không có đơn hàng nào </p>
             )}
           </tbody>
-        </Table>
+        </Table >
       </Container>
-      <Modal show={show} onHide={() => setShow(false)} size = "lg" >
+      <Modal show={show} onHide={() => setShow(false)} size="xl" >
         <Modal.Header closeButton>
           <Modal.Title>Thông tin đơn hàng</Modal.Title>
         </Modal.Header>
 
         <Modal.Body></Modal.Body>
-        <Table striped bordered hover >
+        <Table bordered className="overflow-scroll">
           <thead>
             <tr>
               <th>Tên</th>
               <th>Số lượng</th>
-              <th className="d-none d-lg-inline">Size</th>
-              <th className="d-none d-lg-inline">Đá</th>
-              <th className="d-none d-lg-inline">Đường</th>
-              <th className="d-none d-lg-inline">Topping</th>
+              <th >Size</th>
+              <th >Đá</th>
+              <th >Đường</th>
+              <th >Topping</th>
               <th>Đơn giá</th>
               <th>Thành tiền</th>
             </tr>
@@ -125,17 +134,17 @@ function ProfilesOrder() {
                 <tr>
                   <td>{item.name}</td>
                   <td>{item.quantitySelect}</td>
-                  <td className="d-none d-lg-inline">{item.size ? <span>L</span> : <span>M</span>}</td>
-                  <td className="d-none d-lg-inline">
+                  <td>{item.size ? <span>L</span> : <span>M</span>}</td>
+                  <td >
                     {item.ice ? <span>Có đá</span> : <span>Không đá</span>}
                   </td>
-                  <td className="d-none d-lg-inline">{item.sugar ? <span>100%</span> : <span>50%</span>}</td>
-                  <td className="d-none d-lg-inline">
+                  <td >{item.sugar ? <span>100%</span> : <span>50%</span>}</td>
+                  <td >
                     {item.topping.map((tp: any, index: any) =>
                       tp === "1" ? (
-                        <span key={index}>Trân châu sương mai</span>
+                        <span key={index}>Trân châu sương mai   </span>
                       ) : tp === "2" ? (
-                        <span key={index}>Hạt dẻ</span>
+                        <span key={index}>Hạt dẻ  </span>
                       ) : tp === "3" ? (
                         <span key={index}>Trân châu Baby</span>
                       ) : (
@@ -154,10 +163,10 @@ function ProfilesOrder() {
               <td>Tổng thanh toán</td>
               <td>
                 {
-                 ( ()=> {
-                  let totalPrice: number = dataOrder.reduce((a: any, b: any) => a + Number(b.total), 0);
-                      return ` ${totalPrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}`
-                })()
+                  (() => {
+                    let totalPrice: number = dataOrder.reduce((a: any, b: any) => a + Number(b.total), 0);
+                    return ` ${totalPrice.toLocaleString('vi', { style: 'currency', currency: 'VND' })}`
+                  })()
                 }
               </td>
             </tr>
