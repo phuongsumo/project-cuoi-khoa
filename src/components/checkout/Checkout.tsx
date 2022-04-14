@@ -43,7 +43,6 @@ const Checkout: React.FC = () => {
   const coldMarkRadio = useRef(null);
   const noteRef = useRef(null);
   const mapCheckoutRef = useRef(null);
-  const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
   const time = new Date();
   useEffect(() => {
@@ -61,13 +60,11 @@ const Checkout: React.FC = () => {
   useEffect(() => {
     return user.username !== "" ? (setLogin(true), setBackToLogin(false)) : (setLogin(false), setBackToLogin(true))
   }, [user.username])
+
   useEffect(() => {
-    if (locStorageCart!== null|| locStorageCart!== undefined){
-      if(locStorageCart.length> 0){
+    if (Array.isArray(locStorageCart) && locStorageCart.length>0){
         setCheckCart(false) 
         setListProducts(locStorageCart)
-      }
-      else {setCheckCart(true)}
     } else{
       setCheckCart(true)
     }

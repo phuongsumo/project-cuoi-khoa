@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate, Route, Routes, } from 'react-router-dom';
-import 'antd/dist/antd.css';
 
 import {
   Navbar, HomePage, ListShop, Recruit, Checkout, ReturnPaymentResult, Footer, Product,
