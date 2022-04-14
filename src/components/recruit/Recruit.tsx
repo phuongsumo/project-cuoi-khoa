@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import style from "./Recruit.module.css";
 import RecruitCarousel from "./recruitCarousel/RecruitCarousel";
 import "./fonts/vietnameseFonts/MijasUltra.otf";
 import imgiconbanner from "./img/imgiconbanner.png";
@@ -8,20 +7,20 @@ import titleImg from "./img/logoimgrecruitment.png";
 import aboutImg1 from "./img/about_img1.jpg";
 import aboutImg2 from "./img/about_img2.jpg";
 import aboutImg3 from "./img/about_img3.jpg";
-
+import ScrollToTop from "react-scroll-to-top";
+import style from "./Recruit.module.css";
 // import icons
 import { IoBriefcase } from "react-icons/io5";
 import { FaGraduationCap, FaMoneyBillAlt } from "react-icons/fa";
 import { GiTrophyCup } from "react-icons/gi";
 
 const Recruit = () => {
-
   useEffect(() => {
     window.scroll(0, 0)
   }, [])
-
   return (
     <div className={style.containerr}>
+      <ScrollToTop smooth top={500} color={`#D3B673`} />
       <RecruitCarousel idH3={style['titleH3']} />
       <Container id={style['titleH3']} className={style.recruitPosition}>
         <p className={style.mainColor}>Vị trí tuyển dụng</p>
@@ -154,7 +153,7 @@ const Recruit = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </div >
   );
 };
 

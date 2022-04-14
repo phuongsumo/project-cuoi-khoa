@@ -56,7 +56,7 @@
 }
 .modal-content-down {
   margin-top: 2%;
-  height: 55%;
+  height: 56%;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -137,6 +137,31 @@
   color: gray !important;
 }
 
+@media screen and (max-width: 1440px) {
+  .modal-content-down {
+    height: 65% !important;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .modal-content-down {
+    height: 50% !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .custom-box-modal {
+    width: 90% !important;
+    height: 80% !important;
+  }
+  .modal-content-down {
+    height: 50% !important;
+  }
+  .custom-modal-total-pay button{
+    font-size: 84% !important;
+  }
+  .custom-modal-btn-pay button{
+    font-size: 84% !important;
+  }
+}
 @media screen and (max-width: 750px) {
   .custom-box-modal {
     width: 90% !important;
@@ -145,7 +170,7 @@
   }
   .modal-content-up {
     height: 25%;
-    margin-bottom: 20%;
+    margin-bottom: 15%;
     font-size: 93%;
   }
   .modal-img {
@@ -176,7 +201,7 @@
   .modal-content-down {
     font-size: 100%;
     margin-top: -10% !important;
-    height: 59% !important;
+    height: 50% !important;
   }
   .custom-modal-input {
     font-size: 82%;

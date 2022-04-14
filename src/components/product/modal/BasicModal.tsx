@@ -199,7 +199,7 @@ export default function BasicModal({
                 Chưa có thông tin
               </div>
               <div className="modal-info-quantity-total  row">
-                <div className="modal-info-quantity col-lg-4 row d-flex align-items-center justify-content-left">
+                <div className="modal-info-quantity col-lg-4 col-md-4 row d-flex align-items-center justify-content-left">
                   <div className=" col-4 p-0" style={{ marginLeft: "0" }}>
                     <RemoveCircle className="custom-icon " onClick={decrease} />
                   </div>
@@ -209,8 +209,8 @@ export default function BasicModal({
                   </div>
                 </div>
                 {/*  */}
-                <div className="row col-lg-8 p-0 m-0">
-                  <div className="col-lg-7  p-0">
+                <div className="row col-lg-8 col-md-8 p-0 m-0">
+                  <div className="custom-modal-total-pay col-lg-7 col-md-7 p-0">
                     <button
                       type="button"
                       className="btn btn-warning custom-info-total"
@@ -237,7 +237,7 @@ export default function BasicModal({
                             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
                     </button>
                   </div>
-                  <div className="custom-modal-btn-pay col-lg-5 p-0">
+                  <div className="custom-modal-btn-pay col-lg-5 col-md-5 p-0">
                     <button
                       type="button"
                       className="btn btn-danger"

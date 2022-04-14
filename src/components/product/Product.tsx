@@ -1,7 +1,7 @@
 import ListIcon from "@mui/icons-material/List";
 import axios from "axios";
 import React, { memo, useEffect, useRef, useState } from "react";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { IProduct, IState } from "../../interfaces";
 import { productState } from "../../recoilProvider/productProvider";
@@ -57,20 +57,20 @@ const Product: React.FC = memo(() => {
   const MacchiatoCreamCheeseSection = useRef<HTMLDivElement | null>(null);
   const suachuadeoSection = useRef<HTMLDivElement | null>(null);
 
-  const [product, setProduct] = useRecoilState(productState)
+  const [product, setProduct] = useRecoilState(productState);
 
   useEffect(() => {
     if (product.name) {
-      setProductDetail(product)
+      setProductDetail(product);
       setSeletedProduct({
         ...seletedProduct,
         name: product.name,
         price: Number(product.salePrice),
-        id: productCarts.length + 1
-      })
-      setOpen(true)
+        id: productCarts.length + 1,
+      });
+      setOpen(true);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
