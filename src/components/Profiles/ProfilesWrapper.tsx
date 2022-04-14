@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 function ProfilesWrapper() {
   return (
     <>
-      <div className={`bg-primary mb-4`} style={{ height: "70px" }}></div>
+      <div className={`mb-4`} style={{ height: "70px", backgroundColor: "#8a733f" }}></div>
 
       <Container className={``}>
         <Row>

@@ -4,8 +4,6 @@ import {
   Achievement, HistoryAndMission, CreateAccount,
   Login, News, Commercial_story, Promotional_news, Sk_events
 } from './components/index';
-
-// import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import './App.css';
 import ProfilesWrapper from './components/Profiles/ProfilesWrapper';
 import ProfilesPreview from './components/Profiles/EditProfiles/ProfilesPreview';
@@ -13,15 +11,12 @@ import ProfilesOrder from './components/Profiles/ProfilesOrder'
 import { useRecoilValue } from 'recoil';
 import { accountState } from './recoilProvider/userProvider';
 
-
 function App(): JSX.Element {
 
   const user = useRecoilValue(accountState)
 
   return (
-    // <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>
     <div className="App">
-
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -38,16 +33,13 @@ function App(): JSX.Element {
         <Route path="/commercial_story" element={<Commercial_story />} />
         <Route path='/promotional_news' element={<Promotional_news />} />
         <Route path='/sk_events' element={<Sk_events />} />
-        <Route path='/account' element = {user.username ? <ProfilesWrapper/> : <Navigate to="/Login" />}>
-          <Route path = '/account/' element = {<ProfilesPreview/>}/>
-          <Route path = 'order' element = {<ProfilesOrder/>}/>
+        <Route path='/account' element={user.username ? <ProfilesWrapper /> : <Navigate to="/Login" />}>
+          <Route path='/account/' element={<ProfilesPreview />} />
+          <Route path='order' element={<ProfilesOrder />} />
         </Route>
       </Routes>
       <Footer />
-
     </div>
-    // </PayPalScriptProvider>
-
   );
 }
 

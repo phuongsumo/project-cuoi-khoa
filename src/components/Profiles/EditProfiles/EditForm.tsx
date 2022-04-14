@@ -74,6 +74,7 @@ const EditForm: React.FC = () => {
   });
 
   const submitForm = async (data: IFormInputs) => {
+   if(imageSelected){
     const formData = new FormData();
     formData.append("file", imageSelected);
     formData.append("upload_preset", "tocoproduct");
@@ -92,6 +93,17 @@ const EditForm: React.FC = () => {
         })
         .catch((e) => alert("có lõi xảy ra"));
     });
+   }else{
+    axios
+    .put(`${api}/${id}`, data)
+    .then((res) => {
+      alert("Thay đổi thành công");
+      const newData = { ...user, ...data };
+      localStorage.setItem("account", JSON.stringify(newData));
+      setUser(newData);
+    })
+    .catch((e) => alert("có lõi xảy ra"));
+   }
   };
   useEffect(() => {
     reset({ ...user });
