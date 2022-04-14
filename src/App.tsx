@@ -5,7 +5,6 @@ import {
   Login, News, Commercial_story, Promotional_news, Sk_events
 } from './components/index';
 
-// import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import './App.css';
 import ProfilesWrapper from './components/Profiles/ProfilesWrapper';
 import ProfilesPreview from './components/Profiles/EditProfiles/ProfilesPreview';
@@ -19,9 +18,7 @@ function App(): JSX.Element {
   const user = useRecoilValue(accountState)
 
   return (
-    // <PayPalScriptProvider options={{ "client-id": `${process.env.REACT_APP_PAYPAL_CLIENT_ID}` }}>
     <div className="App">
-
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -44,10 +41,7 @@ function App(): JSX.Element {
         </Route>
       </Routes>
       <Footer />
-
     </div>
-    // </PayPalScriptProvider>
-
   );
 }
 

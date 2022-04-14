@@ -76,7 +76,6 @@ const ReturnPaymentResult = () => {
             .then(()=>{updateOrder(user.orders)})
         updateOrders(orderss)
         updateCart([])
-        localStorage.setItem("cart", JSON.stringify([]));
         getUser()
       }
       else {
@@ -96,14 +95,15 @@ const ReturnPaymentResult = () => {
           // id: ""
         }
         updateOrders(ordersnotlogin);
-        updateCart([])
-        localStorage.setItem("cart", JSON.stringify([]));
       }
+      localStorage.setItem("cart", JSON.stringify([]));
     }
     else {
       setPopupSuccessOrder(false)
       setPopupFailOrder(true)
-      updateCart([])
+      if (user.username !== ""){
+        updateCart([])
+      }
       localStorage.setItem("cart", JSON.stringify([]));
     }
   }, [value.get('vnp_ResponseCode')])

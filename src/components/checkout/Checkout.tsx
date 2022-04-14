@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import ReactMapGL, { Marker } from 'react-map-gl'
 import CreatePaymentUrl from './payment/CreatePaymentUrl'
 import { User, Cart, Feature, Properties, Orders, Order } from './models'
-import {DeliveryTimePopup, PromotionCodePopup, ChooseStorePopup, SuccessOrderPopup, CheckCartPopup, SearchBoxPopup, BackToLoginPupop} from './popup/Popups'
+import { DeliveryTimePopup, PromotionCodePopup, SuccessOrderPopup, CheckCartPopup, SearchBoxPopup, BackToLoginPupop } from './popup/Popups'
 import { MdKeyboardArrowDown, MdPlace } from 'react-icons/md'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { AiFillPhone } from 'react-icons/ai'
@@ -23,7 +23,6 @@ const Checkout: React.FC = () => {
   const [checkTime, setCheckTime] = useState<boolean>(true)
   const [promotionShow, setPromotionShow] = useState<boolean>(false)
   const [checkSearchBox, setCheckSearchBox] = useState<boolean>(false)
-  const [popupChooseStore, setPopupChooseStore] = useState<boolean>(false)
   const [popupSuccessOrder, setPopupSuccessOrder] = useState<boolean>(false)
   const [checkout, setCheckout] = useState<boolean>(false)
   const [hour, setHour] = useState<string>('')
@@ -36,7 +35,6 @@ const Checkout: React.FC = () => {
   // 
   const onlButtonRef = useRef(null)
   const offButtonRef = useRef(null)
-  const chooseStoreRef = useRef(null)
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const coldcheckedRef = useRef(null);
@@ -45,10 +43,8 @@ const Checkout: React.FC = () => {
   const coldMarkRadio = useRef(null);
   const noteRef = useRef(null);
   const mapCheckoutRef = useRef(null);
-  const fillStoreChoose = useRef(null);
   const errorModals = useRef<any>(null);
   const time = new Date();
-
   useEffect(() => {
     getUser();
     (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
@@ -64,17 +60,21 @@ const Checkout: React.FC = () => {
   useEffect(() => {
     return user.username !== "" ? (setLogin(true), setBackToLogin(false)) : (setLogin(false), setBackToLogin(true))
   }, [user.username])
+
   useEffect(() => {
-    return locStorageCart.length > 0 ? (setCheckCart(false), setListProducts(locStorageCart)) : (setCheckCart(true))
+    if (Array.isArray(locStorageCart) && locStorageCart.length>0){
+        setCheckCart(false) 
+        setListProducts(locStorageCart)
+    } else{
+      setCheckCart(true)
+    }
   }, [])
-  console.log(locStorageCart)
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
   const ordersApi = axios.create({
     baseURL: `https://6243085ab6734894c15a1d8e.mockapi.io/tea-shop/orders`
   })
-  console.log('render')
   const getUser = () => {
     try {
       if (user.username) {
@@ -132,7 +132,7 @@ const Checkout: React.FC = () => {
   // handle radio checked
   const handleColdSelectedRadio = () => {
     (coldcheckedRef.current as any).checked = true;
-    setTransFee(0);
+    setTransFee(18000);
     (vnpayMarkRadio.current as any).style.backgroundColor = '#eee';
     (coldMarkRadio.current as any).style.backgroundColor = '#d8b979';
     (vnpayMarkRadio.current as any).classList.remove(`${style.noHover}`);
@@ -148,11 +148,10 @@ const Checkout: React.FC = () => {
   }
   // handle stores
   const [storedChoosed, setStoredChoosed] = useState<Properties>({
-    name: "",
-    distance: ""
+    name: "Toco 4B Hàng Bài",
+    distance: "0.86 km"
   })
   const handleDisplayStoreChoosed = (item: any) => {
-    setPopupChooseStore(false);
     let namee = item.properties.name;
     let distancee = item.properties.distance;
     setStoredChoosed({
@@ -187,7 +186,7 @@ const Checkout: React.FC = () => {
     register, handleSubmit, formState: { errors }
   } = useForm();
   const OnSubmit = (data: any) => {
-    if (storedChoosed.name) {
+    if (searchAddress) {
       localStorage.setItem("OnlSuccessPaymentData", JSON.stringify({ phone: data.phone, location: searchAddress, name: data.name }))
       if ((coldcheckedRef.current as any).checked === true) {
         setCheckout(false)
@@ -214,7 +213,7 @@ const Checkout: React.FC = () => {
             }
             user.orders = [...user.orders, orders]
             api.get(`${user.id}`)
-            .then(()=>{updateOrder(user.orders)})
+              .then(() => { updateOrder(user.orders) })
             updateOrders(orders)
             updateCart([])
             localStorage.setItem("cart", JSON.stringify([]));
@@ -256,7 +255,7 @@ const Checkout: React.FC = () => {
         }
     }
     else {
-      handleSubmitOrder("Vui lòng nhập tên shop!");
+      handleSubmitOrder("Vui lòng nhập địa chỉ!");
     }
   }
 
@@ -298,18 +297,6 @@ const Checkout: React.FC = () => {
     setSearchAddress(item.properties.name)
     setSearchAddressOnClick(item.properties.name)
   }
-  const handlePopupChooseStore = () => {
-    if (searchAddressOnClick) {
-      // if(chooseStoreRef){
-      //   (chooseStoreRef as any).focus()
-      // }
-      setPopupChooseStore(true);
-    }
-    else {
-      setPopupChooseStore(false)
-      handleSubmitOrder("Vui lòng nhập địa chỉ!");
-    }
-  }
   const VND = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "VND",
@@ -342,8 +329,8 @@ const Checkout: React.FC = () => {
                       {login
                         ? <input {...register("name", { required: false })} defaultValue={user.fullName} disabled={true} type="text" id={style['customerName']} placeholder='Tên người nhận' />
                         : <input {...register("name", { required: true, pattern: /^([\w]{3,})+\s+([\w\s]{3,})+$/i })} type="text" id={style['customerName']} placeholder='Tên người nhận' />}
-                      {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>name is required</p>)}
-                      {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>name is not correct</p>)}
+                      {errors.name?.type === 'required' && (<p style={{ color: 'red' }}>Tên là bắt buộc</p>)}
+                      {errors.name?.type === 'pattern' && (<p style={{ color: 'red' }}>Tên không đúng định dạng</p>)}
                     </div>
                     <div className={style.wrapInput}>
                       <div className={style.wrapInputIcon}>
@@ -352,8 +339,8 @@ const Checkout: React.FC = () => {
                       {login
                         ? <input {...register("phone", { required: false })} defaultValue={user.phone} disabled={true} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />
                         : <input {...register("phone", { required: true, pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,5}$/im })} type="text" id={style['customerPhone']} placeholder='Số điện thoại người nhận' />}
-                      {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>your telephone is required</p>}
-                      {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>phone is not correct</p>)}
+                      {errors.phone?.type === 'required' && <p style={{ color: 'red' }}>Điện thoại của bạn phải được nhập</p>}
+                      {errors.phone?.type === 'pattern' && (<p style={{ color: 'red' }}>Số điện thoại không đúng định dạng</p>)}
                     </div>
                     <div className={style.deliveryLocation}>
                       <div className={style.deliveryLocationTitle}>Giao đến</div>
@@ -445,7 +432,7 @@ const Checkout: React.FC = () => {
                   <div className={style.deliveryInfoContent}>
                     <div className={style.chooseStore}>
                       <div className={style.chooseStoreTitle}>Chọn cửa hàng</div>
-                      <div onClick={() => { handlePopupChooseStore() }} className={style.chooseStoreContent}>
+                      <div className={style.chooseStoreContent}>
                         <div className={style.left}>
                           <FaStore />
                           <div className={style.storeName}>{storedChoosed.name}</div>
@@ -545,24 +532,15 @@ const Checkout: React.FC = () => {
             setCheckout={(a: boolean) => setCheckout(a)} />
         }
       </div>
-      {/* popup */}
-      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} />}
-      {show && <DeliveryTimePopup setShow={(a: boolean) => { setShow(a) }} setHour={(a: string) => { setHour(a) }} setMinute={(a: string) => { setMinute(a) }} handleSetTimeSelected={() => { handleSetTimeSelected() }} />}
-      {promotionShow && <PromotionCodePopup setPromotionShow={(a: boolean) => { setPromotionShow(a) }} />}
-      {popupChooseStore && <ChooseStorePopup
-        setPopupChooseStore={(a: boolean) => { setPopupChooseStore(a) }}
-        handleSearchStores={(e: any) => { handleSearchStores(e) }}
-        listStore={listStore}
-        handleDisplayStoreChoosed={(item: any) => { handleDisplayStoreChoosed(item) }}
-        fillStoreChoose={fillStoreChoose}
-        searchAddressStore={searchAddressStore}
-        chooseStoreRef={chooseStoreRef}
-      />}
       {/* error modals */}
       <div ref={errorModals} className={style.errorModal}>
         <div className={style.errorMessage}>{error}</div>
         <div className={style.errorIcon}><IoClose /></div>
       </div>
+      {/* popup */}
+      {backToLogin && <BackToLoginPupop setBackToLogin={(a: boolean) => { setBackToLogin(a) }} />}
+      {show && <DeliveryTimePopup setShow={(a: boolean) => { setShow(a) }} setHour={(a: string) => { setHour(a) }} setMinute={(a: string) => { setMinute(a) }} handleSetTimeSelected={() => { handleSetTimeSelected() }} />}
+      {promotionShow && <PromotionCodePopup setPromotionShow={(a: boolean) => { setPromotionShow(a) }} />}
       {/* order success message */}
       {popupSuccessOrder && <SuccessOrderPopup setPopupSuccessOrder={(a: boolean) => { setPopupSuccessOrder(a) }} />}
       {checkCart && <CheckCartPopup setCheckCart={(a: boolean) => { setCheckCart(a) }} />}
