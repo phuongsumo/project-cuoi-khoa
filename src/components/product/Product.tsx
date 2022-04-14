@@ -7,6 +7,7 @@ import { IProduct, IState } from "../../interfaces";
 import { productState } from "../../recoilProvider/productProvider";
 import { accountState } from "../../recoilProvider/userProvider";
 import { getProduct } from "../../services";
+import ScrollToTop from "../scrollToTop/ScrollToTop";
 import CardProduct from "./cardProduct/CardProduct";
 import Cart from "./cart/Cart";
 import BasicModal from "./modal/BasicModal";
@@ -293,10 +294,10 @@ const Product: React.FC = memo(() => {
                     handleGoToSection(MacchiatoCreamCheeseSection);
                   }}
                 >
-                  <div className="category col-sm-6">
+                  <div className="category col-sm-10">
                     Macchiato Cream Cheese
                   </div>
-                  <div className="quantity col-sm-6">{soLuongSanPham("3")}</div>
+                  <div className="quantity col-sm-2">{soLuongSanPham("3")}</div>
                 </div>
                 <hr />
                 <div
@@ -500,7 +501,7 @@ const Product: React.FC = memo(() => {
       >
         <ListIcon className="custom-list-icon" />
       </div>
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       <BasicModal
         setOpen={setOpen}
         open={open}

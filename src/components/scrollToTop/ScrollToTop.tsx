@@ -7,7 +7,7 @@ export default function ScrollToTop():any {
   const { y: pageOffset } = useWindowScroll();
   const [visible, setVisiblity] = useState<boolean>(false);
   useEffect(() => {
-    if (pageOffset > 250 && pageOffset < window.innerHeight +100 ) {
+    if (pageOffset > 200 ) {
       setVisiblity(true);
     } else {
       setVisiblity(false);

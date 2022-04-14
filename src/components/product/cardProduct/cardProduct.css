@@ -58,4 +58,18 @@
   .card-text {
     font-size: 80% !important;
   }
+  .products .card-title{
+    font-size: 80%;
+  }
+}
+@media screen and (max-width: 1024px) {
+  .card-title {
+    font-size: 90%;
+  }
+  .card-text {
+    font-size: 80% !important;
+  }
+  .products .card-title{
+    font-size: 80%;
+  }
 }
