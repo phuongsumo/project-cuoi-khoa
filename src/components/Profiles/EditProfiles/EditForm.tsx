@@ -9,7 +9,7 @@ import {Button} from 'react-bootstrap'
 import { useRecoilState } from "recoil";
 import { accountState } from "../../../recoilProvider/userProvider";
 import style from './EditForm.module.css';
-import { message } from 'antd';
+
 
 
 
@@ -63,7 +63,7 @@ const EditForm: React.FC= () => {
     const newData  = {...user, ...data,avatar:avatar}
     await axios.put(`https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users/${id}`,newData)
     localStorage.setItem('account',JSON.stringify(newData))
-    message.success("Thay đổi thành công")
+    alert("Cập nhật thành công")
     setUser(newData)
     
    }
