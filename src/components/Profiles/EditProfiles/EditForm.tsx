@@ -104,7 +104,6 @@ const EditForm: React.FC = () => {
           .then((res) => {
             alert("Thay đổi thành công");
             const newData = { ...user, ...data };
-            // console.log(newData);
             setEditLoad(false)
             localStorage.setItem("account", JSON.stringify(newData));
             setDataUser(newData);

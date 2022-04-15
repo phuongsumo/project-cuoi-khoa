@@ -66,10 +66,6 @@ export default function BasicModal({
     if (seletedProduct.quantitySelect === 1) {
       total ? setTotal(2 * +total) : setTotal(2 * +seletedProduct.price);
     } else {
-      console.log(
-        "seletedProduct.quantitySelect",
-        seletedProduct.quantitySelect
-      );
       totalAProduct === 0
         ? setTotal((seletedProduct.quantitySelect + 1) * seletedProduct.price)
         : setTotal((seletedProduct.quantitySelect + 1) * totalAProduct);
@@ -106,8 +102,8 @@ export default function BasicModal({
       } else {
         totalAProduct === 0
           ? setTotal(
-              (+seletedProduct.price + 9000) * seletedProduct.quantitySelect
-            )
+            (+seletedProduct.price + 9000) * seletedProduct.quantitySelect
+          )
           : setTotal((+totalAProduct + 9000) * seletedProduct.quantitySelect);
       }
     } else {
@@ -191,11 +187,11 @@ export default function BasicModal({
                 {" "}
                 {productDetail.salePrice
                   ? productDetail?.salePrice
-                      ?.toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    ?.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   : productDetail?.price
-                      ?.toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    ?.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 đ{" "}
                 <del>
                   {(productDetail.salePrice &&
@@ -237,18 +233,17 @@ export default function BasicModal({
                       }}
                     >
                       {total! === 0
-                        ? `+ ${
-                            (productDetail.salePrice &&
-                              productDetail?.salePrice
-                                ?.toString()
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")) ||
-                            productDetail?.price
-                              ?.toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                          }đ `
-                        : `+ ${total
+                        ? `+ ${(productDetail.salePrice &&
+                          productDetail?.salePrice
                             ?.toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")) ||
+                        productDetail?.price
+                          ?.toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }đ `
+                        : `+ ${total
+                          ?.toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}đ`}
                     </button>
                   </div>
                   <div className="custom-modal-btn-pay col-lg-5 col-md-5 p-0">
