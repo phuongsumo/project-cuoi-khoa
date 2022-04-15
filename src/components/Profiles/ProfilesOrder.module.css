@@ -1,3 +1,10 @@
-.tableOrder>tr{
+.tableOrder>tr {
     align-items: center;
+}
+
+.tableOrder,
+.tableOrder tr,
+.tableOrder td,
+.tableOrder th {
+    border: 1px solid #ccc !important;
 }

@@ -17,13 +17,16 @@
         top: 40%;
         opacity: 0;
     }
+
     50% {
         top: 50%;
         opacity: 1;
     }
+
     80% {
         top: 48.5%;
     }
+
     100% {
         top: 50%;
     }
@@ -482,14 +485,26 @@
         width: 300px;
         height: 200px;
     }
+
     .wrapPromotionPopup {
         flex-direction: column;
     }
+
     .wrapPromotionPopup button {
         position: relative;
         margin-top: 4px;
         padding: 8px 0;
     }
+
+    .backToLoginContent .backTitle {
+        font-size: 16px;
+        margin-top: 14px;
+    }
+
+    .backToLoginMessage {
+        height: 250px;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -497,36 +512,45 @@
         width: 300px;
         height: 400px;
     }
+
     .backToLoginMessage {
         width: 300px;
-        height: 200px;
+        height: 250px;
     }
+
     .backToLoginContent .backButtons {
         flex-direction: column;
         margin-top: 12px;
     }
+
     .backToLoginContent .backButtons .button {
         margin-bottom: 12px;
     }
+
     /*  */
     .timePopUpTitle {
         font-size: 1rem;
     }
+
     .timePopUpContent {
         width: 150px;
     }
+
     .wrapSelectTime {
         flex-direction: column;
     }
+
     .wrapSelectTime .hour,
     .wrapSelectTime .minute {
         width: 100%;
         margin-top: 4px;
     }
+
     /* searchbox */
     .searchBox {
         min-width: 150px;
     }
+
     /*  */
     .successMessagePopup {
         width: 300px;

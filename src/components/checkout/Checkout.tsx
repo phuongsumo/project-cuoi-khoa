@@ -45,6 +45,9 @@ const Checkout: React.FC = () => {
   const mapCheckoutRef = useRef(null);
   const errorModals = useRef<any>(null);
   const time = new Date();
+
+
+
   useEffect(() => {
     getUser();
     (vnpayMarkRadio.current as any).style.backgroundColor = '#d8b979';
@@ -52,23 +55,30 @@ const Checkout: React.FC = () => {
     (vnpaycheckedRef.current as any).checked = true;
     window.scroll(0, 0)
   }, [])
+
   const user: User = JSON.parse(localStorage.getItem("account") as any)
   const locStorageCart: Cart[] = JSON.parse(localStorage.getItem("cart") as any)
   let hourr = time.getHours() < 10 ? `0${time.getHours()}` : `${time.getHours()}`
   let minutee = time.getMinutes() < 10 ? `0${time.getMinutes()}` : `${time.getMinutes()}`
   let seconds = time.getSeconds() < 10 ? `0${time.getSeconds()}` : `${time.getSeconds()}`
-  useEffect(() => {
-    return user.username !== "" ? (setLogin(true), setBackToLogin(false)) : (setLogin(false), setBackToLogin(true))
-  }, [user.username])
 
   useEffect(() => {
-    if (Array.isArray(locStorageCart) && locStorageCart.length>0){
-        setCheckCart(false) 
-        setListProducts(locStorageCart)
-    } else{
+    if (Array.isArray(locStorageCart) && locStorageCart.length > 0) {
+      setCheckCart(false)
+      setListProducts(locStorageCart)
+      if (user.username !== "") {
+        setLogin(true)
+        setBackToLogin(false)
+
+      } else {
+        setLogin(false)
+        setBackToLogin(true)
+      }
+    } else {
       setCheckCart(true)
     }
   }, [])
+
   const api = axios.create({
     baseURL: `https://6227fddb9fd6174ca81830f6.mockapi.io/tea-shop/users`
   })
@@ -309,7 +319,7 @@ const Checkout: React.FC = () => {
           <form onSubmit={handleSubmit(OnSubmit)}>
             <div className={style.doubleButton}>
               <button ref={onlButtonRef} type="button" onClick={() => { handleOnlButton() }} className={`${style.singleButton} ${style.active}`}>Giao hàng tận nơi</button>
-              <button ref={offButtonRef} type="button" onClick={() => { handleOffButton() }} className={style.singleButton}>Nhận tại cửa hàng</button>
+              <button style={{ display: 'none' }} ref={offButtonRef} type="button" onClick={() => { handleOffButton() }} className={style.singleButton}>Nhận tại cửa hàng</button>
             </div>
             <Row className={style.checkoutDetail}>
               <Col lg={7} className={style.checkoutDetailLeft}>
